@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/login">
+
+    <fragment
+        android:id="@+id/login"
+        android:name="com.example.bgrecruitment.Login"
+        android:label="fragment_login"
+        tools:layout="@layout/fragment_login" >
+        <action
+            android:id="@+id/action_login_to_signUp"
+            app:destination="@id/signUp" />
+        <action
+            android:id="@+id/action_login_to_homepageFragment"
+            app:destination="@id/homepageFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/signUp"
+        android:name="com.example.bgrecruitment.SignUp"
+        android:label="fragment_sign_up"
+        tools:layout="@layout/fragment_sign_up" >
+        <action
+            android:id="@+id/action_signUp_to_login"
+            app:destination="@id/login" />
+    </fragment>
+    <fragment
+        android:id="@+id/homepageFragment"
+        android:name="com.example.bgrecruitment.HomepageFragment"
+        android:label="fragment_homepage"
+        tools:layout="@layout/fragment_homepage" >
+        <action
+            android:id="@+id/action_homepageFragment_to_interviewFragment"
+            app:destination="@id/interviewFragment" />
+        <action
+            android:id="@+id/action_homepageFragment_to_testFragment"
+            app:destination="@id/testFragment" />
+        <action
+            android:id="@+id/action_homepageFragment_to_registrationFragment"
+            app:destination="@id/registrationFragment" />
+        <action
+            android:id="@+id/action_homepageFragment_to_recruitmentFragment"
+            app:destination="@id/recruitmentFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/interviewFragment"
+        android:name="com.example.bgrecruitment.InterviewFragment"
+        android:label="fragment_interview"
+        tools:layout="@layout/fragment_interview" />
+    <fragment
+        android:id="@+id/testFragment"
+        android:name="com.example.bgrecruitment.TestFragment"
+        android:label="fragment_test"
+        tools:layout="@layout/fragment_test" />
+    <fragment
+        android:id="@+id/registrationFragment"
+        android:name="com.example.bgrecruitment.RegistrationFragment"
+        android:label="fragment_registration"
+        tools:layout="@layout/fragment_registration" />
+    <fragment
+        android:id="@+id/recruitmentFragment"
+        android:name="com.example.bgrecruitment.RecruitmentFragment"
+        android:label="fragment_recruitment"
+        tools:layout="@layout/fragment_recruitment" />
+</navigation>
