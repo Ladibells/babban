@@ -11,7 +11,6 @@ import com.example.bgrecruitment.data.User
 @Database(entities = [User::class, Recruitment::class], version = 4, exportSchema = false)
 @TypeConverters(Converter::class, DateConverter::class)
 abstract class UserDatabase : RoomDatabase() {
-
     abstract fun userDao(): UserDao
     abstract fun recDao(): RecDao
 

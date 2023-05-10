@@ -34,6 +34,10 @@ class UserViewModel(private val dao: UserDao, private val recDao: RecDao): ViewM
         }
     }
 
+    fun getUserByEmail(email: String): User? {
+        return dao.getUserByEmail(email)
+    }
+
     fun updateUser(user: User) = viewModelScope.launch {
         dao.updateUser(user)
     }

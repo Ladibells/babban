@@ -29,8 +29,8 @@
                     app:layout_constraintTop_toTopOf="parent"
                     android:id="@+id/app_title"
                     android:fontFamily="@font/google_sans_bold"
-                    android:text="@string/userPage"
-                    android:textSize="30sp"
+                    android:text="List of Recruited TGLs"
+                    android:textSize="25sp"
                     android:textColor="@color/black"
                     android:layout_marginTop="15dp"
                     android:layout_marginStart="2dp">
@@ -79,7 +79,7 @@
     </com.google.android.material.appbar.AppBarLayout>
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rvDetails"
+        android:id="@+id/rvRecruitment"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:clipToPadding="false"
@@ -88,7 +88,7 @@
         android:paddingBottom="5dp"
         android:transitionGroup="true"
         app:layout_behavior="@string/appbar_scrolling_view_behavior"
-        tools:listitem="@layout/user_details_list">
+        tools:listitem="@layout/rv_recruitment_layout">
 
     </androidx.recyclerview.widget.RecyclerView>
 

@@ -5,6 +5,7 @@ import androidx.room.*
 import com.example.bgrecruitment.data.Recruitment
 import com.example.bgrecruitment.data.User
 
+
 @Dao
 interface UserDao {
 
@@ -14,17 +15,28 @@ interface UserDao {
     @Update
     suspend fun updateUser(user: User)
 
+    @Query("SELECT * FROM user_table WHERE user_id = :id")
+    fun findById(id: Int): User?
+
+    @Query("SELECT * FROM user_table LIMIT 1")
+    fun getUser(): User?
+
+
     @Delete
     suspend fun deleteUser(user: User)
 
     @Query("SELECT EXISTS(SELECT 1 FROM user_table WHERE user_email = :email)")
     suspend fun isEmailExists(email: String): Boolean
 
+    @Query("SELECT * FROM user_table WHERE user_email = :email")
+    fun getUserByEmail(email: String): User?
+
     @Query("SELECT * FROM user_table ORDER BY user_id ASC")
     fun getAllUsers(): LiveData<List<User>>
 
 //    @Query("SELECT * FROM user_table WHERE email = :email AND password = :password")
 //    suspend fun getUser(email: String, password: String): User?
+
 
 }
 

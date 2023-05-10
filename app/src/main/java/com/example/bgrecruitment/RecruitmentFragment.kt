@@ -57,20 +57,32 @@ class RecruitmentFragment : Fragment(R.layout.fragment_recruitment) {
         val factory = UserViewModelFactory(dao, recDao)
         viewModel = ViewModelProvider(this, factory).get(UserViewModel::class.java)
 
-        val sex = resources.getStringArray(R.array.Sex)
-        val arrayAdapter = ArrayAdapter(requireContext(), R.layout.list_item, sex)
-        binding.dropDownSex.setAdapter(arrayAdapter)
+//        val sex = resources.getStringArray(R.array.Sex)
+//        val arrayAdapter = ArrayAdapter(requireContext(), R.layout.list_item, sex)
+        val adapterSex = ArrayAdapter(requireContext(), android.R.layout.simple_list_item_1, resources.getStringArray(R.array.Sex))
+        binding.dropDownSex.setAdapter(adapterSex)
 
 //        val sex = listOf("Male", "female")
 //        val adapterSex = ArrayAdapter(requireContext(), R.layout.list_item, sex)
 //        binding.dropDownSex.setAdapter(adapterSex)
 
-        val state = resources.getStringArray(R.array.State)
-        val adapterState = ArrayAdapter(requireContext(), R.layout.state_list, state)
+        val idType = resources.getStringArray(R.array.idType)
+        val adapterIDType = ArrayAdapter(requireContext(), R.layout.list_item, idType)
+        binding.dropDownIDType.setAdapter(adapterIDType)
+
+//        val lga = resources.getStringArray(R.array.Lagos)
+//        val adapterLGA = ArrayAdapter(requireContext(), R.layout.list_)
+
+        val adapterState = ArrayAdapter(requireContext(), android.R.layout.simple_list_item_1, resources.getStringArray(R.array.State))
+        //val adapterState = ArrayAdapter(requireContext(), R.layout.list_item, state)
         binding.dropDownState.setAdapter(adapterState)
 
+        val lga = binding.etLGA
+
         binding.dropDownState.setOnItemClickListener { parent, view, position, id ->
-            selectedState = state[position]
+            selectedState = adapterState.getItem(position).toString()
+            val lgaAdapter = ArrayAdapter(requireContext(), R.layout.list_item, getLGA(selectedState))
+            lga.setAdapter(lgaAdapter)
             //selectedState = parent?.selectedItem as String
             Toast.makeText(
                 requireContext(),
@@ -79,9 +91,12 @@ class RecruitmentFragment : Fragment(R.layout.fragment_recruitment) {
             ).show()
         }
 
-        val idType = resources.getStringArray(R.array.idType)
-        val adapterIDType = ArrayAdapter(requireContext(), R.layout.id_list, idType)
-        binding.dropDownIDType.setAdapter(adapterIDType)
+//        if (selectedState == "Lagos") {
+//            val lga = resources.getStringArray(R.array.Lagos)
+//            val adapterState = ArrayAdapter(requireContext(), android.R.layout.simple_list_item_1, lga)
+//            binding.dropDownState.setAdapter(adapterState)
+//        }
+
 
         // take year and month and day from calendar
         val calendar = Calendar.getInstance()
@@ -100,7 +115,7 @@ class RecruitmentFragment : Fragment(R.layout.fragment_recruitment) {
 
         binding.btnRegister.setOnClickListener {
             saveRecruitmentData()
-            Toast.makeText(activity, "Successfully registered", Toast.LENGTH_SHORT).show()
+
         }
 
         // Load the image from a file or some other source
@@ -119,6 +134,48 @@ class RecruitmentFragment : Fragment(R.layout.fragment_recruitment) {
 
         binding.etImage.setOnClickListener {
             openFileChooser()
+        }
+    }
+
+    private fun getLGA(state: String): Array<String> {
+        return when (state) {
+            getString(R.string.Abia) -> resources.getStringArray(R.array.Abia)
+            getString(R.string.Adamawa) -> resources.getStringArray(R.array.Adamawa)
+            getString(R.string.Akwa) -> resources.getStringArray(R.array.Akwa_Ibom)
+            getString(R.string.Anambra) -> resources.getStringArray(R.array.Anambra)
+            getString(R.string.Bauchi) -> resources.getStringArray(R.array.Bauchi)
+            getString(R.string.Bayelsa) -> resources.getStringArray(R.array.Bayelsa)
+            getString(R.string.Benue) -> resources.getStringArray(R.array.Benue)
+            getString(R.string.Borno) -> resources.getStringArray(R.array.Borno)
+            getString(R.string.Cross_River) -> resources.getStringArray(R.array.Cross_River)
+            getString(R.string.Delta) -> resources.getStringArray(R.array.Delta)
+            getString(R.string.Ebonyi) -> resources.getStringArray(R.array.Ebonyi)
+            getString(R.string.Edo) -> resources.getStringArray(R.array.Edo)
+            getString(R.string.Ekiti) -> resources.getStringArray(R.array.Ekiti)
+            getString(R.string.Enugu) -> resources.getStringArray(R.array.Enugu)
+            getString(R.string.Gombe) -> resources.getStringArray(R.array.Gombe)
+            getString(R.string.Imo) -> resources.getStringArray(R.array.Imo)
+            getString(R.string.Jigawa) -> resources.getStringArray(R.array.Jigawa)
+            getString(R.string.Kaduna) -> resources.getStringArray(R.array.Kaduna)
+            getString(R.string.Kano) -> resources.getStringArray(R.array.Kano)
+            getString(R.string.Katsina) -> resources.getStringArray(R.array.Katsina)
+            getString(R.string.Kebbi) -> resources.getStringArray(R.array.Kebbi)
+            getString(R.string.Kogi) -> resources.getStringArray(R.array.Kogi)
+            getString(R.string.Kwara) -> resources.getStringArray(R.array.Kwara)
+            getString(R.string.Lagos) -> resources.getStringArray(R.array.Lagos)
+            getString(R.string.Nasarawa) -> resources.getStringArray(R.array.Nasarawa)
+            getString(R.string.Niger) -> resources.getStringArray(R.array.Niger)
+            getString(R.string.Ogun) -> resources.getStringArray(R.array.Ogun)
+            getString(R.string.Ondo) -> resources.getStringArray(R.array.Ondo)
+            getString(R.string.Osun) -> resources.getStringArray(R.array.Osun)
+            getString(R.string.Oyo) -> resources.getStringArray(R.array.Oyo)
+            getString(R.string.Plateau) -> resources.getStringArray(R.array.Plateau)
+            getString(R.string.Rivers) -> resources.getStringArray(R.array.Rivers)
+            getString(R.string.Sokoto) -> resources.getStringArray(R.array.Sokoto)
+            getString(R.string.Taraba) -> resources.getStringArray(R.array.Taraba)
+            getString(R.string.Yobe) -> resources.getStringArray(R.array.Yobe)
+            getString(R.string.Zamfara) -> resources.getStringArray(R.array.Zamfara)
+            else -> emptyArray()
         }
     }
 
@@ -202,48 +259,59 @@ class RecruitmentFragment : Fragment(R.layout.fragment_recruitment) {
 
     private fun saveRecruitmentData() {
         binding.apply {
-            val recruitment = Recruitment(
-                    0,
-                    etName.text.toString(),
-                    etNo.text.toString(),
-                    dropDownSex.text,
-                    etDOB.text,
-                    etBVN.text.toString(),
-                    etNIN.text.toString(),
-                    dropDownState.text,
-                    etLGA.text.toString(),
-                    etHub.text.toString(),
-                    etID.text.toString(),
-                    dropDownIDType.text,
-                    selectedFileUri.toString()
-                )
-//            val sharedPreferences =
-//                requireActivity().getSharedPreferences(
-//                    "my_preferences",
-//                    Context.MODE_PRIVATE
-//                )
-//            viewModel.recruitment?.userId =
-//                sharedPreferences.getString("USER_ID", "").toString()
-//            mUserViewModel.registerTgl()
-//            Toast.makeText(
-//                context,
-//                "User Successfully Registered",
-//                Toast.LENGTH_SHORT
-//            ).show()
-//            mUserViewModel.tgl = null
-            selectedFileUri?.let {
-                lifecycleScope.launch(Dispatchers.IO) {
-                    viewModel.insertRec(
-                        recruitment,
-                        requireContext(), // pass the context of the fragment
-                        it // pass the selected image Uri
-                    )
-                }
 
+            val name = etName.text.toString().trim()
+            val phoneNumber = etNo.text.toString().trim()
+            val sex = dropDownSex.text
+            val dob = etDOB.text.toString()
+            val bvn = etBVN.text.toString().trim()
+            val nin = etNIN.text.toString().trim()
+            val state = dropDownState.text
+            val lga = etLGA.text.toString().trim()
+            val hub = etHub.text.toString().trim()
+            val idNo = etID.text.toString().trim()
+            val idType = dropDownIDType.text
+            val image = selectedFileUri.toString()
+
+            when {
+                name.isEmpty() ->
+                    Toast.makeText(activity, "Please enter your name", Toast.LENGTH_SHORT).show()
+                phoneNumber.length < 10 -> Toast.makeText(activity, "Phone number must be 10 digits", Toast.LENGTH_SHORT).show()
+                sex.isEmpty() -> {
+                    Toast.makeText(activity, "Please pick a sex", Toast.LENGTH_SHORT).show()
+                    //requestFocus()
+                }
+                dob.isEmpty() -> Toast.makeText(activity, "you didn't pick a date", Toast.LENGTH_SHORT).show();
+                nin.length < 10 -> Toast.makeText(activity, "NIN must be 10 digits", Toast.LENGTH_SHORT).show()
+                bvn.length < 10 -> Toast.makeText(activity, "BVN must be 10 digits", Toast.LENGTH_SHORT).show()
+                bvn.length < 10 -> Toast.makeText(activity, "BVN must be 10 digits", Toast.LENGTH_SHORT).show()
+                state.isEmpty() -> Toast.makeText(activity, "you didn't select a state", Toast.LENGTH_SHORT).show()
+                lga.isEmpty() -> Toast.makeText(activity, "Please enter your LGA", Toast.LENGTH_SHORT).show()
+                hub.isEmpty() -> Toast.makeText(activity, "Please enter hub", Toast.LENGTH_SHORT).show()
+                idNo.length < 10 -> Toast.makeText(activity, "ID must be 10 digits", Toast.LENGTH_SHORT).show()
+                idNo.length > 10 -> Toast.makeText(activity, "ID can not be more than 10 digits", Toast.LENGTH_SHORT).show()
+                idType.isEmpty() -> Toast.makeText(activity, "Please choose a type of ID", Toast.LENGTH_SHORT).show()
+                image == null -> Toast.makeText(activity, "You didn't select image", Toast.LENGTH_SHORT).show()
+                else -> {
+                    val recruitment = Recruitment(0, name, phoneNumber, sex, dob, bvn, nin, state, lga, hub, idNo, idType, image)
+                    selectedFileUri?.let {
+                        lifecycleScope.launch(Dispatchers.IO) {
+                            viewModel.insertRec(
+                                recruitment,
+                                requireContext(), // pass the context of the fragment
+                                it // pass the selected image Uri
+                            )
+                        }
+
+                    }
+                    Toast.makeText(activity, "Successfully registered", Toast.LENGTH_SHORT).show()
+                    clearInput()
+                }
             }
+
+
         }
 
-        clearInput()
     }
 
 //   private fun insertDataToDatabase( ) {

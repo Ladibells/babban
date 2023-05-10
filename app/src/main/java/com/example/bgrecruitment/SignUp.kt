@@ -42,10 +42,10 @@ class SignUp : Fragment(R.layout.fragment_sign_up) {
             UserDatabase::class.java, "user_data_database"
         ).allowMainThreadQueries().fallbackToDestructiveMigration().build()
 
-        val name = binding.etName.text.toString()
-        val email = binding.etEmail.text.toString()
-        val password = binding.etPassword.text.toString()
-        val confirmPassword = binding.etConfirmPassword.text.toString()
+        val name = binding.etName.text.toString().trim()
+        val email = binding.etEmail.text.toString().trim()
+        val password = binding.etPassword.text.toString().trim()
+        val confirmPassword = binding.etConfirmPassword.text.toString().trim()
 
         val dao = UserDatabase.getInstance(requireContext()).userDao()
         val recDao = UserDatabase.getInstance(requireContext()).recDao()
@@ -64,10 +64,10 @@ class SignUp : Fragment(R.layout.fragment_sign_up) {
 
     private fun insertDataToDatabase() {
         //viewModel = UserViewModel(Application())
-        val name = binding.etName.text.toString()
-        val email = binding.etEmail.text.toString()
-        val password = binding.etPassword.text.toString()
-        val confirmPassword = binding.etConfirmPassword.text.toString()
+        val name = binding.etName.text.toString().trim()
+        val email = binding.etEmail.text.toString().trim()
+        val password = binding.etPassword.text.toString().trim()
+        val confirmPassword = binding.etConfirmPassword.text.toString().trim()
 
         lifecycleScope.launch {
             if (!emailAlreadyExists(email)) {

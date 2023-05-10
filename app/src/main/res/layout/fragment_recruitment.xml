@@ -73,20 +73,17 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
             android:contextClickable="false"
-            android:hint="@string/PhoneNumber"
             app:boxBackgroundColor="#FFFFFF"
             app:boxBackgroundMode="outline"
             app:counterMaxLength="10"
             app:endIconMode="clear_text"
             app:endIconTint="#673AB7"
-            android:paddingTop="5dp"
-            android:paddingBottom="5dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
-            android:fontFamily="@font/google_sans_medium"
             app:layout_constraintTop_toBottomOf="@+id/layoutName"
-            app:prefixText="+234 "
+            android:hint="@string/PhoneNumber"
+            app:prefixText="+234"
             app:startIconDrawable="@drawable/baseline_local_phone_24"
             app:startIconTint="#673AB7">
 
@@ -95,11 +92,12 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/google_sans_medium"
-                android:inputType="phone"
                 android:maxLength="10"
                 android:paddingTop="5dp"
-                android:paddingBottom="5dp" />
+                android:paddingBottom="5dp"
+                android:inputType="phone" />
         </com.google.android.material.textfield.TextInputLayout>
+
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/layoutSex"
@@ -226,24 +224,32 @@
             android:id="@+id/layoutLGA"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
             android:layout_marginTop="8dp"
             android:hint="@string/lga"
             app:boxBackgroundColor="#FFFFFF"
             app:boxBackgroundMode="outline"
-            app:endIconMode="clear_text"
-            app:endIconTint="#673AB7"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/layoutState">
 
-            <com.google.android.material.textfield.TextInputEditText
+            <AutoCompleteTextView
                 android:id="@+id/etLGA"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:clickable="true"
                 android:fontFamily="@font/google_sans_medium"
-                android:inputType="text"
-                android:singleLine="true" />
+                android:inputType="text" />
+
+<!--            <com.google.android.material.textfield.TextInputEditText-->
+<!--                android:id="@+id/etLGA"-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:fontFamily="@font/google_sans_medium"-->
+<!--                android:inputType="text"-->
+<!--                android:singleLine="true" />-->
 
         </com.google.android.material.textfield.TextInputLayout>
 

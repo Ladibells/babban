@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.bgrecruitment.adapter.UserAdapter
@@ -15,7 +16,7 @@ import com.example.bgrecruitment.data.viewmodel.UserViewModel
 import com.example.bgrecruitment.databinding.FragmentUserDetailsBinding
 
 
-class UserDetails : Fragment() {
+class UserDetails : Fragment(R.layout.fragment_user_details) {
 
     private lateinit var viewModel: UserViewModel
     private lateinit var binding: FragmentUserDetailsBinding
@@ -37,12 +38,22 @@ class UserDetails : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         binding = FragmentUserDetailsBinding.bind(view)
+        recyclerView = binding.rvDetails
+
+
+//        binding.apply {
+//            rvDetails.hasFixedSize()
+//            rvDetails.setLayoutManager(LinearLayoutManager(requireContext()))
+//            rvDetails.itemAnimator = DefaultItemAnimator()
+//        }
 
 
         // Recyclerview
+
         adapter = UserAdapter()
-        recyclerView.adapter = adapter
         recyclerView = binding.rvDetails
+        recyclerView.adapter = adapter
+
         recyclerView.layoutManager = LinearLayoutManager(requireContext())
 
         // UserViewModel

@@ -43,6 +43,43 @@
         remaining essentially unchanged.
     </string>
 
+    <string name="Abia">Abia</string>
+    <string name="Adamawa">Adamawa</string>
+    <string name="Akwa">Akwa Ibom</string>
+    <string name="Anambra">Anambra</string>
+    <string name="Bauchi">Bauchi</string>
+    <string name="Bayelsa">bayelsa</string>
+    <string name="Benue">Benue</string>
+    <string name="Borno">Borno</string>
+    <string name="Cross_River">Cross Rver</string>
+    <string name="Delta">Delta</string>
+    <string name="Ebonyi">Ebonyi</string>
+    <string name="Edo">Edo</string>
+    <string name="Ekiti">Ekiti</string>
+    <string name="Enugu">Enugu</string>
+    <string name="Gombe">Gombe</string>
+    <string name="Imo">Imo</string>
+    <string name="Jigawa">Jigawa</string>
+    <string name="Kaduna">Kaduna</string>
+    <string name="Kano">Kano</string>
+    <string name="Katsina">Katsina</string>
+    <string name="Kebbi">Kebbi</string>
+    <string name="Kogi">Kogi</string>
+    <string name="Kwara">Kwara</string>
+    <string name="Lagos">Lagos</string>
+    <string name="Nasarawa">Nasarawa</string>
+    <string name="Niger">Niger</string>
+    <string name="Ogun">Ogun</string>
+    <string name="Ondo">Ondo</string>
+    <string name="Osun">Osun</string>
+    <string name="Oyo">Oyo</string>
+    <string name="Plateau">Plateau</string>
+    <string name="Rivers">Rivers</string>
+    <string name="Sokoto">Sokoto</string>
+    <string name="Taraba">Taraba</string>
+    <string name="Yobe">Yobe</string>
+    <string name="Zamfara">Zamfara</string>
+
 
     <string-array name="Sex">
         <item>Male</item>

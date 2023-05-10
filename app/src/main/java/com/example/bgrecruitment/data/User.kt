@@ -27,7 +27,7 @@ data class Recruitment(
     @ColumnInfo(name = "name") val Name: String,
     @ColumnInfo(name = "phone_number") val PhoneNumber: String,
     @ColumnInfo(name = "sex") val Sex: Editable,
-    @ColumnInfo(name = "dob") val DOB: Editable?,
+    @ColumnInfo(name = "dob") val DOB: String,
     @ColumnInfo(name = "bvn") val BVN: String,
     @ColumnInfo(name = "nin") val NIN: String,
     @ColumnInfo(name = "state") val State: Editable,

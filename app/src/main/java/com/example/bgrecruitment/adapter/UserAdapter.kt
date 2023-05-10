@@ -30,10 +30,10 @@ class UserAdapter: RecyclerView.Adapter<UserAdapter.MyViewHolder>() {
 
     override fun onBindViewHolder(holder: UserAdapter.MyViewHolder, position: Int) {
         val currentItem = userList[position]
-//        holder.binding.idNo.text = currentItem.id.toString()
-//        holder.binding.detailsName.text = currentItem.name.toString()
-//        holder.binding.detailsEmail.text = currentItem.email.toString()
-//        holder.binding.detailsPassword.text = currentItem.password.toString()
+        holder.binding.idNo.text = currentItem.id.toString()
+        holder.binding.name.text = currentItem.name.toString()
+        holder.binding.mail.text = currentItem.email.toString()
+        holder.binding.password.text = currentItem.password.toString()
 
     }
 
@@ -47,19 +47,20 @@ class UserAdapter: RecyclerView.Adapter<UserAdapter.MyViewHolder>() {
     }
 }
 
-class RecruitmentAdapter: RecyclerView.Adapter<RecruitmentAdapter.MyViewHolder>() {
+class RecruitmentAdapter: RecyclerView.Adapter<RecruitmentAdapter.RecruitmentViewHolder>() {
 
     private var recList = emptyList<Recruitment>()
 
-    class MyViewHolder(val binding: RvRecruitmentLayoutBinding): RecyclerView.ViewHolder(binding.root)
+    class RecruitmentViewHolder(val binding: RvRecruitmentLayoutBinding): RecyclerView.ViewHolder(binding.root)
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecruitmentAdapter.MyViewHolder {
-        return MyViewHolder(
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecruitmentAdapter.RecruitmentViewHolder {
+        return RecruitmentAdapter.RecruitmentViewHolder(
             RvRecruitmentLayoutBinding.inflate(
                 LayoutInflater.from(parent.context),
                 parent,
                 false
             )
+
         )
     }
 
@@ -67,8 +68,20 @@ class RecruitmentAdapter: RecyclerView.Adapter<RecruitmentAdapter.MyViewHolder>(
         return recList.size
     }
 
-    override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: RecruitmentViewHolder, position: Int) {
         val currentItem = recList[position]
+        holder.binding.idNo.text = currentItem.id.toString()
+        holder.binding.fname.text = currentItem.Name.toString()
+        holder.binding.idNo.text = currentItem.PhoneNumber.toString()
+        holder.binding.DOB.text = currentItem.DOB.toString()
+        holder.binding.sex.text = currentItem.Sex.toString()
+        holder.binding.bvn.text = currentItem.BVN.toString()
+        holder.binding.nin.text = currentItem.NIN.toString()
+        holder.binding.state.text = currentItem.State.toString()
+        holder.binding.LGA.text = currentItem.LGA.toString()
+        holder.binding.hub.text = currentItem.Hub.toString()
+        holder.binding.govID.text = currentItem.GovID.toString()
+        holder.binding.idType.text = currentItem.IdType.toString()
     }
 
     fun setData(recruitment: List<Recruitment>) {

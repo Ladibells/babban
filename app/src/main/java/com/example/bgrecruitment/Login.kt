@@ -1,17 +1,16 @@
 package com.example.bgrecruitment
 
-import android.content.Context
-import android.content.SharedPreferences
+
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
-import androidx.compose.runtime.snapshots.Snapshot.Companion.observe
 import androidx.lifecycle.Observer
 import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
+import androidx.room.Room
 import com.example.bgrecruitment.data.viewmodel.UserViewModel
 import com.example.bgrecruitment.data.viewmodel.UserViewModelFactory
 import com.example.bgrecruitment.databinding.FragmentLoginBinding
@@ -23,6 +22,7 @@ class Login : Fragment() {
     private lateinit var binding: FragmentLoginBinding
     private lateinit var navController: NavController
     private lateinit var viewModel: UserViewModel
+    private lateinit var db: UserDatabase
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -39,16 +39,24 @@ class Login : Fragment() {
     }
 
 
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
         binding = FragmentLoginBinding.bind(view)
+
+        db = Room.databaseBuilder(
+            requireContext(),
+            UserDatabase::class.java, "user_data_database"
+        ).build()
+
         //private val sharedPrefFile = "kotlinsharedpreference"
 
 //        val sharedPrefs = context?.getSharedPreferences("myPrefs", Context.MODE_PRIVATE)
+//        // Retrieve the user id from the Room database
+//        val userId = db.userDao().findById(id) ?: -1
+//
+////        val user = UserDatabase.UserDao()
 //        val editor = sharedPrefs?.edit()
-//        editor?.putInt("user_id", 9)
+//        editor?.putInt("user_id", userId)
 //        editor?.apply()
 //        sharedPrefs?.edit().putInt("USER_ID", viewModel.users.).apply()
         binding.btnSignIn.setOnClickListener {
@@ -77,4 +85,7 @@ class Login : Fragment() {
             findNavController().navigate(R.id.action_login_to_signUp)
         }
     }
+
+
+
 }
