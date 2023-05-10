@@ -9,13 +9,16 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
+import androidx.room.Room
 import com.example.bgrecruitment.data.User
 import com.example.bgrecruitment.data.viewmodel.UserViewModel
 import com.example.bgrecruitment.data.viewmodel.UserViewModelFactory
 import com.example.bgrecruitment.databinding.FragmentSignUpBinding
 import com.example.bgrecruitment.db.UserDatabase
+import kotlinx.coroutines.launch
 
 
 class SignUp : Fragment(R.layout.fragment_sign_up) {
@@ -23,6 +26,7 @@ class SignUp : Fragment(R.layout.fragment_sign_up) {
     private lateinit var binding:FragmentSignUpBinding
     private lateinit var viewModel: UserViewModel
     private lateinit var navController: NavController
+    private lateinit var db: UserDatabase
 
 
 //    override fun onCreate(savedInstanceState: Bundle?) {
@@ -32,6 +36,11 @@ class SignUp : Fragment(R.layout.fragment_sign_up) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         binding = FragmentSignUpBinding.bind(view)
+
+        db = Room.databaseBuilder(
+            requireContext(),
+            UserDatabase::class.java, "user_data_database"
+        ).allowMainThreadQueries().fallbackToDestructiveMigration().build()
 
         val name = binding.etName.text.toString()
         val email = binding.etEmail.text.toString()
@@ -60,27 +69,33 @@ class SignUp : Fragment(R.layout.fragment_sign_up) {
         val password = binding.etPassword.text.toString()
         val confirmPassword = binding.etConfirmPassword.text.toString()
 
-        if(inputCheck(name, email, password, confirmPassword)) {
-            if(password == confirmPassword){
+        lifecycleScope.launch {
+            if (!emailAlreadyExists(email)) {
+                if(inputCheck(name, email, password, confirmPassword)) {
+                    if(password == confirmPassword){
 
-                if (!android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
-                    Toast.makeText(requireContext(), "Invalid email format",
-                        Toast.LENGTH_SHORT).show()
-                    return
+                        if (!android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
+                            Toast.makeText(requireContext(), "Invalid email format",
+                                Toast.LENGTH_SHORT).show()
+                            return@launch
+                        }
+
+                        // create user object
+                        val user = User(0, name, email, password)
+                        // add data to database
+                        viewModel.insertUser(user)
+                        Toast.makeText(activity, "Successfully added user $email", Toast.LENGTH_SHORT).show()
+                        findNavController().navigate((R.id.action_signUp_to_login))
+                    } else{
+                        Toast.makeText(getActivity(), "passwords don't match", Toast.LENGTH_SHORT).show()
+                    }
+                } else {
+                    Toast.makeText(getActivity(), "please fill out all fields", Toast.LENGTH_SHORT).show()
+                    //_errorToast.value = true
                 }
-
-                // create user object
-                val user = User(0, name, email, password)
-                // add data to database
-                viewModel.insertUser(user)
-                Toast.makeText(activity, "Successfully added user $email", Toast.LENGTH_SHORT).show()
-                findNavController().navigate((R.id.action_signUp_to_login))
-            } else{
-                Toast.makeText(getActivity(), "passwords don't match", Toast.LENGTH_SHORT).show()
+            }else {
+                Toast.makeText(getActivity(), "email already exists", Toast.LENGTH_SHORT).show()
             }
-        } else {
-            Toast.makeText(getActivity(), "please fill out all fields", Toast.LENGTH_SHORT).show()
-            //_errorToast.value = true
         }
     }
 
@@ -99,5 +114,10 @@ class SignUp : Fragment(R.layout.fragment_sign_up) {
         viewModel.insertUser(
             User(0, binding.etName.text.toString(),binding.etEmail.text.toString(), binding.etPassword.text.toString())
         )
+    }
+
+    private fun emailAlreadyExists(email: String): Boolean {
+        val user = db.userDao().getUserByEmail(email)
+        return user != null
     }
 }
