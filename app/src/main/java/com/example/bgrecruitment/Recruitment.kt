@@ -48,7 +48,7 @@ class Recruitment : Fragment() {
 //        binding.dropDownSex.setAdapter(adapterSex)
 
         val state = resources.getStringArray(R.array.State)
-        val adapterState = ArrayAdapter(requireContext(), R.layout.state_list, state)
+        val adapterState = ArrayAdapter(requireContext(), android.R.layout.simple_list_item_1, state)
         binding.dropDownState.setAdapter(adapterState)
 
 //        binding.dropDownState.setOnItemClickListener { parent, view, position, id ->
@@ -62,7 +62,7 @@ class Recruitment : Fragment() {
 //        }
 
         val idType = resources.getStringArray(R.array.idType)
-        val adapterIDType = ArrayAdapter(requireContext(), R.layout.id_list, idType)
+        val adapterIDType = ArrayAdapter(requireContext(), android.R.layout.simple_list_item_1, idType)
         binding.dropDownIDType.setAdapter(adapterIDType)
 
         // take year and month and day from calendar

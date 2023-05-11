@@ -2,6 +2,7 @@ package com.example.bgrecruitment
 
 import android.app.Activity
 import android.app.Activity.RESULT_OK
+import android.app.AlertDialog
 import android.app.DatePickerDialog
 import android.content.Context
 import android.content.Intent
@@ -59,7 +60,7 @@ class RecruitmentFragment : Fragment(R.layout.fragment_recruitment) {
 
 //        val sex = resources.getStringArray(R.array.Sex)
 //        val arrayAdapter = ArrayAdapter(requireContext(), R.layout.list_item, sex)
-        val adapterSex = ArrayAdapter(requireContext(), android.R.layout.simple_list_item_1, resources.getStringArray(R.array.Sex))
+        val adapterSex = ArrayAdapter(requireContext(), R.layout.list_item, resources.getStringArray(R.array.Sex))
         binding.dropDownSex.setAdapter(adapterSex)
 
 //        val sex = listOf("Male", "female")
@@ -67,29 +68,13 @@ class RecruitmentFragment : Fragment(R.layout.fragment_recruitment) {
 //        binding.dropDownSex.setAdapter(adapterSex)
 
         val idType = resources.getStringArray(R.array.idType)
-        val adapterIDType = ArrayAdapter(requireContext(), R.layout.list_item, idType)
+        val adapterIDType = ArrayAdapter(requireContext(), android.R.layout.simple_list_item_1, idType)
         binding.dropDownIDType.setAdapter(adapterIDType)
 
 //        val lga = resources.getStringArray(R.array.Lagos)
 //        val adapterLGA = ArrayAdapter(requireContext(), R.layout.list_)
 
-        val adapterState = ArrayAdapter(requireContext(), android.R.layout.simple_list_item_1, resources.getStringArray(R.array.State))
-        //val adapterState = ArrayAdapter(requireContext(), R.layout.list_item, state)
-        binding.dropDownState.setAdapter(adapterState)
 
-        val lga = binding.etLGA
-
-        binding.dropDownState.setOnItemClickListener { parent, view, position, id ->
-            selectedState = adapterState.getItem(position).toString()
-            val lgaAdapter = ArrayAdapter(requireContext(), R.layout.list_item, getLGA(selectedState))
-            lga.setAdapter(lgaAdapter)
-            //selectedState = parent?.selectedItem as String
-            Toast.makeText(
-                requireContext(),
-                "Selected state is: $selectedState",
-                Toast.LENGTH_LONG
-            ).show()
-        }
 
 //        if (selectedState == "Lagos") {
 //            val lga = resources.getStringArray(R.array.Lagos)
@@ -135,11 +120,30 @@ class RecruitmentFragment : Fragment(R.layout.fragment_recruitment) {
         binding.etImage.setOnClickListener {
             openFileChooser()
         }
+
+        val adapterState = ArrayAdapter(requireContext(), android.R.layout.simple_list_item_1, resources.getStringArray(R.array.State))
+        //val adapterState = ArrayAdapter(requireContext(), R.layout.list_item, state)
+        binding.dropDownState.setAdapter(adapterState)
+
+        val lga = binding.etLGA
+
+        binding.dropDownState.setOnItemClickListener { parent, view, position, id ->
+            selectedState = adapterState.getItem(position).toString()
+            val lgaAdapter = ArrayAdapter(requireContext(), android.R.layout.simple_list_item_1, getLGA(selectedState))
+            lga.setAdapter(lgaAdapter)
+            //selectedState = parent?.selectedItem as String
+            Toast.makeText(
+                requireContext(),
+                "Selected state is: $selectedState",
+                Toast.LENGTH_LONG
+            ).show()
+        }
+
     }
 
     private fun getLGA(state: String): Array<String> {
         return when (state) {
-            getString(R.string.Abia) -> resources.getStringArray(R.array.Abia)
+            "Adamawa" -> resources.getStringArray(R.array.Abia)
             getString(R.string.Adamawa) -> resources.getStringArray(R.array.Adamawa)
             getString(R.string.Akwa) -> resources.getStringArray(R.array.Akwa_Ibom)
             getString(R.string.Anambra) -> resources.getStringArray(R.array.Anambra)
@@ -277,13 +281,9 @@ class RecruitmentFragment : Fragment(R.layout.fragment_recruitment) {
                 name.isEmpty() ->
                     Toast.makeText(activity, "Please enter your name", Toast.LENGTH_SHORT).show()
                 phoneNumber.length < 10 -> Toast.makeText(activity, "Phone number must be 10 digits", Toast.LENGTH_SHORT).show()
-                sex.isEmpty() -> {
-                    Toast.makeText(activity, "Please pick a sex", Toast.LENGTH_SHORT).show()
-                    //requestFocus()
-                }
+                sex.isEmpty() -> Toast.makeText(activity, "Please select your sex", Toast.LENGTH_SHORT).show()
                 dob.isEmpty() -> Toast.makeText(activity, "you didn't pick a date", Toast.LENGTH_SHORT).show();
                 nin.length < 10 -> Toast.makeText(activity, "NIN must be 10 digits", Toast.LENGTH_SHORT).show()
-                bvn.length < 10 -> Toast.makeText(activity, "BVN must be 10 digits", Toast.LENGTH_SHORT).show()
                 bvn.length < 10 -> Toast.makeText(activity, "BVN must be 10 digits", Toast.LENGTH_SHORT).show()
                 state.isEmpty() -> Toast.makeText(activity, "you didn't select a state", Toast.LENGTH_SHORT).show()
                 lga.isEmpty() -> Toast.makeText(activity, "Please enter your LGA", Toast.LENGTH_SHORT).show()
@@ -386,6 +386,23 @@ class RecruitmentFragment : Fragment(R.layout.fragment_recruitment) {
             etImage.setImageURI(null)
         }
     }
+
+//    override fun onBackPressed() {
+//        // Put your code here to handle the back button press
+//        // For example, you can show a confirmation dialog before closing the activity
+//        System.exit(0)
+//        val builder = AlertDialog.Builder(requireContext())
+//        builder.setMessage("Are you sure you want to exit?")
+//        builder.setPositiveButton("Yes") { dialog, which ->
+//            super.onBackPressed()
+//        }
+//        builder.setNegativeButton("No") { dialog, which ->
+//            dialog.dismiss()
+//        }
+//        val dialog = builder.create()
+//        dialog.show()
+//    }
+
 
 
 }
