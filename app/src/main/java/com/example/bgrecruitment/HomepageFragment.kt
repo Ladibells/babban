@@ -44,9 +44,13 @@ class HomepageFragment : Fragment(R.layout.fragment_homepage) {
             findNavController().navigate(R.id.action_homepageFragment_to_testFragment)
         }
 
-//        binding.btnDetails.setOnClickListener {
-//            findNavController().navigate(R.id.action_homepageFragment_to_userDetails)
-//        }
+        binding.btnDetails.setOnClickListener {
+            findNavController().navigate(R.id.action_homepageFragment_to_userDetails)
+        }
+
+        binding.btnRec.setOnClickListener {
+            findNavController().navigate(R.id.action_homepageFragment_to_rvRecruitment)
+        }
 
     }
 }

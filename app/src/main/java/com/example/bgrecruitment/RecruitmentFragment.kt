@@ -1,28 +1,16 @@
 package com.example.bgrecruitment
 
-import android.app.Activity
 import android.app.Activity.RESULT_OK
-import android.app.AlertDialog
 import android.app.DatePickerDialog
-import android.content.Context
 import android.content.Intent
-import android.graphics.Bitmap
-import android.graphics.BitmapFactory
 import android.net.Uri
 import android.os.Bundle
-import android.text.Editable
-import androidx.fragment.app.Fragment
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
-import android.widget.ArrayAdapter
-import android.widget.DatePicker
-import android.widget.Toast
-import androidx.lifecycle.ViewModel
+import android.widget.*
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.NavController
-import androidx.navigation.fragment.findNavController
 import com.example.bgrecruitment.data.Recruitment
 import com.example.bgrecruitment.data.viewmodel.UserViewModel
 import com.example.bgrecruitment.data.viewmodel.UserViewModelFactory
@@ -30,8 +18,6 @@ import com.example.bgrecruitment.databinding.FragmentRecruitmentBinding
 import com.example.bgrecruitment.db.UserDatabase
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import java.io.ByteArrayOutputStream
-import java.io.File
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -49,9 +35,19 @@ class RecruitmentFragment : Fragment(R.layout.fragment_recruitment) {
         private const val PICK_IMAGE_REQUEST = 1
     }
 
+
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         binding = FragmentRecruitmentBinding.bind(view)
         //viewModel = ViewModelProvider(this).get(UserViewModel::class.java)
+
+        val typeface1 = binding.etNo.typeface
+        binding.layoutNo.prefixTextView.apply {
+            setTypeface(typeface1)
+        }
+
+
+
 
         val dao = UserDatabase.getInstance(requireContext()).userDao()
         val recDao = UserDatabase.getInstance(requireContext()).recDao()
@@ -117,33 +113,54 @@ class RecruitmentFragment : Fragment(R.layout.fragment_recruitment) {
 //            viewModel.saveImage(byteArray)
 //        }
 
+//        binding.etsample.setOnClickListener {
+//            openFileChooser()
+//        }
+
         binding.etImage.setOnClickListener {
             openFileChooser()
         }
 
-        val adapterState = ArrayAdapter(requireContext(), android.R.layout.simple_list_item_1, resources.getStringArray(R.array.State))
-        //val adapterState = ArrayAdapter(requireContext(), R.layout.list_item, state)
-        binding.dropDownState.setAdapter(adapterState)
+        lifecycleScope.launch {
+            val adapterState = ArrayAdapter(requireContext(), android.R.layout.simple_list_item_1, resources.getStringArray(R.array.State))
+            //val adapterState = ArrayAdapter(requireContext(), R.layout.list_item, state)
+            binding.dropDownState.setAdapter(adapterState)
+            binding.dropDownState.setValidator(object : AutoCompleteTextView.Validator{
+                override fun isValid(text: CharSequence?): Boolean {
+                    return adapterState.getPosition(text.toString()) != AdapterView.INVALID_POSITION
+                }
 
-        val lga = binding.etLGA
+                override fun fixText(invalidText: CharSequence?): CharSequence {
+                    return ""
+                }
 
-        binding.dropDownState.setOnItemClickListener { parent, view, position, id ->
-            selectedState = adapterState.getItem(position).toString()
-            val lgaAdapter = ArrayAdapter(requireContext(), android.R.layout.simple_list_item_1, getLGA(selectedState))
-            lga.setAdapter(lgaAdapter)
-            //selectedState = parent?.selectedItem as String
-            Toast.makeText(
-                requireContext(),
-                "Selected state is: $selectedState",
-                Toast.LENGTH_LONG
-            ).show()
+            })
+
+            //val lga = binding.etLGA
+
+            binding.dropDownState.setOnItemClickListener { parent, view, position, id ->
+                selectedState = adapterState.getItem(position).toString()
+                binding.etLGA.setText("") // Clear the city dropdown before setting the new adapter
+                val lgaAdapter = ArrayAdapter(requireContext(), android.R.layout.simple_list_item_1, getLGA(selectedState))
+                binding.etLGA.setAdapter(lgaAdapter)
+                //selectedState = parent?.selectedItem as String
+                Toast.makeText(
+                    requireContext(),
+                    "Selected state is: $selectedState",
+                    Toast.LENGTH_SHORT
+                ).show()
+            }
         }
+
 
     }
 
     private fun getLGA(state: String): Array<String> {
+        lifecycleScope.launch {
+
+        }
         return when (state) {
-            "Adamawa" -> resources.getStringArray(R.array.Abia)
+            getString(R.string.Abia) -> resources.getStringArray(R.array.Abia)
             getString(R.string.Adamawa) -> resources.getStringArray(R.array.Adamawa)
             getString(R.string.Akwa) -> resources.getStringArray(R.array.Akwa_Ibom)
             getString(R.string.Anambra) -> resources.getStringArray(R.array.Anambra)
@@ -278,8 +295,7 @@ class RecruitmentFragment : Fragment(R.layout.fragment_recruitment) {
             val image = selectedFileUri.toString()
 
             when {
-                name.isEmpty() ->
-                    Toast.makeText(activity, "Please enter your name", Toast.LENGTH_SHORT).show()
+                name.isEmpty() -> Toast.makeText(activity, "Please enter your name", Toast.LENGTH_SHORT).show()
                 phoneNumber.length < 10 -> Toast.makeText(activity, "Phone number must be 10 digits", Toast.LENGTH_SHORT).show()
                 sex.isEmpty() -> Toast.makeText(activity, "Please select your sex", Toast.LENGTH_SHORT).show()
                 dob.isEmpty() -> Toast.makeText(activity, "you didn't pick a date", Toast.LENGTH_SHORT).show();

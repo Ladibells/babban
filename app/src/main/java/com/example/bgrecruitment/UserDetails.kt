@@ -23,18 +23,18 @@ class UserDetails : Fragment(R.layout.fragment_user_details) {
     private lateinit var adapter: UserAdapter
     private lateinit var recyclerView: RecyclerView
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-
-    }
-
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_user_details, container, false)
-    }
+//    override fun onCreate(savedInstanceState: Bundle?) {
+//        super.onCreate(savedInstanceState)
+//
+//    }
+//
+//    override fun onCreateView(
+//        inflater: LayoutInflater, container: ViewGroup?,
+//        savedInstanceState: Bundle?
+//    ): View? {
+//        // Inflate the layout for this fragment
+//        return inflater.inflate(R.layout.fragment_user_details, container, false)
+//    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         binding = FragmentUserDetailsBinding.bind(view)
@@ -51,15 +51,14 @@ class UserDetails : Fragment(R.layout.fragment_user_details) {
         // Recyclerview
 
         adapter = UserAdapter()
-        recyclerView = binding.rvDetails
         recyclerView.adapter = adapter
 
-        recyclerView.layoutManager = LinearLayoutManager(requireContext())
+        recyclerView.layoutManager = LinearLayoutManager(activity)
 
         // UserViewModel
         viewModel = ViewModelProvider(this).get(UserViewModel::class.java)
-        viewModel.users.observe(viewLifecycleOwner, Observer { user ->
-            adapter.setData(user)
-        })
+//        viewModel.users.observe(viewLifecycleOwner, Observer { user ->
+//            adapter.setData(user)
+//        })
     }
 }

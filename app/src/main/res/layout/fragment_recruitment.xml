@@ -216,7 +216,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:fontFamily="@font/google_sans_medium"
-                android:inputType="text" />
+                android:inputType="none" />
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
@@ -240,7 +240,7 @@
                 android:layout_weight="1"
                 android:clickable="true"
                 android:fontFamily="@font/google_sans_medium"
-                android:inputType="text" />
+                android:inputType="none" />
 
 <!--            <com.google.android.material.textfield.TextInputEditText-->
 <!--                android:id="@+id/etLGA"-->
@@ -422,6 +422,30 @@
 <!--            android:text="Button"-->
 <!--            app:layout_constraintBottom_toTopOf="@+id/layoutName"-->
 <!--            app:layout_constraintEnd_toEndOf="parent" />-->
+
+
+<!--        <com.google.android.material.textfield.TextInputLayout-->
+<!--            android:id="@+id/layoutsample"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_marginTop="8dp"-->
+<!--            app:boxBackgroundColor="#FFFFFF"-->
+<!--            app:boxBackgroundMode="outline"-->
+<!--            app:endIconMode="clear_text"-->
+<!--            app:endIconTint="#673AB7"-->
+<!--            app:layout_constraintEnd_toEndOf="parent"-->
+<!--            app:layout_constraintHorizontal_bias="0.5"-->
+<!--            app:layout_constraintStart_toStartOf="parent"-->
+<!--            app:layout_constraintTop_toBottomOf="@id/btnRegister">-->
+
+<!--            <com.google.android.material.textfield.TextInputEditText-->
+<!--                android:id="@+id/etsample"-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:fontFamily="@font/google_sans_medium"-->
+<!--                android:inputType="textUri"-->
+<!--                android:singleLine="true" />-->
+<!--        </com.google.android.material.textfield.TextInputLayout>-->
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

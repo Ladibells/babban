@@ -86,6 +86,7 @@ class SignUp : Fragment(R.layout.fragment_sign_up) {
                         viewModel.insertUser(user)
                         Toast.makeText(activity, "Successfully added user $email", Toast.LENGTH_SHORT).show()
                         findNavController().navigate((R.id.action_signUp_to_login))
+                        clearInput()
                     } else{
                         Toast.makeText(getActivity(), "passwords don't match", Toast.LENGTH_SHORT).show()
                     }

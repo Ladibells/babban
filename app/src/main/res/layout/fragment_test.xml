@@ -1,14 +1,889 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="16dp"
     tools:context=".TestFragment">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
 
-</FrameLayout>
+        <!-- Category A -->
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Category A"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:padding="16dp"/>
+
+        <!-- Question 1 -->
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="1. Musa can make three payments on his bicycle. The bicycle cost him ₦3000. The first installment will be half of the cost of the bicycle. The second installment will be half of the balance. How much will Musa need to pay on his last installment?"
+            android:padding="16dp"/>
+
+        <!-- Options for Question 1 -->
+        <RadioGroup
+            android:id="@+id/radio_group_1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <RadioButton
+                android:id="@+id/option_1a"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="₦750"/>
+
+            <RadioButton
+                android:id="@+id/option_1b"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="₦1000"/>
+
+            <RadioButton
+                android:id="@+id/option_1c"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="₦150"/>
+
+            <RadioButton
+                android:id="@+id/option_1d"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="₦250"/>
+
+            <RadioButton
+                android:id="@+id/option_1e"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="₦2500"/>
+
+        </RadioGroup>
+
+        <!-- Question 2 -->
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="2. A mechanic workshop charges a customer ₦850 to repair his bike.
+            The bike parts cost ₦50 and the remainder was for labour. If the cost of labour
+            is ₦100 per hour, how many hours of labour did it take the mechanic workshop
+            to repair the bike?"
+            android:padding="16dp"/>
+
+        <!-- Options for Question 2 -->
+        <RadioGroup
+            android:id="@+id/radio_group_2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <RadioButton
+                android:id="@+id/option_2a"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="1"/>
+
+            <RadioButton
+                android:id="@+id/option_2b"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="7"/>
+
+            <RadioButton
+                android:id="@+id/option_2c"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="8"/>
+
+            <RadioButton
+                android:id="@+id/option_2d"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="4"/>
+
+            <RadioButton
+                android:id="@+id/option_2e"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="10"/>
+
+        </RadioGroup>
+
+        <!-- Question 3 -->
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="3. Suppose you owe ₦40 to each of four friends,
+            ₦10 to each of three friends, and ₦100 to your parents.
+            If two friends each owe you ₦70, what is your net debt?"
+            android:padding="16dp"/>
+
+        <!-- Options for Question 3 -->
+        <RadioGroup
+            android:id="@+id/radio_group_3"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <RadioButton
+                android:id="@+id/option_3a"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="₦140"/>
+
+            <RadioButton
+                android:id="@+id/option_3b"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="₦220"/>
+
+            <RadioButton
+                android:id="@+id/option_3c"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="₦150"/>
+
+            <RadioButton
+                android:id="@+id/option_3d"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="₦80"/>
+
+            <RadioButton
+                android:id="@+id/option_3e"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="₦180"/>
+
+        </RadioGroup>
+
+        <!-- Question 4 -->
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="4. If Adamu issues 50 prepaid cards in 30 minutes,
+            how many cards can he issue in 3 hours?"
+            android:padding="16dp"/>
+
+        <!-- Options for Question 4 -->
+        <RadioGroup
+            android:id="@+id/radio_group_4"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <RadioButton
+                android:id="@+id/option_4a"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="400"/>
+
+            <RadioButton
+                android:id="@+id/option_4b"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="20"/>
+
+            <RadioButton
+                android:id="@+id/option_4c"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="600"/>
+
+            <RadioButton
+                android:id="@+id/option_4d"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="150"/>
+
+            <RadioButton
+                android:id="@+id/option_4e"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="80"/>
+
+        </RadioGroup>
+
+        <!-- Question 5 -->
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="5. Mary, Bilikisu, and Amina need to prepare 500 plates of food. If Mary prepares 150 plates of food; Amina prepares 200 plates of food; how many plates of food should Bilikisu prepare?"
+            android:padding="16dp"/>
+
+        <!-- Options for Question 5 -->
+        <RadioGroup
+            android:id="@+id/radio_group_5"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <RadioButton
+                android:id="@+id/option_5a"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="300"/>
+
+            <RadioButton
+                android:id="@+id/option_5b"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="50"/>
+
+            <RadioButton
+                android:id="@+id/option_5c"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="350"/>
+
+            <RadioButton
+                android:id="@+id/option_5d"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="150"/>
+
+            <RadioButton
+                android:id="@+id/option_5e"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="500"/>
+
+        </RadioGroup>
+
+        <!-- Question 6 -->
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="6. Musa buys 6 sugarcanes for ₦100 each.
+            He sells all 6 for a total of ₦1,000. How much total profit did he make?"
+            android:padding="16dp"/>
+
+        <!-- Options for Question 6 -->
+        <RadioGroup
+            android:id="@+id/radio_group_6"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <RadioButton
+                android:id="@+id/option_6a"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="₦600"/>
+
+            <RadioButton
+                android:id="@+id/option_6b"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="₦900"/>
+
+            <RadioButton
+                android:id="@+id/option_6c"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="₦300"/>
+
+            <RadioButton
+                android:id="@+id/option_6d"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="₦400"/>
+
+            <RadioButton
+                android:id="@+id/option_6e"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="₦6000"/>
+
+        </RadioGroup>
+
+        <!-- Add more questions and options for Category A, Category B, and Category C -->
+
+        <!-- Category B -->
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Category B"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:padding="16dp"/>
+
+        <!-- Question 7 -->
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="7. What is the next number in the sequence: 1, 2, 3, 5, 8, 13, _?"
+            android:padding="16dp"/>
+
+        <!-- Options for Question 7 -->
+        <RadioGroup
+            android:id="@+id/radio_group_7"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <RadioButton
+                android:id="@+id/option_7a"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="21"/>
+
+            <RadioButton
+                android:id="@+id/option_7b"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="24"/>
+
+            <RadioButton
+                android:id="@+id/option_7c"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="34"/>
+
+            <RadioButton
+                android:id="@+id/option_7d"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="47"/>
+
+            <RadioButton
+                android:id="@+id/option_7e"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="52"/>
+
+        </RadioGroup>
+
+        <!-- Question 8 -->
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="8. What is the sum of 10 and 15"
+            android:padding="16dp"/>
+
+        <!-- Options for Question 8 -->
+        <RadioGroup
+            android:id="@+id/radio_group_8"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <RadioButton
+                android:id="@+id/option_8a"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="25"/>
+
+            <RadioButton
+                android:id="@+id/option_8b"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="35"/>
+
+            <RadioButton
+                android:id="@+id/option_8c"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="45"/>
+
+            <RadioButton
+                android:id="@+id/option_8d"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="55"/>
+
+            <RadioButton
+                android:id="@+id/option_8e"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="65"/>
+
+        </RadioGroup>
+
+        <!-- Question 9 -->
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/Q9"
+            android:padding="16dp"/>
+
+        <!-- Options for Question 9 -->
+        <RadioGroup
+            android:id="@+id/radio_group_9"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <RadioButton
+                android:id="@+id/option_9a"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="55"/>
+
+            <RadioButton
+                android:id="@+id/option_9b"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="65"/>
+
+            <RadioButton
+                android:id="@+id/option_9c"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="35"/>
+
+            <RadioButton
+                android:id="@+id/option_9d"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="45"/>
+
+            <RadioButton
+                android:id="@+id/option_9e"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="50"/>
+
+        </RadioGroup>
+
+        <!-- Question 10 -->
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/Q10"
+            android:padding="16dp"/>
+
+        <!-- Options for Question 10 -->
+        <RadioGroup
+            android:id="@+id/radio_group_10"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <RadioButton
+                android:id="@+id/option_10a"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="45"/>
+
+            <RadioButton
+                android:id="@+id/option_10b"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="23"/>
+
+            <RadioButton
+                android:id="@+id/option_10c"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="21"/>
+
+            <RadioButton
+                android:id="@+id/option_10d"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="10"/>
+
+            <RadioButton
+                android:id="@+id/option_10e"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="5"/>
+
+        </RadioGroup>
+
+        <!-- Question 11 -->
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="11. What is the quotient of 20 divided by 5"
+            android:padding="16dp"/>
+
+        <!-- Options for Question 11 -->
+        <RadioGroup
+            android:id="@+id/radio_group_11"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <RadioButton
+                android:id="@+id/option_11a"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="9"/>
+
+            <RadioButton
+                android:id="@+id/option_11b"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="5"/>
+
+            <RadioButton
+                android:id="@+id/option_11c"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="4"/>
+
+            <RadioButton
+                android:id="@+id/option_11d"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="3"/>
+
+            <RadioButton
+                android:id="@+id/option_11e"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="6"/>
+
+        </RadioGroup>
+
+        <!-- Question 12 -->
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="12. What is the area of a square with a side length of 5cm"
+            android:padding="16dp"/>
+
+        <!-- Options for Question 12 -->
+        <RadioGroup
+            android:id="@+id/radio_group_12"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <RadioButton
+                android:id="@+id/option_12a"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="75cm"/>
+
+            <RadioButton
+                android:id="@+id/option_12b"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="40cm"/>
+
+            <RadioButton
+                android:id="@+id/option_12c"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="25cm"/>
+
+            <RadioButton
+                android:id="@+id/option_12d"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="34cm"/>
+
+            <RadioButton
+                android:id="@+id/option_12e"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="90cm"/>
+
+        </RadioGroup>
+
+        <!-- ... -->
+
+        <!-- Category C -->
+
+        <!-- Question 13 -->
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="13. Which of the following is an example of a traditional farming method?"
+            android:padding="16dp"/>
+
+        <!-- Options for Question 13 -->
+        <RadioGroup
+            android:id="@+id/radio_group_13"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <RadioButton
+                android:id="@+id/option_13a"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Hydrophonics"/>
+
+            <RadioButton
+                android:id="@+id/option_13b"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Aquaphonics"/>
+
+            <RadioButton
+                android:id="@+id/option_13c"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Vertical Farming"/>
+
+            <RadioButton
+                android:id="@+id/option_13d"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Organic farming"/>
+
+            <RadioButton
+                android:id="@+id/option_13e"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Conventional Farming"/>
+
+        </RadioGroup>
+
+        <!-- Question 14 -->
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="14. What is the primary purpose of using irrigation in agriculture?"
+            android:padding="16dp"/>
+
+        <!-- Options for Question 14 -->
+        <RadioGroup
+            android:id="@+id/radio_group_14"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <RadioButton
+                android:id="@+id/option_14a"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Pest control"/>
+
+            <RadioButton
+                android:id="@+id/option_14b"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Soil aeration"/>
+
+            <RadioButton
+                android:id="@+id/option_14c"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Weed Suppression"/>
+
+            <RadioButton
+                android:id="@+id/option_14d"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Fertilizer application"/>
+
+            <RadioButton
+                android:id="@+id/option_14e"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Water supply to crops"/>
+
+        </RadioGroup>
+
+        <!-- Question 15 -->
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="15. Which of the following is a common cereal crop"
+            android:padding="16dp"/>
+
+        <!-- Options for Question 15 -->
+        <RadioGroup
+            android:id="@+id/radio_group_15"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <RadioButton
+                android:id="@+id/option_15a"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Tomato"/>
+
+            <RadioButton
+                android:id="@+id/option_15b"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Potato"/>
+
+            <RadioButton
+                android:id="@+id/option_15c"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Wheat"/>
+
+            <RadioButton
+                android:id="@+id/option_15d"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Carrot"/>
+
+            <RadioButton
+                android:id="@+id/option_15e"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Lettuce"/>
+
+        </RadioGroup>
+
+        <!-- Question 16 -->
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="15. What is the process of removing weeds from a cultivates field called ?"
+            android:padding="16dp"/>
+
+        <!-- Options for Question 16 -->
+        <RadioGroup
+            android:id="@+id/radio_group_16"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <RadioButton
+                android:id="@+id/option_16a"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="pollination"/>
+
+            <RadioButton
+                android:id="@+id/option_16b"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Fertilization"/>
+
+            <RadioButton
+                android:id="@+id/option_16c"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Germination"/>
+
+            <RadioButton
+                android:id="@+id/option_16d"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Irrigation"/>
+
+            <RadioButton
+                android:id="@+id/option_16e"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Weed control"/>
+
+        </RadioGroup>
+
+        <!-- Question 17 -->
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="15. Which farming practice involves the cultivation of fruits and vegetables without the use of synthetic fertilizers and pesticides?"
+            android:padding="16dp"/>
+
+        <!-- Options for Question 17 -->
+        <RadioGroup
+            android:id="@+id/radio_group_17"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <RadioButton
+                android:id="@+id/option_17a"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Organic farming"/>
+
+            <RadioButton
+                android:id="@+id/option_17b"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Intensive farming"/>
+
+            <RadioButton
+                android:id="@+id/option_17c"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Subsistence farming"/>
+
+            <RadioButton
+                android:id="@+id/option_17d"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Commercial farming"/>
+
+            <RadioButton
+                android:id="@+id/option_17e"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Precision farming"/>
+
+        </RadioGroup>
+
+        <!-- Question 18 -->
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="What is the purpose of crop rotation in farming?"
+            android:padding="16dp"/>
+
+        <!-- Options for Question 18 -->
+        <RadioGroup
+            android:id="@+id/radio_group_18"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <RadioButton
+                android:id="@+id/option_18a"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Maximize water usage"/>
+
+            <RadioButton
+                android:id="@+id/option_18b"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Improve soil fertility"/>
+
+            <RadioButton
+                android:id="@+id/option_18c"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Increase crop diversity"/>
+
+            <RadioButton
+                android:id="@+id/option_18d"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Control pest infestations"/>
+
+            <RadioButton
+                android:id="@+id/option_18e"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Accelerate crop growth"/>
+
+        </RadioGroup>
+
+        <!-- ... -->
+
+        <!-- Submit Button -->
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Submit"
+            android:layout_gravity="center"
+            android:padding="16dp"/>
+
+    </LinearLayout>
+
+
+
+</ScrollView>

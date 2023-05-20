@@ -3,7 +3,7 @@
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="welcome">Welcome,</string>
-    <string name="welcome2">Register to continue,</string>
+    <string name="welcome2">Sign Up to continue</string>
     <string name="fullname">Full Name (First, Last)</string>
     <string name="PhoneNumber">Phone Number</string>
     <string name="sex">Sex</string>
@@ -48,7 +48,7 @@
     <string name="Akwa">Akwa Ibom</string>
     <string name="Anambra">Anambra</string>
     <string name="Bauchi">Bauchi</string>
-    <string name="Bayelsa">bayelsa</string>
+    <string name="Bayelsa">Bayelsa</string>
     <string name="Benue">Benue</string>
     <string name="Borno">Borno</string>
     <string name="Cross_River">Cross Rver</string>
@@ -79,6 +79,8 @@
     <string name="Taraba">Taraba</string>
     <string name="Yobe">Yobe</string>
     <string name="Zamfara">Zamfara</string>
+    <string name="Q9">9. What is the product of 5 and 7?</string>
+    <string name="Q10">10. What\'s the difference between 20 and 10</string>
 
 
     <string-array name="Sex">
@@ -177,37 +179,37 @@
     </string-array>
 
     <string-array name="Akwa_Ibom">
-       <item>Abak</item>
-       <item>Eastern Obolo</item>
-       <item>Eket</item>
-       <item>Esit-Eket</item>
-       <item>Essien Udim</item>
-       <item>Etim-Ekpo</item>
-       <item>Etinan</item>
-       <item>Ibeno</item>
-       <item>Ibesikpo-Asutan</item>
-       <item>Ibiono-Ibom</item>
-       <item>Ika</item>
-       <item>Ikono</item>
-       <item>Ikot Abasi</item>
-       <item>Ikot Ekpene</item>
-       <item>Ini</item>
-       <item>Itu</item>
-       <item>Mbo</item>
-       <item>Mkpat-Enin</item>
-       <item>Nsit-Atai</item>
-       <item>Nsit-Ibom</item>
-       <item>Nsit-Ubium</item>
-       <item>Obot-Akara</item>
-       <item>Okobo</item>
-       <item>Onna</item>
-       <item>Oron</item>
-       <item>Oruk Anam</item>
-       <item>Ukanafun</item>
-       <item>Udung-Uko</item>
-       <item>Uruan</item>
-       <item>Urue-Offong/Oruko</item>
-       <item>Uyo</item>
+        <item>Abak</item>
+        <item>Eastern Obolo</item>
+        <item>Eket</item>
+        <item>Esit-Eket</item>
+        <item>Essien Udim</item>
+        <item>Etim-Ekpo</item>
+        <item>Etinan</item>
+        <item>Ibeno</item>
+        <item>Ibesikpo-Asutan</item>
+        <item>Ibiono-Ibom</item>
+        <item>Ika</item>
+        <item>Ikono</item>
+        <item>Ikot Abasi</item>
+        <item>Ikot Ekpene</item>
+        <item>Ini</item>
+        <item>Itu</item>
+        <item>Mbo</item>
+        <item>Mkpat-Enin</item>
+        <item>Nsit-Atai</item>
+        <item>Nsit-Ibom</item>
+        <item>Nsit-Ubium</item>
+        <item>Obot-Akara</item>
+        <item>Okobo</item>
+        <item>Onna</item>
+        <item>Oron</item>
+        <item>Oruk Anam</item>
+        <item>Ukanafun</item>
+        <item>Udung-Uko</item>
+        <item>Uruan</item>
+        <item>Urue-Offong/Oruko</item>
+        <item>Uyo</item>
     </string-array>
 
     <string-array name="Anambra">
@@ -828,40 +830,40 @@
     </string-array>
 
     <string-array name="Oyo">
-    <item>Afijio</item>
-    <item>Akinyele</item>
-    <item>Atiba</item>
-    <item>Atisbo</item>
-    <item>Egbeda</item>
-    <item>Ibadan North</item>
-    <item>Ibadan North East</item>
-    <item>Ibadan North West</item>
-    <item>Ibadan South East</item>
-    <item>Ibadan South West</item>
-    <item>Ibarapa Central</item>
-    <item>Ibarapa East</item>
-    <item>Ibarapa North</item>
-    <item>Ido</item>
-    <item>Irepo</item>
-    <item>Iseyin</item>
-    <item>Itesiwaju</item>
-    <item>Iwajowa</item>
-    <item>Kajola</item>
-    <item>Lagelu</item>
-    <item>Ogbomosho North</item>
-    <item>Ogbomosho South</item>
-    <item>Ogo Oluwa</item>
-    <item>Olorunsogo</item>
-    <item>Oluyole</item>
-    <item>Ona-Ara</item>
-    <item>Orelope</item>
-    <item>Ori Ire</item>
-    <item>Oyo East</item>
-    <item>Oyo West</item>
-    <item>Saki East</item>
-    <item>Saki West</item>
-    <item>Surulere</item>
-</string-array>
+        <item>Afijio</item>
+        <item>Akinyele</item>
+        <item>Atiba</item>
+        <item>Atisbo</item>
+        <item>Egbeda</item>
+        <item>Ibadan North</item>
+        <item>Ibadan North East</item>
+        <item>Ibadan North West</item>
+        <item>Ibadan South East</item>
+        <item>Ibadan South West</item>
+        <item>Ibarapa Central</item>
+        <item>Ibarapa East</item>
+        <item>Ibarapa North</item>
+        <item>Ido</item>
+        <item>Irepo</item>
+        <item>Iseyin</item>
+        <item>Itesiwaju</item>
+        <item>Iwajowa</item>
+        <item>Kajola</item>
+        <item>Lagelu</item>
+        <item>Ogbomosho North</item>
+        <item>Ogbomosho South</item>
+        <item>Ogo Oluwa</item>
+        <item>Olorunsogo</item>
+        <item>Oluyole</item>
+        <item>Ona-Ara</item>
+        <item>Orelope</item>
+        <item>Ori Ire</item>
+        <item>Oyo East</item>
+        <item>Oyo West</item>
+        <item>Saki East</item>
+        <item>Saki West</item>
+        <item>Surulere</item>
+    </string-array>
 
     <string-array name="Plateau">
         <item>Barkin Ladi</item>
@@ -990,8 +992,6 @@
         <item>Tsafe</item>
         <item>Zurmi</item>
     </string-array>
-
-
 
 
 </resources>

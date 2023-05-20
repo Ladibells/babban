@@ -71,6 +71,7 @@ class Login : Fragment() {
                     val user = users.find { it.email == email && it.password == password }
                     if (user != null) {
                         findNavController().navigate(R.id.action_login_to_homepageFragment)
+                        clearInput()
                     } else {
                         Toast.makeText(activity, "Invalid email or password", Toast.LENGTH_LONG).show()
                     }
@@ -84,6 +85,12 @@ class Login : Fragment() {
         binding.tvSignUp.setOnClickListener {
             findNavController().navigate(R.id.action_login_to_signUp)
         }
+    }
+
+    private fun clearInput() {
+        binding.etEmailSignIn.setText("")
+        binding.etLogInPassword.setText("")
+
     }
 
 

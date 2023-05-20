@@ -5,14 +5,21 @@ import androidx.room.*
 import com.example.bgrecruitment.Converter
 import com.example.bgrecruitment.DateConverter
 import com.example.bgrecruitment.ImageConverter
+import com.example.bgrecruitment.data.Question
 import com.example.bgrecruitment.data.Recruitment
 import com.example.bgrecruitment.data.User
+import com.example.bgrecruitment.data.UserResponse
 
-@Database(entities = [User::class, Recruitment::class], version = 4, exportSchema = false)
+@Database(entities = [User::class, Recruitment::class, Question::class,
+    UserResponse::class], version = 4, exportSchema = false)
 @TypeConverters(Converter::class, DateConverter::class)
 abstract class UserDatabase : RoomDatabase() {
     abstract fun userDao(): UserDao
     abstract fun recDao(): RecDao
+    abstract fun questionDao(): QuestionDao
+    abstract fun userResponseDao(): UserResponseDao
+
+
 
     companion object {
         @Volatile

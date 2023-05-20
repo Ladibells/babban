@@ -17,43 +17,86 @@ private const val ARG_PARAM2 = "param2"
  * create an instance of this fragment.
  */
 class TestFragment : Fragment() {
-    // TODO: Rename and change types of parameters
-    private var param1: String? = null
-    private var param2: String? = null
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
+
+//    override fun onCreate(savedInstanceState: Bundle?) {
+//        super.onCreate(savedInstanceState)
+//        arguments?.let {
+//            param1 = it.getString(ARG_PARAM1)
+//            param2 = it.getString(ARG_PARAM2)
+//        }
+//    }
+
+//    override fun onCreateView(
+//        inflater: LayoutInflater, container: ViewGroup?,
+//        savedInstanceState: Bundle?
+//    ): View? {
+//        // Inflate the layout for this fragment
+//        return inflater.inflate(R.layout.fragment_test, container, false)
+//    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        val questionTextView: TextView = view.findViewById(R.id.questionTextView)
+        val optionsRadioGroup: RadioGroup = view.findViewById(R.id.optionsRadioGroup)
+        val nextButton: Button = view.findViewById(R.id.nextButton)
+
+        val quizViewModel = ViewModelProvider(requireActivity()).get(QuizViewModel::class.java)
+        val questionList = quizViewModel.getQuestionList().value
+        val currentQuestionIndex = quizViewModel.getCurrentQuestionIndex()
+
+        if (questionList != null && currentQuestionIndex < questionList.size) {
+            val currentQuestion = questionList[currentQuestionIndex]
+
+            questionTextView.text = currentQuestion.question
+
+            // Create and add radio buttons for each option
+            for (option in currentQuestion.options) {
+                val radioButton = RadioButton(requireContext())
+                radioButton.text = option.text
+                radioButton.id = option.id
+                optionsRadioGroup.addView(radioButton)
+            }
+
+            nextButton.setOnClickListener {
+                val selectedOptionId = optionsRadioGroup.checkedRadioButtonId
+                if (selectedOptionId != -1) {
+                    quizViewModel.submitAnswer(selectedOptionId)
+                    optionsRadioGroup.clearCheck()
+
+                    if (currentQuestionIndex < questionList.size - 1) {
+                        quizViewModel.displayNextQuestion()
+                        onViewCreated(view, savedInstanceState) // Re-invoke onViewCreated for the next question
+                    } else {
+                        // All questions answered, show the score
+                        val userAnswers = quizViewModel.getUserAnswers().value
+                        val score = calculateScore(userAnswers, questionList)
+
+                        // Display the score or perform any other action
+                        Toast.makeText(requireContext(), "Your score: $score", Toast.LENGTH_SHORT).show()
+                    }
+                } else {
+                    // No option selected, display an error message or perform any other action
+                    Toast.makeText(requireContext(), "Please select an option", Toast.LENGTH_SHORT).show()
+                }
+            }
         }
     }
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_test, container, false)
-    }
+    private fun calculateScore(userAnswers: List<Answer>?, questionList: List<Question>?): Int {
+        var score = 0
 
-    companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment Test.
-         */
-        // TODO: Rename and change types and number of parameters
-        @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-            TestFragment().apply {
-                arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
-                    putString(ARG_PARAM2, param2)
+        if (userAnswers != null && questionList != null) {
+            for (i in userAnswers.indices) {
+                if (userAnswers[i].selectedOption?.id == questionList[i].answer.id) {
+                    score++
                 }
             }
+        }
+
+        return score
     }
+
+
 }

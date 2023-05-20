@@ -38,3 +38,21 @@ data class Recruitment(
     @ColumnInfo(name = "id_image") var IdImage: String,
     //@ColumnInfo(name = "user_id") val userId: Int = 0
 )
+
+@Entity(tableName = "test")
+data class Question(
+    @PrimaryKey(autoGenerate = true)
+    val id: Long = 0,
+    val category: String,
+    val question: String,
+    val options: List<String>,
+    val answer: String
+)
+
+@Entity(tableName = "user_responses")
+data class UserResponse(
+    @PrimaryKey(autoGenerate = true)
+    val id: Long = 0,
+    val questionId: Long,
+    val response: String
+)

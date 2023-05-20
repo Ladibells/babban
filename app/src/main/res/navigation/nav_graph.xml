@@ -46,6 +46,9 @@
         <action
             android:id="@+id/action_homepageFragment_to_userDetails"
             app:destination="@id/userDetails" />
+        <action
+            android:id="@+id/action_homepageFragment_to_rvRecruitment"
+            app:destination="@id/rvRecruitment" />
     </fragment>
     <fragment
         android:id="@+id/interviewFragment"
@@ -72,4 +75,16 @@
         android:name="com.example.bgrecruitment.UserDetails"
         android:label="fragment_user_details"
         tools:layout="@layout/fragment_user_details" />
+    <fragment
+        android:id="@+id/rvRecruitment"
+        android:name="com.example.bgrecruitment.RvRecruitment"
+        android:label="fragment_rv_recruitment"
+        tools:layout="@layout/fragment_rv_recruitment" >
+        <action
+            android:id="@+id/action_rvRecruitment_to_homepageFragment"
+            app:destination="@id/homepageFragment" />
+        <action
+            android:id="@+id/action_rvRecruitment_to_recruitmentFragment"
+            app:destination="@id/recruitmentFragment" />
+    </fragment>
 </navigation>

@@ -2,8 +2,10 @@ package com.example.bgrecruitment.db
 
 import androidx.lifecycle.LiveData
 import androidx.room.*
+import com.example.bgrecruitment.data.Question
 import com.example.bgrecruitment.data.Recruitment
 import com.example.bgrecruitment.data.User
+import com.example.bgrecruitment.data.UserResponse
 
 
 @Dao
@@ -55,3 +57,31 @@ interface RecDao{
     fun getAllRecruitments(): LiveData<List<Recruitment>>
 
 }
+
+@Dao
+interface QuestionDao {
+    @Query("SELECT * FROM test")
+    fun getAllQuestions(): List<Question>
+
+    @Query("SELECT * FROM test WHERE id = :questionId")
+    fun getQuestionById(questionId: Long): Question?
+
+    @Insert
+    fun insertQuestion(question: Question): Long
+
+    @Update
+    fun updateQuestion(question: Question)
+
+    @Delete
+    fun deleteQuestion(question: Question)
+}
+
+@Dao
+interface UserResponseDao {
+    @Insert
+    fun insertUserResponse(userResponse: UserResponse)
+
+    @Query("SELECT * FROM user_response")
+    fun getAllUserResponses(): List<UserResponse>
+}
+
