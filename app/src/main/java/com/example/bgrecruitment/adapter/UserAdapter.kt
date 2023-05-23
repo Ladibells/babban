@@ -53,11 +53,10 @@ class UserAdapter: RecyclerView.Adapter<UserAdapter.MyViewHolder>() {
 }
 
 class RecruitmentAdapter(
-    private var recList: List<Recruitment>,
-    private val onCardClick: OnCardClick
+
 ): RecyclerView.Adapter<RecruitmentAdapter.RecruitmentViewHolder>() {
 
-    // private var recList = emptyList<Recruitment>()
+     private var recList = emptyList<Recruitment>()
 
     class RecruitmentViewHolder(val binding: RvRecruitmentLayoutBinding): RecyclerView.ViewHolder(binding.root)
 
@@ -112,9 +111,9 @@ class RecruitmentAdapter(
         this.recList = recruitment
         notifyDataSetChanged()
     }
-    interface OnCardClick{
-        fun cardClick()
-    }
+//    interface OnCardClick{
+//        fun cardClick()
+//    }
 }
 
 

@@ -60,10 +60,10 @@ interface RecDao{
 
 @Dao
 interface QuestionDao {
-    @Query("SELECT * FROM test")
-    fun getAllQuestions(): List<Question>
+    @Query("SELECT * FROM question")
+    fun getAllQuestions(): LiveData<List<Question>>
 
-    @Query("SELECT * FROM test WHERE id = :questionId")
+    @Query("SELECT * FROM question WHERE id = :questionId")
     fun getQuestionById(questionId: Long): Question?
 
     @Insert
@@ -74,6 +74,8 @@ interface QuestionDao {
 
     @Delete
     fun deleteQuestion(question: Question)
+    @Query("SELECT * FROM question")
+    abstract fun getQuestions(): LiveData<List<Question>>
 }
 
 @Dao
@@ -81,7 +83,7 @@ interface UserResponseDao {
     @Insert
     fun insertUserResponse(userResponse: UserResponse)
 
-    @Query("SELECT * FROM user_response")
+    @Query("SELECT * FROM user_responses")
     fun getAllUserResponses(): List<UserResponse>
 }
 

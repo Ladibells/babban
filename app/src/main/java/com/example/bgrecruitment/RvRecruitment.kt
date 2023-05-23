@@ -15,9 +15,10 @@ import com.example.bgrecruitment.data.viewmodel.UserViewModelFactory
 import com.example.bgrecruitment.databinding.FragmentRecruitmentBinding
 import com.example.bgrecruitment.databinding.FragmentRvRecruitmentBinding
 import com.example.bgrecruitment.db.UserDatabase
+import com.example.bgrecruitment.repository.UserRepository
 
 
-class RvRecruitment : Fragment(R.layout.fragment_rv_recruitment), RecruitmentAdapter.OnCardClick {
+class RvRecruitment : Fragment(R.layout.fragment_rv_recruitment) {
 
     private lateinit var binding: FragmentRvRecruitmentBinding
     private lateinit var adapter: RecruitmentAdapter
@@ -50,15 +51,18 @@ class RvRecruitment : Fragment(R.layout.fragment_rv_recruitment), RecruitmentAda
         val factory = UserViewModelFactory(dao, recDao)
 
 
+        adapter = RecruitmentAdapter()
+//            recyclerView.adapter = adapter
+//            recyclerView.layoutManager = LinearLayoutManager(requireContext())
 
-
+//        val repository = UserRepository()
 
         viewModel = ViewModelProvider(this, factory).get(UserViewModel::class.java)
-        viewModel.recruitments.observe(viewLifecycleOwner) {
-            adapter = RecruitmentAdapter(it, this)
-            recyclerView.adapter = adapter
-            recyclerView.layoutManager = LinearLayoutManager(requireContext())
-        }
+//        viewModel.recruitments.observe(viewLifecycleOwner) {
+//            adapter = RecruitmentAdapter(it, this)
+//            recyclerView.adapter = adapter
+//            recyclerView.layoutManager = LinearLayoutManager(requireContext())
+//        }
 
 
 //        fun getUserInput(): Recruitment {
@@ -83,9 +87,9 @@ class RvRecruitment : Fragment(R.layout.fragment_rv_recruitment), RecruitmentAda
 
     }
 
-    override fun cardClick() {
-        findNavController().navigate(R.id.action_rvRecruitment_to_recruitmentFragment)
-    }
+//    override fun cardClick() {
+//        findNavController().navigate(R.id.action_rvRecruitment_to_recruitmentFragment)
+//    }
 
 
 }

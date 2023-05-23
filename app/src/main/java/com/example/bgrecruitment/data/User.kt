@@ -39,7 +39,7 @@ data class Recruitment(
     //@ColumnInfo(name = "user_id") val userId: Int = 0
 )
 
-@Entity(tableName = "test")
+@Entity(tableName = "question")
 data class Question(
     @PrimaryKey(autoGenerate = true)
     val id: Long = 0,

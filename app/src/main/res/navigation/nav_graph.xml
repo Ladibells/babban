@@ -69,7 +69,13 @@
         android:id="@+id/recruitmentFragment"
         android:name="com.example.bgrecruitment.RecruitmentFragment"
         android:label="fragment_recruitment"
-        tools:layout="@layout/fragment_recruitment" />
+        tools:layout="@layout/fragment_recruitment" >
+        <argument
+            app:argType="com.example.bgrecruitment.data.Recruitment"
+            android:name="Recruitment"
+            app:nullable="true"
+            android:defaultValue="@null" />
+    </fragment>
     <fragment
         android:id="@+id/userDetails"
         android:name="com.example.bgrecruitment.UserDetails"
