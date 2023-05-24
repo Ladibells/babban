@@ -403,11 +403,14 @@ class UserViewModel(private val dao: UserDao, private val recDao: RecDao): ViewM
 //    }
 //}
 
-class QuizViewModel(private val repository: QuizRepository) : ViewModel() {
+class QuizViewModel(private val repository: QuizRepository, private val recDao: RecDao) : ViewModel() {
     private var questionList: List<Question>? = null
     private var currentQuestionIndex = 0
     private val userAnswers: MutableMap<Int, String> = mutableMapOf()
 
+    fun getAllRecruitments(): LiveData<List<Recruitment>> {
+        return recDao.getAllRecruitments()
+    }
     fun getQuestions(): LiveData<List<Question>> {
         if (questionList == null) {
             questionList = repository.getQuestions()
@@ -448,3 +451,5 @@ class QuizViewModel(private val repository: QuizRepository) : ViewModel() {
         return userAnswersMap
     }
 }
+
+

@@ -1,16 +1,15 @@
 package com.example.bgrecruitment.adapter
 
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
-import androidx.recyclerview.widget.AsyncListDiffer
+import androidx.lifecycle.LiveData
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
-import com.example.bgrecruitment.R
 import com.example.bgrecruitment.data.Recruitment
 import com.example.bgrecruitment.data.User
 import com.example.bgrecruitment.databinding.RvRecruitmentLayoutBinding
 import com.example.bgrecruitment.databinding.UserDetailsListBinding
+import com.example.bgrecruitment.db.RecDao
 
 class UserAdapter: RecyclerView.Adapter<UserAdapter.MyViewHolder>() {
 
@@ -52,69 +51,67 @@ class UserAdapter: RecyclerView.Adapter<UserAdapter.MyViewHolder>() {
     }
 }
 
-class RecruitmentAdapter(
-
-): RecyclerView.Adapter<RecruitmentAdapter.RecruitmentViewHolder>() {
-
-     private var recList = emptyList<Recruitment>()
-
-    class RecruitmentViewHolder(val binding: RvRecruitmentLayoutBinding): RecyclerView.ViewHolder(binding.root)
-
-//    private val differCallback = object : DiffUtil.ItemCallback<User>() {
-//        override fun areItemsTheSame(oldItem: User, newItem: User): Boolean {
-//            return oldItem.id == newItem.id
-//        }
+//class RecruitmentAdapter(): RecyclerView.Adapter<RecruitmentAdapter.RecruitmentViewHolder>() {
 //
-//        override fun areContentsTheSame(oldItem: User, newItem: User): Boolean {
-//            return oldItem == newItem
-//        }
+//     private var recList = emptyList<Recruitment>()
 //
+//    class RecruitmentViewHolder(val binding: RvRecruitmentLayoutBinding): RecyclerView.ViewHolder(binding.root)
+//
+////    private val differCallback = object : DiffUtil.ItemCallback<User>() {
+////        override fun areItemsTheSame(oldItem: User, newItem: User): Boolean {
+////            return oldItem.id == newItem.id
+////        }
+////
+////        override fun areContentsTheSame(oldItem: User, newItem: User): Boolean {
+////            return oldItem == newItem
+////        }
+////
+////    }
+//
+////    val differ = AsyncListDiffer(this, differCallback)
+//
+//    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecruitmentAdapter.RecruitmentViewHolder {
+//        return RecruitmentAdapter.RecruitmentViewHolder(
+//            RvRecruitmentLayoutBinding.inflate(
+//                LayoutInflater.from(parent.context),
+//                parent,
+//                false
+//            )
+//
+//        )
 //    }
-
-//    val differ = AsyncListDiffer(this, differCallback)
-
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecruitmentAdapter.RecruitmentViewHolder {
-        return RecruitmentAdapter.RecruitmentViewHolder(
-            RvRecruitmentLayoutBinding.inflate(
-                LayoutInflater.from(parent.context),
-                parent,
-                false
-            )
-
-        )
-    }
-
-    override fun getItemCount(): Int {
-        return recList.size
-    }
-
-    override fun onBindViewHolder(holder: RecruitmentViewHolder, position: Int) {
-        holder.binding.root.setOnClickListener {
-
-        }
-        val currentItem = recList[position]
-        holder.binding.idNo.text = currentItem.id.toString()
-        holder.binding.fname.text = currentItem.Name.toString()
-        holder.binding.idNo.text = currentItem.PhoneNumber.toString()
-        holder.binding.DOB.text = currentItem.DOB.toString()
-        holder.binding.sex.text = currentItem.Sex.toString()
-        holder.binding.bvn.text = currentItem.BVN.toString()
-        holder.binding.nin.text = currentItem.NIN.toString()
-        holder.binding.state.text = currentItem.State.toString()
-        holder.binding.LGA.text = currentItem.LGA.toString()
-        holder.binding.hub.text = currentItem.Hub.toString()
-        holder.binding.govID.text = currentItem.GovID.toString()
-        holder.binding.idType.text = currentItem.IdType.toString()
-    }
-
-    fun setData(recruitment: List<Recruitment>) {
-        this.recList = recruitment
-        notifyDataSetChanged()
-    }
-//    interface OnCardClick{
-//        fun cardClick()
+//
+//    override fun getItemCount(): Int {
+//        return recList.size
 //    }
-}
+//
+//    override fun onBindViewHolder(holder: RecruitmentViewHolder, position: Int) {
+//        holder.binding.root.setOnClickListener {
+//
+//        }
+//        val currentItem = recList[position]
+//        holder.binding.idNo.text = currentItem.id.toString()
+//        holder.binding.fname.text = currentItem.Name.toString()
+//        holder.binding.idNo.text = currentItem.PhoneNumber.toString()
+//        holder.binding.DOB.text = currentItem.DOB.toString()
+//        holder.binding.sex.text = currentItem.Sex.toString()
+//        holder.binding.bvn.text = currentItem.BVN.toString()
+//        holder.binding.nin.text = currentItem.NIN.toString()
+//        holder.binding.state.text = currentItem.State.toString()
+//        holder.binding.LGA.text = currentItem.LGA.toString()
+//        holder.binding.hub.text = currentItem.Hub.toString()
+//        holder.binding.govID.text = currentItem.GovID.toString()
+//        holder.binding.idType.text = currentItem.IdType.toString()
+//    }
+//
+//    fun setData(recruitment: List<Recruitment>) {
+//        this.recList = recruitment
+//        notifyDataSetChanged()
+//    }
+////    interface OnCardClick{
+////        fun cardClick()
+////    }
+//}
 
 
 //class RecruitmentAdapter(
@@ -170,4 +167,114 @@ class RecruitmentAdapter(
 //    }
 //}
 
+//class RecruitmentAdapter(private var recList: List<Recruitment>, private val onItemClickListener: OnItemClickListener) :
+//    RecyclerView.Adapter<RecruitmentAdapter.RecruitmentViewHolder>() {
+//
+//    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecruitmentViewHolder {
+//        val binding = RvRecruitmentLayoutBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+//        return RecruitmentViewHolder(binding)
+//    }
+//
+//    override fun getItemCount(): Int {
+//        return recList.size
+//    }
+//
+//    override fun onBindViewHolder(holder: RecruitmentViewHolder, position: Int) {
+//        val currentItem = recList[position]
+//        holder.bind(currentItem)
+//        holder.itemView.setOnClickListener {
+//            onItemClickListener.onItemClick(position)
+//        }
+//    }
+//
+//    fun setData(recruitment: List<Recruitment>) {
+//        recList = recruitment
+//        notifyDataSetChanged()
+//    }
+//
+//    interface OnItemClickListener {
+//        fun onItemClick(position: Int)
+//    }
+//
+//    inner class RecruitmentViewHolder(private val binding: RvRecruitmentLayoutBinding) :
+//        RecyclerView.ViewHolder(binding.root) {
+//
+//        fun bind(recruitment: Recruitment) {
+//            binding.idNo.text = recruitment.id.toString()
+//            binding.fname.text = recruitment.Name.toString()
+//            binding.idNo.text = recruitment.PhoneNumber.toString()
+//            binding.DOB.text = recruitment.DOB.toString()
+//            binding.sex.text = recruitment.Sex.toString()
+//            binding.bvn.text = recruitment.BVN.toString()
+//            binding.nin.text = recruitment.NIN.toString()
+//            binding.state.text = recruitment.State.toString()
+//            binding.LGA.text = recruitment.LGA.toString()
+//            binding.hub.text = recruitment.Hub.toString()
+//            binding.govID.text = recruitment.GovID.toString()
+//            binding.idType.text = recruitment.IdType.toString()
+//        }
+//    }
+//}
 
+
+class RecruitmentAdapter(
+    private var recList: List<Recruitment> = emptyList(),
+    private var onItemClickListener: OnItemClickListener? = null
+) : RecyclerView.Adapter<RecruitmentAdapter.RecruitmentViewHolder>() {
+
+
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecruitmentViewHolder {
+        val binding = RvRecruitmentLayoutBinding.inflate(
+            LayoutInflater.from(parent.context),
+            parent,
+            false
+        )
+        return RecruitmentViewHolder(binding)
+    }
+
+    override fun getItemCount(): Int {
+        return recList.size
+    }
+
+    override fun onBindViewHolder(holder: RecruitmentViewHolder, position: Int) {
+        val currentItem = recList[position]
+        holder.bind(currentItem)
+    }
+
+    fun setData(recruitment: List<Recruitment>) {
+        recList = recruitment
+        notifyDataSetChanged()
+    }
+
+    fun getItem(position: Int): Recruitment {
+        return recList[position]
+    }
+
+    fun setOnItemClickListener(listener: OnItemClickListener) {
+        onItemClickListener = listener
+    }
+
+    interface OnItemClickListener {
+        fun onItemClick(position: Int)
+    }
+
+    inner class RecruitmentViewHolder(val binding: RvRecruitmentLayoutBinding) :
+        RecyclerView.ViewHolder(binding.root) {
+
+        init {
+            binding.root.setOnClickListener {
+                val position = bindingAdapterPosition
+                if (position != RecyclerView.NO_POSITION && onItemClickListener != null) {
+                    onItemClickListener?.onItemClick(position)
+                }
+            }
+        }
+
+        fun bind(recruitment: Recruitment) {
+            binding.idNo.text = recruitment.id.toString()
+            binding.fname.text = recruitment.Name.toString()
+            binding.idNo.text = recruitment.PhoneNumber.toString()
+
+        }
+    }
+}

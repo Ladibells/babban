@@ -287,7 +287,7 @@ class RecruitmentFragment : Fragment(R.layout.fragment_recruitment) {
             val dob = etDOB.text.toString()
             val bvn = etBVN.text.toString().trim()
             val nin = etNIN.text.toString().trim()
-            val state = dropDownState.text
+            val state = dropDownState.text.toString().trim()
             val lga = etLGA.text.toString().trim()
             val hub = etHub.text.toString().trim()
             val idNo = etID.text.toString().trim()
