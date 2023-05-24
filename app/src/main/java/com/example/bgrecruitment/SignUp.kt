@@ -49,7 +49,9 @@ class SignUp : Fragment(R.layout.fragment_sign_up) {
 
         val dao = UserDatabase.getInstance(requireContext()).userDao()
         val recDao = UserDatabase.getInstance(requireContext()).recDao()
-        val factory = UserViewModelFactory(dao, recDao)
+        val qustionDao = UserDatabase.getInstance(requireContext()).questionDao()
+        val userResponseDao = UserDatabase.getInstance(requireContext()).userResponseDao()
+        val factory = UserViewModelFactory(dao, recDao, qustionDao, userResponseDao)
         viewModel = ViewModelProvider(this, factory).get(UserViewModel::class.java)
 
         binding.btnSignUp.setOnClickListener {

@@ -8,11 +8,14 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import androidx.room.Query
 import com.example.bgrecruitment.data.Question
 import com.example.bgrecruitment.data.Recruitment
 import com.example.bgrecruitment.data.User
+import com.example.bgrecruitment.data.UserResponse
 import com.example.bgrecruitment.db.RecDao
 import com.example.bgrecruitment.db.UserDao
+import com.example.bgrecruitment.db.UserResponseDao
 import com.example.bgrecruitment.repository.QuizRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -23,7 +26,7 @@ import java.util.*
 class UserViewModel(private val dao: UserDao, private val recDao: RecDao): ViewModel() {
 
     val users = dao.getAllUsers()
-    val recruitments = recDao.getAllRecruitments()
+    val recruitments: LiveData<List<Recruitment>> = recDao.getAllRecruitments()
 
     //User
     fun insertUser(user: User) = viewModelScope.launch {
@@ -76,6 +79,27 @@ class UserViewModel(private val dao: UserDao, private val recDao: RecDao): ViewM
     fun deleteRec(recruitment: Recruitment) = viewModelScope.launch {
         recDao.deleteRec(recruitment)
     }
+
+    // Update getAllRecruitments() method to return LiveData
+    fun getAllRecruitments(): LiveData<List<Recruitment>> {
+        return recruitments
+    }
+
+    fun editRecruitment(recruitment: Recruitment) {
+        // Implement the logic to update the recruitment item in the database
+        // You can use the recDao to update the recruitment item
+        viewModelScope.launch {
+            recDao.updateRec(recruitment)
+        }
+    }
+
+    fun getScheduledRecruitments(): LiveData<List<Recruitment>> {
+        return recDao.getScheduledRecruitments()
+    }
+
+
+
+
 
 }
 
@@ -403,25 +427,58 @@ class UserViewModel(private val dao: UserDao, private val recDao: RecDao): ViewM
 //    }
 //}
 
-class QuizViewModel(private val repository: QuizRepository) : ViewModel() {
-    private var questionList: List<Question>? = null
+class QuizViewModel(private val repository: QuizRepository,
+                    private val recDao: RecDao,
+                    private val userResponseDao: UserResponseDao
+) : ViewModel() {
+    private var questionList: MutableList<Question>? = null
     private var currentQuestionIndex = 0
     private val userAnswers: MutableMap<Int, String> = mutableMapOf()
+//    private var questionCategories: List<QuestionCategory>? = null
 
+    fun getAllRecruitments(): LiveData<List<Recruitment>> {
+        return recDao.getAllRecruitments()
+    }
     fun getQuestions(): LiveData<List<Question>> {
         if (questionList == null) {
-            questionList = repository.getQuestions()
-            questionList = questionList?.shuffled()
+            val allQuestions = repository.getQuestions()
+            val shuffledQuestions = allQuestions.shuffled()
+            questionList = mutableListOf()
+
+            val categoryQuestions: MutableMap<String, MutableList<Question>> = mutableMapOf()
+
+            // Categorize the questions by category
+            shuffledQuestions.forEach { question ->
+                if (!categoryQuestions.containsKey(question.category)) {
+                    categoryQuestions[question.category] = mutableListOf()
+                }
+                categoryQuestions[question.category]?.add(question)
+            }
+
+            // Retrieve 5 random questions from each category and add the category header
+            categoryQuestions.forEach { (category, questions) ->
+                questionList!!.add(Question(category = category, question = "CATEGORY: $category", answer = "", options = emptyList())) // Pass an empty list for options
+                questionList!!.addAll(questions.take(5))
+            }
+
         }
         return MutableLiveData(questionList)
+
     }
+
 
     fun getCurrentQuestion(): Question? {
         return questionList?.getOrNull(currentQuestionIndex)
     }
 
-    fun submitAnswer(answer: String) {
+    fun submitAnswer(answer: String): String {
         userAnswers[currentQuestionIndex] = answer
+
+        // Calculate the quiz result message
+        val resultMessage = StringBuilder()
+        // ... build the resultMessage based on correct and incorrect answers
+
+        return resultMessage.toString()
     }
 
     fun displayNextQuestion() {
@@ -447,4 +504,24 @@ class QuizViewModel(private val repository: QuizRepository) : ViewModel() {
         }
         return userAnswersMap
     }
+
+    fun saveUserResponses() {
+        val userResponses = mutableListOf<UserResponse>()
+
+        for ((index, question) in questionList?.withIndex() ?: emptyList<Question>().withIndex()) {
+            val userAnswer = userAnswers[index] ?: ""
+            val isCorrect = userAnswer == question.answer
+
+            val userResponse = UserResponse(
+                questionId = question.id,
+                response = userAnswer
+            )
+
+            userResponses.add(userResponse)
+        }
+
+        userResponseDao.saveUserResponses(userResponses)
+    }
+
 }
+

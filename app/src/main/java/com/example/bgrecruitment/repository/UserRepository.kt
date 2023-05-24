@@ -7,6 +7,7 @@ import com.example.bgrecruitment.data.User
 import com.example.bgrecruitment.db.QuestionDao
 import com.example.bgrecruitment.db.RecDao
 import com.example.bgrecruitment.db.UserDao
+import com.example.bgrecruitment.db.UserResponseDao
 
 class UserRepository(private val userDao: UserDao, private val recDao: RecDao) {
 
@@ -22,7 +23,9 @@ class UserRepository(private val userDao: UserDao, private val recDao: RecDao) {
     }
 }
 
-class QuizRepository {
+class QuizRepository( private val questionDao: QuestionDao,
+                      private val userResponseDao: UserResponseDao
+) {
     fun getQuestions(): List<Question> {
         // Implement your logic to fetch the questions from a data source
         // and return the list of questions

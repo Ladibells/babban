@@ -5,17 +5,32 @@ android:layout_width="match_parent"
 android:layout_height="match_parent"
 tools:context=".QuizFragment">
 
-<!-- fragment_quiz.xml -->
+
 <LinearLayout
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
 
     <TextView
+        android:id="@+id/categoryHeaderTextView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:textAppearanceMedium"
+        android:padding="8dp"
+        android:layout_marginTop="50dp"
+        android:fontFamily="@font/google_sans_medium"
+        android:background="@android:color/darker_gray"
+        android:textColor="@android:color/white"
+        android:textStyle="bold"
+        android:visibility="gone"
+        />
+
+    <TextView
         android:id="@+id/questionTextView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textAppearance="?android:textAppearanceLarge"
+        android:layout_marginTop="50dp"
         android:padding="16dp" />
 
     <RadioGroup
@@ -33,6 +48,14 @@ tools:context=".QuizFragment">
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:text="Next" />
+
+    <TextView
+        android:id="@+id/resultTextView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:textAppearanceMedium"
+        android:padding="16dp" />
+
 
 </LinearLayout>
 

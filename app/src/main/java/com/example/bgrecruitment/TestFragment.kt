@@ -5,19 +5,24 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.bgrecruitment.adapter.TestAdapter
+import com.example.bgrecruitment.data.Question
+import com.example.bgrecruitment.data.viewmodel.QuizViewModel
+import com.example.bgrecruitment.databinding.FragmentTestBinding
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
 private const val ARG_PARAM1 = "param1"
 private const val ARG_PARAM2 = "param2"
 
-/**
- * A simple [Fragment] subclass.
- * Use the [TestFragment.newInstance] factory method to
- * create an instance of this fragment.
- */
+
 class TestFragment : Fragment() {
 
+    private lateinit var binding: FragmentTestBinding
+    private lateinit var viewModel: QuizViewModel
+    private lateinit var adapter: TestAdapter
 
 //    override fun onCreate(savedInstanceState: Bundle?) {
 //        super.onCreate(savedInstanceState)
@@ -37,6 +42,19 @@ class TestFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        // Initialize ViewModel
+        viewModel = ViewModelProvider(requireActivity()).get(QuizViewModel::class.java)
+
+        // Set up RecyclerView
+        //val adapter = TestAdapter()
+        binding.recyclerView.adapter = adapter
+        binding.recyclerView.layoutManager = LinearLayoutManager(requireContext())
+
+        // Observe questions from the ViewModel
+        viewModel.getQuestions().observe(viewLifecycleOwner) { questions ->
+            adapter.submitList(questions)
+        }
 
 //        val questionTextView: TextView = view.findViewById(R.id.questionTextView)
 //        val optionsRadioGroup: RadioGroup = view.findViewById(R.id.optionsRadioGroup)

@@ -49,6 +49,9 @@
         <action
             android:id="@+id/action_homepageFragment_to_rvRecruitment"
             app:destination="@id/rvRecruitment" />
+        <action
+            android:id="@+id/action_homepageFragment_to_quizFragment"
+            app:destination="@id/quizFragment" />
     </fragment>
     <fragment
         android:id="@+id/interviewFragment"
@@ -70,11 +73,11 @@
         android:name="com.example.bgrecruitment.RecruitmentFragment"
         android:label="fragment_recruitment"
         tools:layout="@layout/fragment_recruitment" >
-        <argument
-            app:argType="com.example.bgrecruitment.data.Recruitment"
-            android:name="Recruitment"
-            app:nullable="true"
-            android:defaultValue="@null" />
+<!--        <argument-->
+<!--            app:argType="com.example.bgrecruitment.data.User.Recruitment"-->
+<!--            android:name="Recruitment"-->
+<!--            app:nullable="true"-->
+<!--            android:defaultValue="@null" />-->
     </fragment>
     <fragment
         android:id="@+id/userDetails"
@@ -93,4 +96,22 @@
             android:id="@+id/action_rvRecruitment_to_recruitmentFragment"
             app:destination="@id/recruitmentFragment" />
     </fragment>
+    <fragment
+        android:id="@+id/quizFragment"
+        android:name="com.example.bgrecruitment.QuizFragment"
+        android:label="fragment_quiz"
+        tools:layout="@layout/fragment_quiz" >
+        <action
+            android:id="@+id/action_quizFragment_to_resultFragment"
+            app:destination="@id/resultFragment" />
+
+        <argument
+            android:name="resultMessage"
+            app:argType="string" />
+    </fragment>
+    <fragment
+        android:id="@+id/resultFragment"
+        android:name="com.example.bgrecruitment.ResultFragment"
+        android:label="fragment_result"
+        tools:layout="@layout/fragment_result" />
 </navigation>

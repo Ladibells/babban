@@ -51,6 +51,9 @@ class HomepageFragment : Fragment(R.layout.fragment_homepage) {
         binding.btnRec.setOnClickListener {
             findNavController().navigate(R.id.action_homepageFragment_to_rvRecruitment)
         }
+        binding.btnFTest.setOnClickListener {
+            findNavController().navigate(R.id.action_homepageFragment_to_quizFragment)
+        }
 
     }
 }

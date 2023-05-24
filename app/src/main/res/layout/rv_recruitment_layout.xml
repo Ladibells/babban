@@ -2,6 +2,7 @@
 <RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_margin="5dp">
@@ -44,7 +45,7 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:id="@+id/mail"
+                android:id="@+id/phoneNumber"
                 android:layout_below="@id/fname"
                 android:layout_marginStart="4dp"
                 android:layout_marginTop="5dp"
@@ -59,205 +60,57 @@
 
             </TextView>
 
-            <TextView
+
+            <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:id="@+id/sex"
-                android:layout_below="@id/mail"
-                android:layout_marginStart="4dp"
-                android:layout_marginTop="5dp"
-                android:layout_marginEnd="4dp"
-                android:layout_marginBottom="3dp"
-                android:ellipsize="end"
-                android:fontFamily="@font/google_sans_medium"
-                android:maxLines="1"
-                android:padding="5dp"
-                android:textSize="14sp"
-                android:text="Sex: ">
+                android:orientation="horizontal"
+                android:layout_below="@id/phoneNumber">
 
-            </TextView>
+                <Button
+                    android:id="@+id/edit"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Edit"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
 
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/DOB"
-                android:layout_below="@id/sex"
-                android:layout_marginStart="4dp"
-                android:layout_marginTop="5dp"
-                android:layout_marginEnd="4dp"
-                android:layout_marginBottom="3dp"
-                android:ellipsize="end"
-                android:fontFamily="@font/google_sans_medium"
-                android:maxLines="1"
-                android:padding="5dp"
-                android:textSize="14sp"
-                android:text="Date of birth ">
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/idNo"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:drawableTint="@color/black"
+                    android:ellipsize="end"
+                    android:fontFamily="@font/google_sans_bold"
+                    android:padding="5dp"
+                    android:text="1"
+                    android:textColor="@color/black"
+                    android:textSize="15sp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent">
 
-            </TextView>
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/bvn"
-                android:layout_below="@id/DOB"
-                android:layout_marginStart="4dp"
-                android:layout_marginTop="5dp"
-                android:layout_marginEnd="4dp"
-                android:layout_marginBottom="3dp"
-                android:ellipsize="end"
-                android:fontFamily="@font/google_sans_medium"
-                android:maxLines="1"
-                android:padding="5dp"
-                android:textSize="14sp"
-                android:text="BVN">
-
-            </TextView>
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/nin"
-                android:layout_below="@id/bvn"
-                android:layout_marginStart="4dp"
-                android:layout_marginTop="5dp"
-                android:layout_marginEnd="4dp"
-                android:layout_marginBottom="3dp"
-                android:ellipsize="end"
-                android:fontFamily="@font/google_sans_medium"
-                android:maxLines="1"
-                android:padding="5dp"
-                android:textSize="14sp"
-                android:text="NIN">
-
-            </TextView>
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/state"
-                android:layout_below="@id/nin"
-                android:layout_marginStart="4dp"
-                android:layout_marginTop="5dp"
-                android:layout_marginEnd="4dp"
-                android:layout_marginBottom="3dp"
-                android:ellipsize="end"
-                android:fontFamily="@font/google_sans_medium"
-                android:maxLines="1"
-                android:padding="5dp"
-                android:textSize="14sp"
-                android:text="State">
-
-            </TextView>
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/LGA"
-                android:layout_below="@id/state"
-                android:layout_marginStart="4dp"
-                android:layout_marginTop="5dp"
-                android:layout_marginEnd="4dp"
-                android:layout_marginBottom="3dp"
-                android:ellipsize="end"
-                android:fontFamily="@font/google_sans_medium"
-                android:maxLines="1"
-                android:padding="5dp"
-                android:textSize="14sp"
-                android:text="LGA">
-
-            </TextView>
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/hub"
-                android:layout_below="@id/LGA"
-                android:layout_marginStart="4dp"
-                android:layout_marginTop="5dp"
-                android:layout_marginEnd="4dp"
-                android:layout_marginBottom="3dp"
-                android:ellipsize="end"
-                android:fontFamily="@font/google_sans_medium"
-                android:maxLines="1"
-                android:padding="5dp"
-                android:textSize="14sp"
-                android:text="hub">
-
-            </TextView>
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/govID"
-                android:layout_below="@id/hub"
-                android:layout_marginStart="4dp"
-                android:layout_marginTop="5dp"
-                android:layout_marginEnd="4dp"
-                android:layout_marginBottom="3dp"
-                android:ellipsize="end"
-                android:fontFamily="@font/google_sans_medium"
-                android:maxLines="1"
-                android:padding="5dp"
-                android:textSize="14sp"
-                android:text="ID">
-
-            </TextView>
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/idType"
-                android:layout_below="@id/govID"
-                android:layout_marginStart="4dp"
-                android:layout_marginTop="5dp"
-                android:layout_marginEnd="4dp"
-                android:layout_marginBottom="3dp"
-                android:ellipsize="end"
-                android:fontFamily="@font/google_sans_medium"
-                android:maxLines="1"
-                android:padding="5dp"
-                android:textSize="14sp"
-                android:text="ID Type">
-
-            </TextView>
-
-<!--            <ImageView-->
-<!--                android:layout_width="100dp"-->
-<!--                android:layout_height="100dp"-->
-<!--                android:id="@+id/image"-->
-<!--                android:layout_below="@id/idType"-->
-<!--                android:layout_marginStart="4dp"-->
-<!--                android:layout_marginTop="5dp"-->
-<!--                android:layout_marginEnd="4dp"-->
-<!--                android:layout_marginBottom="3dp"-->
-<!--                android:ellipsize="end">-->
-
-<!--            </ImageView>-->
+                </com.google.android.material.textview.MaterialTextView>
 
 
-            <com.google.android.material.textview.MaterialTextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/idNo"
-                android:layout_below="@id/idType"
-                android:layout_marginStart="4dp"
-                android:layout_marginTop="8dp"
-                android:layout_marginEnd="4dp"
-                android:padding="5dp"
-                android:drawablePadding="2dp"
-                android:ellipsize="end"
-                android:fontFamily="@font/google_sans_bold"
-                android:text="1"
-                android:drawableTint="@color/black"
-                android:layout_alignParentEnd="true"
-                android:textColor="@color/black"
-                android:textSize="15sp"
-                android:textAlignment="textStart">
 
-            </com.google.android.material.textview.MaterialTextView>
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+
 
 
         </RelativeLayout>
+
+        <Switch
+            android:id="@+id/switchSchedule"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_marginEnd="8dp"
+            android:layout_marginTop="8dp"
+            android:layout_gravity="end"
+            app:layout_constraintTop_toTopOf="parent" />
 
 
     </com.google.android.material.card.MaterialCardView>

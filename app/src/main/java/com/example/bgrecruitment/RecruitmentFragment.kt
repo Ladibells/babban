@@ -51,7 +51,9 @@ class RecruitmentFragment : Fragment(R.layout.fragment_recruitment) {
 
         val dao = UserDatabase.getInstance(requireContext()).userDao()
         val recDao = UserDatabase.getInstance(requireContext()).recDao()
-        val factory = UserViewModelFactory(dao, recDao)
+        val qustionDao = UserDatabase.getInstance(requireContext()).questionDao()
+        val userResponseDao = UserDatabase.getInstance(requireContext()).userResponseDao()
+        val factory = UserViewModelFactory(dao, recDao, qustionDao, userResponseDao)
         viewModel = ViewModelProvider(this, factory).get(UserViewModel::class.java)
 
 //        val sex = resources.getStringArray(R.array.Sex)
@@ -131,6 +133,7 @@ class RecruitmentFragment : Fragment(R.layout.fragment_recruitment) {
                 }
 
                 override fun fixText(invalidText: CharSequence?): CharSequence {
+                    Toast.makeText(requireContext(), "State not found!", Toast.LENGTH_SHORT).show()
                     return ""
                 }
 
@@ -287,7 +290,7 @@ class RecruitmentFragment : Fragment(R.layout.fragment_recruitment) {
             val dob = etDOB.text.toString()
             val bvn = etBVN.text.toString().trim()
             val nin = etNIN.text.toString().trim()
-            val state = dropDownState.text
+            val state = dropDownState.text.toString().trim()
             val lga = etLGA.text.toString().trim()
             val hub = etHub.text.toString().trim()
             val idNo = etID.text.toString().trim()
@@ -309,7 +312,7 @@ class RecruitmentFragment : Fragment(R.layout.fragment_recruitment) {
                 idType.isEmpty() -> Toast.makeText(activity, "Please choose a type of ID", Toast.LENGTH_SHORT).show()
                 image == null -> Toast.makeText(activity, "You didn't select image", Toast.LENGTH_SHORT).show()
                 else -> {
-                    val recruitment = Recruitment(0, name, phoneNumber, sex, dob, bvn, nin, state, lga, hub, idNo, idType, image)
+                    val recruitment = Recruitment(0, name, phoneNumber, sex, dob, bvn, nin, state, lga, hub, idNo, idType, image, false, false)
                     selectedFileUri?.let {
                         lifecycleScope.launch(Dispatchers.IO) {
                             viewModel.insertRec(

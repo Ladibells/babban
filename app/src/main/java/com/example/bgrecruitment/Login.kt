@@ -35,13 +35,14 @@ class Login : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_login, container, false)
+        binding = FragmentLoginBinding.inflate(inflater, container, false)
+//        return inflater.inflate(R.layout.fragment_login, container, false)
+        return binding.root
     }
 
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        binding = FragmentLoginBinding.bind(view)
 
         db = Room.databaseBuilder(
             requireContext(),
@@ -66,7 +67,9 @@ class Login : Fragment() {
             if (email.isNotEmpty() && password.isNotEmpty()) {
                 val dao = UserDatabase.getInstance(requireActivity().application).userDao()
                 val recDao = UserDatabase.getInstance(requireContext()).recDao()
-                val viewModel = UserViewModelFactory(dao, recDao).create(UserViewModel::class.java)
+                val qustionDao = UserDatabase.getInstance(requireContext()).questionDao()
+                val userResponseDao = UserDatabase.getInstance(requireContext()).userResponseDao()
+                val viewModel = UserViewModelFactory(dao, recDao,qustionDao, userResponseDao).create(UserViewModel::class.java)
                 viewModel.users.observe(viewLifecycleOwner, Observer { users ->
                     val user = users.find { it.email == email && it.password == password }
                     if (user != null) {

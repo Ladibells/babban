@@ -1,5 +1,7 @@
 package com.example.bgrecruitment.data
 
+import android.os.Parcel
+import android.os.Parcelable
 import android.text.Editable
 import androidx.room.ColumnInfo
 import androidx.room.Entity
@@ -30,14 +32,17 @@ data class Recruitment(
     @ColumnInfo(name = "dob") val DOB: String,
     @ColumnInfo(name = "bvn") val BVN: String,
     @ColumnInfo(name = "nin") val NIN: String,
-    @ColumnInfo(name = "state") val State: Editable,
+    @ColumnInfo(name = "state") val State: String,
     @ColumnInfo(name = "lga") val LGA: String,
     @ColumnInfo(name = "hub") val Hub: String,
     @ColumnInfo(name = "gov_id") val GovID: String,
     @ColumnInfo(name = "id_type") val IdType: Editable,
     @ColumnInfo(name = "id_image") var IdImage: String,
+    @ColumnInfo(name = "testSchedule")var isScheduled: Boolean = false,
+    @ColumnInfo(name = "switchToggle") var isEditable: Boolean
     //@ColumnInfo(name = "user_id") val userId: Int = 0
 )
+
 
 @Entity(tableName = "question")
 data class Question(

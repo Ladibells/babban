@@ -1,4 +1,4 @@
-package com.example.bgrecruitment.repository
+package com.example.bgrecruitment
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
