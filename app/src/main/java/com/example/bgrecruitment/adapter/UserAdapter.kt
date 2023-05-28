@@ -1,23 +1,30 @@
 package com.example.bgrecruitment.adapter
 
+import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.RadioButton
-import androidx.lifecycle.LiveData
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.example.bgrecruitment.data.Question
 import com.example.bgrecruitment.data.Recruitment
 import com.example.bgrecruitment.data.User
 import com.example.bgrecruitment.databinding.ItemQuestionBinding
+import com.example.bgrecruitment.databinding.ListItemLayoutBinding
 import com.example.bgrecruitment.databinding.RvRecruitmentLayoutBinding
 import com.example.bgrecruitment.databinding.ScheduledRecruitItemBinding
 import com.example.bgrecruitment.databinding.UserDetailsListBinding
-import com.example.bgrecruitment.db.RecDao
+import java.lang.String
 import java.util.*
+import kotlin.Boolean
+import kotlin.Int
+import kotlin.Unit
+import kotlin.apply
 
-class UserAdapter: RecyclerView.Adapter<UserAdapter.MyViewHolder>() {
+
+class UserAdapter : RecyclerView.Adapter<UserAdapter.MyViewHolder>() {
 
     private var userList = emptyList<User>()
 
@@ -25,14 +32,20 @@ class UserAdapter: RecyclerView.Adapter<UserAdapter.MyViewHolder>() {
 //
 //    }
 
-    class MyViewHolder(val binding: UserDetailsListBinding): RecyclerView.ViewHolder(binding.root)
+    class MyViewHolder(val binding: UserDetailsListBinding) : RecyclerView.ViewHolder(binding.root)
 
 //    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): UserAdapter.MyViewHolder {
 //        return MyViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.user_details_list, parent, false))
 //    }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): UserAdapter.MyViewHolder {
-        return MyViewHolder(UserDetailsListBinding.inflate(LayoutInflater.from(parent.context), parent, false))
+        return MyViewHolder(
+            UserDetailsListBinding.inflate(
+                LayoutInflater.from(parent.context),
+                parent,
+                false
+            )
+        )
     }
 
     override fun onBindViewHolder(holder: UserAdapter.MyViewHolder, position: Int) {
@@ -45,7 +58,7 @@ class UserAdapter: RecyclerView.Adapter<UserAdapter.MyViewHolder>() {
     }
 
     override fun getItemCount(): Int {
-       return userList.size
+        return userList.size
     }
 
 
@@ -346,120 +359,208 @@ class RecruitmentAdapter(
                     onItemClickListener?.onEditClick(position)
                 }
             }
+            binding.switchSchedule.setOnCheckedChangeListener { _, isChecked ->
+                val position = bindingAdapterPosition
+                if (position != RecyclerView.NO_POSITION && onItemClickListener != null) {
+                    onItemClickListener?.onScheduleToggle(position, isChecked)
+                }
+            }
         }
 
         fun bind(recruitment: Recruitment, isEditable: Boolean) {
             binding.apply {
-                binding.idNo.text = recruitment.id.toString()
-                binding.fname.text = recruitment.Name.toString()
-                binding.phoneNumber.text = recruitment.PhoneNumber.toString()
+                idNo.text = recruitment.id.toString()
+                fname.text = recruitment.Name.toString()
+                phoneNumber.text = recruitment.PhoneNumber.toString()
 
-                binding.switchSchedule.isChecked = recruitment.isScheduled
+                switchSchedule.isChecked = recruitment.isScheduled
                 switchSchedule.isEnabled = isEditable && recruitment.isEditable
-//            binding.switchSchedule.setOnCheckedChangeListener { _, isChecked ->
-//                if (recruitment.isEditable) {
-//                    // Update the isScheduled flag in the model
-//                    recruitment.isChecked =
-//                }
-//
-//            }
+            }
+        }
+    }
+
+
+    class ScheduleListAdapter : RecyclerView.Adapter<ScheduleListAdapter.ScheduleViewHolder>() {
+
+        private val scheduleList = mutableListOf<Recruitment>()
+
+        override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ScheduleViewHolder {
+            val inflater = LayoutInflater.from(parent.context)
+            val binding = ScheduledRecruitItemBinding.inflate(inflater, parent, false)
+            return ScheduleViewHolder(binding)
+        }
+
+        override fun onBindViewHolder(holder: ScheduleViewHolder, position: Int) {
+            val recruitment = scheduleList[position]
+            holder.bind(recruitment)
+        }
+
+        override fun getItemCount(): Int = scheduleList.size
+
+        fun setData(recruitment: List<Recruitment>) {
+            scheduleList.clear()
+            scheduleList.addAll(recruitment)
+            notifyDataSetChanged()
+        }
+
+        inner class ScheduleViewHolder(private val binding: ScheduledRecruitItemBinding) :
+            RecyclerView.ViewHolder(binding.root) {
+
+            fun bind(recruitment: Recruitment) {
+                binding.textName.text = recruitment.Name
+                binding.textPhoneNumber.text = recruitment.PhoneNumber
+            }
+        }
+    }
+
+
+    class TestAdapter(private val onItemClick: (Question) -> Unit) :
+        RecyclerView.Adapter<TestAdapter.TestViewHolder>() {
+
+        private var questions: List<Question> = emptyList()
+
+        fun submitList(newQuestions: List<Question>) {
+            questions = newQuestions
+            notifyDataSetChanged()
+        }
+
+        override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TestViewHolder {
+            val inflater = LayoutInflater.from(parent.context)
+            val binding = ItemQuestionBinding.inflate(inflater, parent, false)
+            return TestViewHolder(binding)
+        }
+
+        override fun onBindViewHolder(holder: TestViewHolder, position: Int) {
+            val question = questions[position]
+            holder.bind(question)
+        }
+
+        override fun getItemCount(): Int = questions.size
+
+        inner class TestViewHolder(private val binding: ItemQuestionBinding) :
+            RecyclerView.ViewHolder(binding.root) {
+
+            init {
+                binding.root.setOnClickListener {
+                    val position = adapterPosition
+                    if (position != RecyclerView.NO_POSITION) {
+                        val question = questions[position]
+                        onItemClick(question)
+                    }
+                }
+            }
+
+            fun bind(question: Question) {
+                binding.questionTextView.text = question.question
+
+                binding.optionsRadioGroup.setOnCheckedChangeListener(null)
+                binding.optionsRadioGroup.removeAllViews()
+
+                for (option in question.options) {
+                    val radioButton = RadioButton(binding.root.context).apply {
+                        id = View.generateViewId()
+                        text = option
+                    }
+                    binding.optionsRadioGroup.addView(radioButton)
+                }
+
+                binding.optionsRadioGroup.setOnCheckedChangeListener { group, checkedId ->
+                    val radioButton = group.findViewById<RadioButton>(checkedId)
+                    val position = adapterPosition
+                    if (position != RecyclerView.NO_POSITION) {
+                        val question = questions[position]
+                        onItemClick(question)
+                    }
+                }
             }
         }
     }
 }
 
 
-class ScheduleListAdapter : RecyclerView.Adapter<ScheduleListAdapter.ScheduleViewHolder>() {
 
-    private val scheduleList = mutableListOf<Recruitment>()
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ScheduleViewHolder {
-        val inflater = LayoutInflater.from(parent.context)
-        val binding = ScheduledRecruitItemBinding.inflate(inflater, parent, false)
-        return ScheduleViewHolder(binding)
-    }
-
-    override fun onBindViewHolder(holder: ScheduleViewHolder, position: Int) {
-        val recruitment = scheduleList[position]
-        holder.bind(recruitment)
-    }
-
-    override fun getItemCount(): Int = scheduleList.size
+class RecruitmentLeaderAdapter(
+    private val itemClickListener: OnItemClickListener
+) : RecyclerView.Adapter<RecruitmentLeaderAdapter.ViewHolder>() {
+    private val recruitmentList = mutableListOf<Recruitment>()
+    private var dataset: List<Recruitment> = emptyList()
 
     fun setData(recruitment: List<Recruitment>) {
-        scheduleList.clear()
-        scheduleList.addAll(recruitment)
+        recruitmentList.clear()
+        recruitmentList.addAll(recruitment)
         notifyDataSetChanged()
     }
 
-    inner class ScheduleViewHolder(private val binding: ScheduledRecruitItemBinding) : RecyclerView.ViewHolder(binding.root) {
+    fun setDataset(recruitment: List<Recruitment>) {
+        dataset = recruitment
+        notifyDataSetChanged()
+    }
 
-        fun bind(recruitment: Recruitment) {
-            binding.textName.text = recruitment.Name
-            binding.textPhoneNumber.text = recruitment.PhoneNumber
+    interface OnItemClickListener {
+        fun onItemClick(recruitment: Recruitment)
+    }
+
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
+        val binding =
+            ListItemLayoutBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+        return ViewHolder(binding)
+    }
+
+    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
+        val recruitment = recruitmentList[position]
+        holder.bind(recruitment)
+
+        holder.itemView.setOnClickListener {
+            itemClickListener.onItemClick(recruitment)
         }
     }
-}
 
-
-class TestAdapter(private val onItemClick: (Question) -> Unit) :
-    RecyclerView.Adapter<TestAdapter.TestViewHolder>() {
-
-    private var questions: List<Question> = emptyList()
-
-    fun submitList(newQuestions: List<Question>) {
-        questions = newQuestions
-        notifyDataSetChanged()
+    override fun getItemCount(): Int {
+        return recruitmentList.size
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TestViewHolder {
-        val inflater = LayoutInflater.from(parent.context)
-        val binding = ItemQuestionBinding.inflate(inflater, parent, false)
-        return TestViewHolder(binding)
-    }
-
-    override fun onBindViewHolder(holder: TestViewHolder, position: Int) {
-        val question = questions[position]
-        holder.bind(question)
-    }
-
-    override fun getItemCount(): Int = questions.size
-
-    inner class TestViewHolder(private val binding: ItemQuestionBinding) :
+    inner class ViewHolder(private val binding: ListItemLayoutBinding) :
         RecyclerView.ViewHolder(binding.root) {
-
         init {
             binding.root.setOnClickListener {
                 val position = adapterPosition
                 if (position != RecyclerView.NO_POSITION) {
-                    val question = questions[position]
-                    onItemClick(question)
+                    val recruitment = recruitmentList[position]
+                    itemClickListener.onItemClick(recruitment)
+                }
+            }
+
+            itemView.setOnClickListener {
+                val position = adapterPosition
+                if (position != RecyclerView.NO_POSITION) {
+                    val recruitment = recruitmentList[position]
+                    itemClickListener.onItemClick(recruitment)
                 }
             }
         }
 
-        fun bind(question: Question) {
-            binding.questionTextView.text = question.question
+        fun bind(recruitment: Recruitment) {
+            binding.fname.text = recruitment.Name
+            binding.phoneNumber.text = recruitment.PhoneNumber
+            binding.idNo.text = recruitment.id.toString()
+//            binding.DOB.text = recruitment.DOB.toString()
+//            binding.sex.text = recruitment.Sex.toString()
+//            binding.bvn.text = recruitment.BVN.toString()
+//            binding.nin.text = recruitment.NIN.toString()
+//            binding.state.text = recruitment.State.toString()
+//            binding.lga.text = recruitment.LGA.toString()
+//            binding.hub.text = recruitment.Hub.toString()
+//            binding.govId.text = recruitment.GovID.toString()
+//            binding.govIdType.text = recruitment.IdType.toString()
 
-            binding.optionsRadioGroup.setOnCheckedChangeListener(null)
-            binding.optionsRadioGroup.removeAllViews()
+            // Load and set the image using Glide or Picasso
+//            Glide.with(binding.root)
+//                .load(recruitment.IdImage) // Assuming IdImage is the image URL or path
+//                .into(binding.idImage)
 
-            for (option in question.options) {
-                val radioButton = RadioButton(binding.root.context).apply {
-                    id = View.generateViewId()
-                    text = option
-                }
-                binding.optionsRadioGroup.addView(radioButton)
-            }
-
-            binding.optionsRadioGroup.setOnCheckedChangeListener { group, checkedId ->
-                val radioButton = group.findViewById<RadioButton>(checkedId)
-                val position = adapterPosition
-                if (position != RecyclerView.NO_POSITION) {
-                    val question = questions[position]
-                    onItemClick(question)
-                }
-            }
+            // Save the entire Recruitment object as a tag on the root view
+            binding.root.tag = recruitment
         }
     }
 }

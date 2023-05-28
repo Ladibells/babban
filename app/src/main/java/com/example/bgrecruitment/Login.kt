@@ -69,7 +69,8 @@ class Login : Fragment() {
                 val recDao = UserDatabase.getInstance(requireContext()).recDao()
                 val qustionDao = UserDatabase.getInstance(requireContext()).questionDao()
                 val userResponseDao = UserDatabase.getInstance(requireContext()).userResponseDao()
-                val viewModel = UserViewModelFactory(dao, recDao,qustionDao, userResponseDao).create(UserViewModel::class.java)
+                val recruitmentDao = UserDatabase.getInstance(requireContext()).recruitmentDao()
+                val viewModel = UserViewModelFactory(dao, recDao,qustionDao, userResponseDao, recruitmentDao).create(UserViewModel::class.java)
                 viewModel.users.observe(viewLifecycleOwner, Observer { users ->
                     val user = users.find { it.email == email && it.password == password }
                     if (user != null) {

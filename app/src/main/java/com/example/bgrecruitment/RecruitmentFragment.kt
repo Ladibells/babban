@@ -53,7 +53,8 @@ class RecruitmentFragment : Fragment(R.layout.fragment_recruitment) {
         val recDao = UserDatabase.getInstance(requireContext()).recDao()
         val qustionDao = UserDatabase.getInstance(requireContext()).questionDao()
         val userResponseDao = UserDatabase.getInstance(requireContext()).userResponseDao()
-        val factory = UserViewModelFactory(dao, recDao, qustionDao, userResponseDao)
+        val recruitmentDao = UserDatabase.getInstance(requireContext()).recruitmentDao()
+        val factory = UserViewModelFactory(dao, recDao, qustionDao, userResponseDao, recruitmentDao)
         viewModel = ViewModelProvider(this, factory).get(UserViewModel::class.java)
 
 //        val sex = resources.getStringArray(R.array.Sex)

@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+<navigation
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph"
@@ -52,6 +53,12 @@
         <action
             android:id="@+id/action_homepageFragment_to_quizFragment"
             app:destination="@id/quizFragment" />
+        <action
+            android:id="@+id/action_homepageFragment_to_recruitedLeadersFragment"
+            app:destination="@id/recruitedLeadersFragment" />
+        <action
+            android:id="@+id/action_homepageFragment_to_editLeaderFragment"
+            app:destination="@id/editLeaderFragment" />
     </fragment>
     <fragment
         android:id="@+id/interviewFragment"
@@ -114,4 +121,53 @@
         android:name="com.example.bgrecruitment.ResultFragment"
         android:label="fragment_result"
         tools:layout="@layout/fragment_result" />
+    <fragment
+        android:id="@+id/recruitedLeadersFragment"
+        android:name="com.example.bgrecruitment.RecruitedLeadersFragment"
+        android:label="fragment_recruited_leaders"
+        tools:layout="@layout/fragment_recruited_leaders" >
+        <action
+            android:id="@+id/action_recruitedLeadersFragment_to_recruitedLeaderDetailsFragment"
+            app:destination="@id/recruitedLeaderDetailsFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/recruitedLeaderDetailsFragment"
+        android:name="com.example.bgrecruitment.RecruitedLeaderDetailsFragment"
+        android:label="fragment_recruited_leader_details"
+        tools:layout="@layout/fragment_recruited_leader_details" >
+
+    <argument
+        android:name="recruitment"
+        app:argType="com.example.bgrecruitment.data.Recruitment" />
+
+        <argument
+            android:name="name"
+            app:argType="string"
+            app:nullable="true"
+            android:defaultValue="@null" />
+
+        <argument
+            android:name="phoneNumber"
+            app:argType="string"
+            app:nullable="true"
+            android:defaultValue="@null" />
+        <action
+            android:id="@+id/action_recruitedLeaderDetailsFragment_to_editLeaderFragment"
+            app:destination="@id/editLeaderFragment" >
+
+            <argument
+                android:name="recruitment"
+                app:argType="com.example.bgrecruitment.data.Recruitment" />
+        </action>
+
+    </fragment>
+    <fragment
+        android:id="@+id/editLeaderFragment"
+        android:name="com.example.bgrecruitment.EditLeaderFragment"
+        android:label="fragment_edit_leader"
+        tools:layout="@layout/fragment_edit_leader" >
+        <action
+            android:id="@+id/action_editLeaderFragment_to_recruitedLeadersFragment"
+            app:destination="@id/recruitedLeadersFragment" />
+    </fragment>
 </navigation>

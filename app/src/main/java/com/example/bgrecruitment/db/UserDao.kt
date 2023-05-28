@@ -62,6 +62,24 @@ interface RecDao{
 
 }
 
+@Dao
+interface RecruitmentDao {
+    @Insert
+    suspend fun insertRecruitment(recruitment: Recruitment)
+
+    @Update
+    suspend fun updateRecruitment(recruitment: Recruitment)
+
+    @Delete
+    suspend fun deleteRecruitment(recruitment: Recruitment)
+
+    @Query("SELECT * FROM recruitment_table ORDER BY rec_id ASC")
+    fun getAllRecruitments(): LiveData<List<Recruitment>>
+
+    // Add more queries as needed
+}
+
+
     @Dao
     interface QuestionDao {
         @Query("SELECT * FROM question")

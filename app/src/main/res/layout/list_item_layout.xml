@@ -1,0 +1,254 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/detailsItemLayoutParent"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="5dp"
+    android:background="?attr/selectableItemBackground"
+    android:clickable="true"
+    android:focusable="true"
+    android:padding="5dp"
+    app:cardCornerRadius="13dp"
+    app:cardElevation="5dp">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="5dp">
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/fname"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="4dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="4dp"
+            android:ellipsize="end"
+            android:fontFamily="@font/google_sans_medium"
+            android:padding="5dp"
+            android:text="Full Name: "
+            android:textAlignment="textStart"
+            android:textColor="@color/black"
+            android:textSize="16sp"
+            android:textStyle="bold">
+
+        </com.google.android.material.textview.MaterialTextView>
+
+        <TextView
+            android:id="@+id/phoneNumber"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/fname"
+            android:layout_marginStart="4dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginEnd="4dp"
+            android:layout_marginBottom="3dp"
+            android:ellipsize="end"
+            android:fontFamily="@font/google_sans_medium"
+            android:maxLines="1"
+            android:padding="5dp"
+            android:text="Phone Number: "
+            android:textSize="14sp">
+
+        </TextView>
+
+<!--        <TextView-->
+<!--            android:id="@+id/sex"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_below="@id/phoneNumber"-->
+<!--            android:layout_marginStart="4dp"-->
+<!--            android:layout_marginTop="5dp"-->
+<!--            android:layout_marginEnd="4dp"-->
+<!--            android:layout_marginBottom="3dp"-->
+<!--            android:ellipsize="end"-->
+<!--            android:fontFamily="@font/google_sans_medium"-->
+<!--            android:maxLines="1"-->
+<!--            android:padding="5dp"-->
+<!--            android:text="Sex"-->
+<!--            android:textSize="14sp">-->
+
+<!--        </TextView>-->
+
+<!--        <TextView-->
+<!--            android:id="@+id/DOB"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_below="@id/sex"-->
+<!--            android:layout_marginStart="4dp"-->
+<!--            android:layout_marginTop="5dp"-->
+<!--            android:layout_marginEnd="4dp"-->
+<!--            android:layout_marginBottom="3dp"-->
+<!--            android:ellipsize="end"-->
+<!--            android:fontFamily="@font/google_sans_medium"-->
+<!--            android:maxLines="1"-->
+<!--            android:padding="5dp"-->
+<!--            android:text="Date of Birth"-->
+<!--            android:textSize="14sp">-->
+
+<!--        </TextView>-->
+
+<!--        <TextView-->
+<!--            android:id="@+id/bvn"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_below="@id/DOB"-->
+<!--            android:layout_marginStart="4dp"-->
+<!--            android:layout_marginTop="5dp"-->
+<!--            android:layout_marginEnd="4dp"-->
+<!--            android:layout_marginBottom="3dp"-->
+<!--            android:ellipsize="end"-->
+<!--            android:fontFamily="@font/google_sans_medium"-->
+<!--            android:maxLines="1"-->
+<!--            android:padding="5dp"-->
+<!--            android:text="BVN"-->
+<!--            android:textSize="14sp">-->
+
+<!--        </TextView>-->
+
+<!--        <TextView-->
+<!--            android:id="@+id/nin"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_below="@id/bvn"-->
+<!--            android:layout_marginStart="4dp"-->
+<!--            android:layout_marginTop="5dp"-->
+<!--            android:layout_marginEnd="4dp"-->
+<!--            android:layout_marginBottom="3dp"-->
+<!--            android:ellipsize="end"-->
+<!--            android:fontFamily="@font/google_sans_medium"-->
+<!--            android:maxLines="1"-->
+<!--            android:padding="5dp"-->
+<!--            android:text="NIN"-->
+<!--            android:textSize="14sp">-->
+
+<!--        </TextView>-->
+
+<!--        <TextView-->
+<!--            android:id="@+id/state"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_below="@id/nin"-->
+<!--            android:layout_marginStart="4dp"-->
+<!--            android:layout_marginTop="5dp"-->
+<!--            android:layout_marginEnd="4dp"-->
+<!--            android:layout_marginBottom="3dp"-->
+<!--            android:ellipsize="end"-->
+<!--            android:fontFamily="@font/google_sans_medium"-->
+<!--            android:maxLines="1"-->
+<!--            android:padding="5dp"-->
+<!--            android:text="State"-->
+<!--            android:textSize="14sp">-->
+
+<!--        </TextView>-->
+
+<!--        <TextView-->
+<!--            android:id="@+id/lga"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_below="@id/state"-->
+<!--            android:layout_marginStart="4dp"-->
+<!--            android:layout_marginTop="5dp"-->
+<!--            android:layout_marginEnd="4dp"-->
+<!--            android:layout_marginBottom="3dp"-->
+<!--            android:ellipsize="end"-->
+<!--            android:fontFamily="@font/google_sans_medium"-->
+<!--            android:maxLines="1"-->
+<!--            android:padding="5dp"-->
+<!--            android:text="LGA"-->
+<!--            android:textSize="14sp">-->
+
+<!--        </TextView>-->
+
+<!--        <TextView-->
+<!--            android:id="@+id/hub"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_below="@id/lga"-->
+<!--            android:layout_marginStart="4dp"-->
+<!--            android:layout_marginTop="5dp"-->
+<!--            android:layout_marginEnd="4dp"-->
+<!--            android:layout_marginBottom="3dp"-->
+<!--            android:ellipsize="end"-->
+<!--            android:fontFamily="@font/google_sans_medium"-->
+<!--            android:maxLines="1"-->
+<!--            android:padding="5dp"-->
+<!--            android:text="HUB"-->
+<!--            android:textSize="14sp">-->
+
+<!--        </TextView>-->
+
+<!--        <TextView-->
+<!--            android:id="@+id/govId"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_below="@id/hub"-->
+<!--            android:layout_marginStart="4dp"-->
+<!--            android:layout_marginTop="5dp"-->
+<!--            android:layout_marginEnd="4dp"-->
+<!--            android:layout_marginBottom="3dp"-->
+<!--            android:ellipsize="end"-->
+<!--            android:fontFamily="@font/google_sans_medium"-->
+<!--            android:maxLines="1"-->
+<!--            android:padding="5dp"-->
+<!--            android:text="Government ID"-->
+<!--            android:textSize="14sp">-->
+
+<!--        </TextView>-->
+
+<!--        <TextView-->
+<!--            android:id="@+id/govIdType"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_below="@id/govId"-->
+<!--            android:layout_marginStart="4dp"-->
+<!--            android:layout_marginTop="5dp"-->
+<!--            android:layout_marginEnd="4dp"-->
+<!--            android:layout_marginBottom="3dp"-->
+<!--            android:ellipsize="end"-->
+<!--            android:fontFamily="@font/google_sans_medium"-->
+<!--            android:maxLines="1"-->
+<!--            android:padding="5dp"-->
+<!--            android:text="Type of ID"-->
+<!--            android:textSize="14sp">-->
+
+<!--        </TextView>-->
+
+<!--        <ImageView-->
+<!--            android:id="@+id/idImage"-->
+<!--            android:layout_width="100dp"-->
+<!--            android:layout_height="100dp"-->
+<!--            android:layout_below="@id/govIdType"-->
+<!--            android:scaleType="fitCenter"-->
+<!--            android:background="@drawable/my_image" />-->
+
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/phoneNumber"
+            android:orientation="horizontal">
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/idNo"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:drawableTint="@color/black"
+                android:ellipsize="end"
+                android:fontFamily="@font/google_sans_bold"
+                android:padding="5dp"
+                android:text="1"
+                android:textColor="@color/black"
+                android:textSize="15sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+            </com.google.android.material.textview.MaterialTextView>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </RelativeLayout>
+</com.google.android.material.card.MaterialCardView>

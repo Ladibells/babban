@@ -6,6 +6,7 @@ import android.text.Editable
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
+import androidx.versionedparcelable.ParcelField
 
 @Entity(tableName = "user_table")
 data class User(
@@ -41,8 +42,57 @@ data class Recruitment(
     @ColumnInfo(name = "testSchedule")var isScheduled: Boolean = false,
     @ColumnInfo(name = "switchToggle") var isEditable: Boolean
     //@ColumnInfo(name = "user_id") val userId: Int = 0
-)
+) : Parcelable {
+    constructor(parcel: Parcel) : this(
+        parcel.readInt(),
+        parcel.readString() ?: "",
+        parcel.readString() ?: "",
+        Editable.Factory.getInstance().newEditable(parcel.readString() ?: ""),
+        parcel.readString() ?: "",
+        parcel.readString() ?: "",
+        parcel.readString() ?: "",
+        parcel.readString() ?: "",
+        parcel.readString() ?: "",
+        parcel.readString() ?: "",
+        parcel.readString() ?: "",
+        Editable.Factory.getInstance().newEditable(parcel.readString() ?: ""),
+        parcel.readString() ?: "",
+        parcel.readByte() != 0.toByte(),
+        parcel.readByte() != 0.toByte()
+    )
 
+    override fun writeToParcel(parcel: Parcel, flags: Int) {
+        parcel.writeInt(id)
+        parcel.writeString(Name)
+        parcel.writeString(PhoneNumber)
+        parcel.writeString(Sex.toString()) // Convert Editable to String
+        parcel.writeString(DOB)
+        parcel.writeString(BVN)
+        parcel.writeString(NIN)
+        parcel.writeString(State)
+        parcel.writeString(LGA)
+        parcel.writeString(Hub)
+        parcel.writeString(GovID)
+        parcel.writeString(IdType.toString()) // Convert Editable to String
+        parcel.writeString(IdImage)
+        parcel.writeByte(if (isScheduled) 1 else 0)
+        parcel.writeByte(if (isEditable) 1 else 0)
+    }
+
+    override fun describeContents(): Int {
+        return 0
+    }
+
+    companion object CREATOR : Parcelable.Creator<Recruitment> {
+        override fun createFromParcel(parcel: Parcel): Recruitment {
+            return Recruitment(parcel)
+        }
+
+        override fun newArray(size: Int): Array<Recruitment?> {
+            return arrayOfNulls(size)
+        }
+    }
+}
 
 @Entity(tableName = "question")
 data class Question(

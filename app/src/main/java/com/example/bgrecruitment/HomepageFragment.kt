@@ -45,7 +45,7 @@ class HomepageFragment : Fragment(R.layout.fragment_homepage) {
         }
 
         binding.btnDetails.setOnClickListener {
-            findNavController().navigate(R.id.action_homepageFragment_to_userDetails)
+            findNavController().navigate(R.id.action_homepageFragment_to_recruitedLeadersFragment)
         }
 
         binding.btnRec.setOnClickListener {
@@ -53,6 +53,9 @@ class HomepageFragment : Fragment(R.layout.fragment_homepage) {
         }
         binding.btnFTest.setOnClickListener {
             findNavController().navigate(R.id.action_homepageFragment_to_quizFragment)
+        }
+        binding.button2.setOnClickListener {
+            findNavController().navigate(R.id.action_homepageFragment_to_editLeaderFragment)
         }
 
     }

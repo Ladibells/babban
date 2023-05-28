@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="24dp"
+    android:orientation="vertical"
+    tools:context=".RecruitedLeaderDetailsFragment">
+
+    <TextView
+        android:id="@+id/fullNameTextView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Full Name" />
+
+    <TextView
+        android:id="@+id/phoneNumberTextView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Phone Number" />
+
+    <TextView
+        android:id="@+id/sexTextView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Sex" />
+
+    <TextView
+        android:id="@+id/dateOfBirthTV"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Date of Birth" />
+
+    <TextView
+        android:id="@+id/bvnTV"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="BVN" />
+
+    <TextView
+        android:id="@+id/ninTextView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="NIN" />
+
+    <TextView
+        android:id="@+id/stateTextView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="State" />
+
+    <TextView
+        android:id="@+id/lgaTextView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="LGA" />
+
+    <TextView
+        android:id="@+id/hubTextView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="HUB" />
+
+    <TextView
+        android:id="@+id/govIDTextView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="government ID" />
+
+    <TextView
+        android:id="@+id/govIdTypeTextView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Government ID Type" />
+
+
+    <ImageView
+        android:id="@+id/profileImageView"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:scaleType="centerCrop"
+        android:src="@drawable/no1" />
+
+    <Button
+        android:id="@+id/editBtn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="200dp"
+        android:text="Edit" />
+
+</LinearLayout>

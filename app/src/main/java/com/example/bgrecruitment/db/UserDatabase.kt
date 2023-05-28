@@ -19,6 +19,7 @@ abstract class UserDatabase : RoomDatabase() {
     abstract fun recDao(): RecDao
     abstract fun questionDao(): QuestionDao
     abstract fun userResponseDao(): UserResponseDao
+    abstract fun recruitmentDao(): RecruitmentDao
 
 
 

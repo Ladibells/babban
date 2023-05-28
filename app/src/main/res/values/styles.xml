@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="GoogleSansMedium">
+        <item name="android:fontFamily">@font/google_sans_medium</item>
+    </style>
+</resources>

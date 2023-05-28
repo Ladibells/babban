@@ -1,7 +1,7 @@
 package com.example.bgrecruitment.data.viewmodel
 
 
-
+import android.app.Application
 import android.content.Context
 import android.net.Uri
 import androidx.lifecycle.LiveData
@@ -14,6 +14,7 @@ import com.example.bgrecruitment.data.Recruitment
 import com.example.bgrecruitment.data.User
 import com.example.bgrecruitment.data.UserResponse
 import com.example.bgrecruitment.db.RecDao
+import com.example.bgrecruitment.db.RecruitmentDao
 import com.example.bgrecruitment.db.UserDao
 import com.example.bgrecruitment.db.UserResponseDao
 import com.example.bgrecruitment.repository.QuizRepository
@@ -21,9 +22,10 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import java.io.File
+import java.io.FileOutputStream
 import java.util.*
 
-class UserViewModel(private val dao: UserDao, private val recDao: RecDao): ViewModel() {
+class UserViewModel(private val dao: UserDao, private val recDao: RecDao) : ViewModel() {
 
     val users = dao.getAllUsers()
     val recruitments: LiveData<List<Recruitment>> = recDao.getAllRecruitments()
@@ -56,10 +58,34 @@ class UserViewModel(private val dao: UserDao, private val recDao: RecDao): ViewM
     //Recruitment
     suspend fun insertRec(recruitment: Recruitment, context: Context, imageUri: Uri): Long {
         var rowId = -1L
-                //First, save the image to internal storage
+        //First, save the image to internal storage
+        val imageFile = File(context.filesDir, UUID.randomUUID().toString())
+        val inputStream = context.contentResolver.openInputStream(imageUri)
+        inputStream.use { input ->
+            imageFile.outputStream().use { output ->
+                input?.copyTo(output)
+            }
+        }
+
+        // Then, update the officer identification object with the image path
+        recruitment.IdImage = imageFile.absolutePath
+        rowId = recDao.insertRec(recruitment)
+
+        return rowId
+    }
+
+
+    fun updateRec(recruitment: Recruitment) = viewModelScope.launch {
+        recDao.updateRec(recruitment)
+    }
+
+    fun updateRecWithImage(recruitment: Recruitment, context: Context, imageUri: Uri) {
+        viewModelScope.launch {
+            withContext(Dispatchers.IO) {
+                // First, save the image to internal storage
                 val imageFile = File(context.filesDir, UUID.randomUUID().toString())
                 val inputStream = context.contentResolver.openInputStream(imageUri)
-                inputStream.use {input ->
+                inputStream.use { input ->
                     imageFile.outputStream().use { output ->
                         input?.copyTo(output)
                     }
@@ -67,13 +93,9 @@ class UserViewModel(private val dao: UserDao, private val recDao: RecDao): ViewM
 
                 // Then, update the officer identification object with the image path
                 recruitment.IdImage = imageFile.absolutePath
-                rowId = recDao.insertRec(recruitment)
-
-        return rowId
-    }
-
-    fun updateRec(recruitment: Recruitment) = viewModelScope.launch {
-        recDao.updateRec(recruitment)
+                recDao.updateRec(recruitment)
+            }
+        }
     }
 
     fun deleteRec(recruitment: Recruitment) = viewModelScope.launch {
@@ -98,347 +120,19 @@ class UserViewModel(private val dao: UserDao, private val recDao: RecDao): ViewM
     }
 
 
-
-
-
 }
 
-//class QuizViewModel1 : ViewModel() {
-//    private val questionList: MutableLiveData<List<Question>> = MutableLiveData()
-//    private val userAnswers: MutableLiveData<List<Answer>> = MutableLiveData()
-//    private var currentQuestionIndex: Int = 0
-//
-//    init {
-//        generateRandomQuestions()
-//    }
-//
-//    fun getQuestionList(): LiveData<List<Question>> {
-//        return questionList
-//    }
-//
-//    fun getUserAnswers(): LiveData<List<Answer>> {
-//        return userAnswers
-//    }
-//
-//    fun getCurrentQuestionIndex(): Int {
-//        return currentQuestionIndex
-//    }
-//
-//    fun displayNextQuestion() {
-//        if (currentQuestionIndex < questionList.value?.size?.minus(1) ?: 0) {
-//            currentQuestionIndex++
-//        }
-//    }
-//
-//    fun submitAnswer(selectedOptionId: Int) {
-//        val currentQuestion = questionList.value?.get(currentQuestionIndex)
-//        val selectedOption = currentQuestion?.options?.find { it.id == selectedOptionId }
-//        val answer = Answer(currentQuestion, selectedOption)
-//
-//        val currentAnswers = userAnswers.value?.toMutableList() ?: mutableListOf()
-//        currentAnswers.add(answer)
-//
-//        userAnswers.value = currentAnswers
-//    }
-//
-//    private fun generateRandomQuestions() {
-//        // Generate and set a list of random questions
-//        // You can use the questions from the Category A, B, and C here
-//        // For simplicity, let's assume you have a list of pre-defined questions
-//
-//        val questions = mutableListOf<Question>()
-//
-//        // Add your Category A, B, and C questions to the list
-//
-//        questionList.value = questions
-//    }
-//}
 
-
-//class QuizViewModel(private val repository: QuizRepository) : ViewModel() {
-//    fun getQuestions(): LiveData<List<Question>> {
-//        return repository.getQuestions()
-//    }
-//    private val questions: List<Question> = listOf(
-//        // Add all the questions from different categories here
-//        // Make sure you have a total of at least 15 questions (5 from each category)
-//
-//        Question(
-//            category = "A",
-//            question = "Musa can make three payments on his bicycle. The bicycle cost him ₦3000. " +
-//                    "The first installment will be half of the cost of the bicycle. " +
-//                    "The second installment will be half of the balance. " +
-//                    "How much will Musa need to pay on his last installment?",
-//            options = listOf("₦750", "₦1000", "₦150", "₦250", "₦2500"),
-//            answer = "₦750"
-//        ),
-//        Question(
-//            category = "A",
-//            question = "A mechanic workshop charges a customer ₦850 to repair his bike. " +
-//                    "The bike parts cost ₦50 and the remainder was for labour. " +
-//                    "If the cost of labour is ₦100 per hour, how many hours of labour " +
-//                    "did it take the mechanic workshop to repair the bike?",
-//            options = listOf("1", "7", "8", "4", "10"),
-//            answer = "8"
-//        ),
-//        Question(
-//            category = "A",
-//            question = "Suppose you owe ₦40 to each of four friends, ₦10 to " +
-//                    "each of three friends, and ₦100 to your parents. " +
-//                    "If two friends each owe you ₦70, what is your net debt?",
-//            options = listOf("₦140", "₦220", "₦150", "₦80", "₦180"),
-//            answer = "₦150"
-//        ),
-//        Question(
-//            category = "A",
-//            question = "If Adamu issues 50 prepaid cards in 30 minutes, " +
-//                    "how many cards can he issue in 3 hours?",
-//            options = listOf("400", "20", "600", "150", "300"),
-//            answer = "300"
-//        ),
-//        Question(
-//            category = "A",
-//            question = "Mary, Bilikisu, and Amina need to prepare 500 plates of food. " +
-//                    "If Mary prepares 150 plates of food; Amina prepares 200 plates of food; " +
-//                    "how many plates of food should Bilikisu prepare?",
-//            options = listOf("300", "50", "350", "150", "500"),
-//            answer = "500"
-//        ),
-//        Question(
-//            category = "A",
-//            question = "Musa buys 6 sugarcanes for ₦100 each. He sells all 6 for a total " +
-//                    "of ₦1,000. How much total profit did he make?",
-//            options = listOf("₦600", "₦900", "₦300", "₦400", "₦6000"),
-//            answer = "₦6000"
-//        ),
-//        Question(
-//            category = "B",
-//            question = "What is the next number in the sequence: 1, 2, 3, 5, 8, 13, _?",
-//            options = listOf("21", "24", "34", "47", "52"),
-//            answer = "21"
-//        ),
-//        Question(
-//            category = "B",
-//            question = "What is the sum of 10 and 15?",
-//            options = listOf("25", "35", "45", "55", "65"),
-//            answer = "25"
-//        ),
-//        Question(
-//            category = "B",
-//            question = "What is the product of 5 and 7?",
-//            options = listOf("55", "65", "35", "45", "50"),
-//            answer = "35"
-//        ),
-//        Question(
-//            category = "B",
-//            question = "What's the difference between 20 and 10?",
-//            options = listOf("45", "23", "21", "10", "5"),
-//            answer = "10"
-//        ),
-//        Question(
-//            category = "B",
-//            question = "What is the quotient of 20 divided by 5?",
-//            options = listOf("9", "5", "4", "3", "6"),
-//            answer = "4"
-//        ),
-//        Question(
-//            category = "B",
-//            question = "What is the area of a square with a side length of 5cm?",
-//            options = listOf("75cm", "40cm", "25cm", "34cm", "90cm"),
-//            answer = "25cm"
-//        ),
-//        Question(
-//            category = "C",
-//            question = "Which of the following is an example of a traditional farming method?",
-//            options = listOf("Hydrophonics", "Aquaphonics", "Organic farming", "Vertical farming", "Conventional farming"),
-//            answer = "Conventional farming"
-//        ),
-//        Question(
-//            category = "C",
-//            question = "What is the primary purpose of using irrigation in agriculture?",
-//            options = listOf("Pest control", "Soil aeration", "Weed suppression",
-//                "Fertilizer application", "Water supply to crops"),
-//            answer = "Water supply to crops"
-//        ),
-//        Question(
-//            category = "C",
-//            question = "Which of the following is a common cereal crop.",
-//            options = listOf("Tomato", "Potato", "Wheat", "Carrot", "Lettuce"),
-//            answer = "Wheat"
-//        ),
-//        Question(
-//            category = "C",
-//            question = "What is the process of removing weeds from a cultivated field called?",
-//            options = listOf("Pollination", "Fertilization", "Germination", "Irrigation", "Weed control"),
-//            answer = "Weed control"
-//        ),
-//        Question(
-//            category = "C",
-//            question = "Which farming practice involves the cultivation of fruits and " +
-//                    "vegetables without the use of synthetic fertilizers and pesticides?\t",
-//            options = listOf("Organic farming", "Intensive farming", "Subsistence farming",
-//                "Commercial farming", "Precision farming"),
-//            answer = "Organic farming"
-//        ),
-//        Question(
-//            category = "C",
-//            question = "What is the purpose of crop rotation in farming?",
-//            options = listOf("Maximize water usage", "Improve soil fertility", "Increase crop diversity",
-//                "Control pest infestation", "Accelerate crop growth"),
-//            answer = "Improve soil fertility"
-//        )
-//
-//
-//    )
-//
-//    private var currentQuestionIndex: Int = 0
-//    private val userAnswers: MutableMap<Int, String> = mutableMapOf()
-//
-//    private val randomQuestions: List<Question>
-//        get() {
-//            val categoryQuestionsMap: MutableMap<String, MutableList<Question>> = mutableMapOf()
-//
-//            // Group questions by category
-//            for (question in questions) {
-//                val category = question.category
-//                val categoryQuestions = categoryQuestionsMap.getOrPut(category) { mutableListOf() }
-//                categoryQuestions.add(question)
-//            }
-//
-//            // Select 5 random questions from each category
-//            val randomQuestions: MutableList<Question> = mutableListOf()
-//            for (categoryQuestions in categoryQuestionsMap.values) {
-//                randomQuestions.addAll(categoryQuestions.shuffled().take(5))
-//            }
-//
-//            return randomQuestions.shuffled()
-//        }
-//
-//    fun getCurrentQuestion(): Question? {
-//        return if (currentQuestionIndex < randomQuestions.size) {
-//            randomQuestions[currentQuestionIndex]
-//        } else {
-//            null
-//        }
-//    }
-//
-//    fun submitAnswer(answer: String) {
-//        userAnswers[currentQuestionIndex] = answer
-//    }
-//
-//    fun displayNextQuestion() {
-//        currentQuestionIndex++
-//    }
-//
-//    fun getScore(): Int {
-//        var score = 0
-//
-//        for (questionIndex in userAnswers.keys) {
-//            val userAnswer = userAnswers[questionIndex]
-//            val question = randomQuestions[questionIndex]
-//
-//            if (userAnswer == question.answer) {
-//                score++
-//            }
-//        }
-//
-//        return score
-//    }
-//
-//    fun getAllUserAnswers(): Map<Question, String> {
-//        val userAnswersMap: MutableMap<Question, String> = mutableMapOf()
-//
-//        for (questionIndex in userAnswers.keys) {
-//            val userAnswer = userAnswers[questionIndex]
-//            val question = randomQuestions[questionIndex]
-//            userAnswersMap[question] = userAnswer ?: ""
-//        }
-//
-//        return userAnswersMap
-//    }
-//}
-
-
-//class QuizViewModel(private val repository: QuizRepository) : ViewModel() {
-//
-//    private val _currentQuestion = MutableLiveData<Question>()
-//    val currentQuestion: LiveData<Question> get() = _currentQuestion
-//
-//    private val _score = MutableLiveData<Int>()
-//    val score: LiveData<Int> get() = _score
-//
-//    private val _userAnswers = MutableLiveData<Map<Question, String>>()
-//    val userAnswers: LiveData<Map<Question, String>> get() = _userAnswers
-//
-//    private var questions: List<Question> = emptyList()
-//    private var currentQuestionIndex: Int = 0
-//    private val userAnswersMap: MutableMap<Question, String> = mutableMapOf()
-//
-//    init {
-//        fetchQuestions()
-//    }
-//
-////    private fun fetchQuestions() {
-////        questions = repository.getQuestions()
-////        if (questions.isNotEmpty()) {
-////            _currentQuestion.value = questions[currentQuestionIndex]
-////        }
-////    }
-//
-//    private fun fetchQuestions() {
-//        repository.getQuestions().observeForever { questionList ->
-//            if (!questionList.isNullOrEmpty()) {
-//                questions = questionList
-//                _currentQuestion.value = questions[currentQuestionIndex]
-//            }
-//        }
-//    }
-//
-//
-//    fun submitAnswer(answer: String) {
-//        _currentQuestion.value?.let { question ->
-//            userAnswersMap[question] = answer
-//            _userAnswers.value = userAnswersMap.toMap()
-//        }
-//    }
-//
-//    fun displayNextQuestion() {
-//        currentQuestionIndex++
-//        if (currentQuestionIndex < questions.size) {
-//            _currentQuestion.value = questions[currentQuestionIndex]
-//        } else {
-//            finishQuiz()
-//        }
-//    }
-//
-//    private fun finishQuiz() {
-//        val score = calculateScore()
-//        _score.value = score
-//    }
-//
-//    private fun calculateScore(): Int {
-//        var score = 0
-//        for ((question, userAnswer) in userAnswersMap) {
-//            if (userAnswer == question.answer) {
-//                score++
-//            }
-//        }
-//        return score
-//    }
-//}
-
-class QuizViewModel(private val repository: QuizRepository,
-                    private val recDao: RecDao,
-                    private val userResponseDao: UserResponseDao
+class QuizViewModel(
+    private val repository: QuizRepository,
+    private val userResponseDao: UserResponseDao
 ) : ViewModel() {
     private var questionList: MutableList<Question>? = null
     private var currentQuestionIndex = 0
     private val userAnswers: MutableMap<Int, String> = mutableMapOf()
 //    private var questionCategories: List<QuestionCategory>? = null
 
-    fun getAllRecruitments(): LiveData<List<Recruitment>> {
-        return recDao.getAllRecruitments()
-    }
+
     fun getQuestions(): LiveData<List<Question>> {
         if (questionList == null) {
             val allQuestions = repository.getQuestions()
@@ -457,7 +151,14 @@ class QuizViewModel(private val repository: QuizRepository,
 
             // Retrieve 5 random questions from each category and add the category header
             categoryQuestions.forEach { (category, questions) ->
-                questionList!!.add(Question(category = category, question = "CATEGORY: $category", answer = "", options = emptyList())) // Pass an empty list for options
+                questionList!!.add(
+                    Question(
+                        category = category,
+                        question = "CATEGORY: $category",
+                        answer = "",
+                        options = emptyList()
+                    )
+                ) // Pass an empty list for options
                 questionList!!.addAll(questions.take(5))
             }
 
@@ -523,5 +224,42 @@ class QuizViewModel(private val repository: QuizRepository,
         userResponseDao.saveUserResponses(userResponses)
     }
 
+}
+
+
+class RecruitmentViewModel(
+    private val recruitmentDao: RecruitmentDao
+) : ViewModel() {
+
+    val recruitments: LiveData<List<Recruitment>> = recruitmentDao.getAllRecruitments()
+
+    // Function to insert a new recruitment
+    fun insertRecruitment(recruitment: Recruitment) = viewModelScope.launch {
+        withContext(Dispatchers.IO) {
+            recruitmentDao.insertRecruitment(recruitment)
+        }
+    }
+
+    // Function to insert a new recruitment with image
+
+
+    // Function to update a recruitment
+    fun updateRecruitment(recruitment: Recruitment) = viewModelScope.launch {
+        withContext(Dispatchers.IO) {
+            recruitmentDao.updateRecruitment(recruitment)
+        }
+    }
+
+
+    // Function to delete a recruitment
+    fun deleteRecruitment(recruitment: Recruitment) = viewModelScope.launch {
+        withContext(Dispatchers.IO) {
+            recruitmentDao.deleteRecruitment(recruitment)
+        }
+    }
+
+    fun getAllRecruitments(): LiveData<List<Recruitment>> {
+        return recruitments
+    }
 }
 

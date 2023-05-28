@@ -38,16 +38,16 @@ class QuizFragment : Fragment() {
         return binding.root
     }
 
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-        val binding = FragmentQuizBinding.bind(view)
 
         val dao = UserDatabase.getInstance(requireContext()).userDao()
         val recDao = UserDatabase.getInstance(requireContext()).recDao()
         val qustionDao = UserDatabase.getInstance(requireContext()).questionDao()
         val userResponseDao = UserDatabase.getInstance(requireContext()).userResponseDao()
-        val factory = UserViewModelFactory(dao, recDao, qustionDao, userResponseDao)
+        val recruitmentDao = UserDatabase.getInstance(requireContext()).recruitmentDao()
+        val factory = UserViewModelFactory(dao, recDao, qustionDao, userResponseDao, recruitmentDao)
         viewModel = ViewModelProvider(this, factory).get(QuizViewModel::class.java)
 
         viewModel.getQuestions().observe(viewLifecycleOwner) { questions ->
@@ -56,15 +56,15 @@ class QuizFragment : Fragment() {
                 currentQuestion?.let {
                     if (it.options == null) {
                         // Category header question
-                        displayCategoryHeader(binding, it.category)
-                        displayQuestion(binding, it)
+                        displayCategoryHeader(it.category)
+                        displayQuestion(it)
                         // Hide options or any other UI elements related to options
                         binding.optionsRadioGroup.visibility = View.GONE
                     } else {
                         // Regular question
-                        displayCategoryHeader(binding, "")
-                        displayQuestion(binding, it)
-                        displayOptions(binding, it.options)
+                        displayCategoryHeader("")
+                        displayQuestion(it)
+                        displayOptions(it.options)
                         // Display options or any other UI elements related to options
                         binding.optionsRadioGroup.visibility = View.VISIBLE
                     }
@@ -72,41 +72,36 @@ class QuizFragment : Fragment() {
             } else {
                 Toast.makeText(requireContext(), "No question available", Toast.LENGTH_LONG).show()
             }
-
         }
 
         binding.nextButton.setOnClickListener {
-            val selectedOption = getSelectedOption(binding)
+            val selectedOption = getSelectedOption()
             selectedOption?.let {
                 viewModel.submitAnswer(it)
-//                showQuizResult(resultMessage)
             }
 
             viewModel.displayNextQuestion()
 
             val currentQuestion = viewModel.getCurrentQuestion()
             currentQuestion?.let {
-                displayCategoryHeader(binding, it.category)
-                displayQuestion(binding, it)
-                displayOptions(binding, it.options)
+                displayCategoryHeader("")
+                displayQuestion(it)
+                displayOptions(it.options)
             } ?: run {
-//                val resultMessage = viewModel.getQuizResult()
-//                showQuizResult("Quiz completed!")
                 showQuizResult()
-
             }
         }
     }
 
-    private fun displayCategoryHeader(binding: FragmentQuizBinding, category: String) {
+    private fun displayCategoryHeader(category: String) {
         binding.categoryHeaderTextView.text = "Category: $category"
     }
 
-    private fun displayQuestion(binding: FragmentQuizBinding, question: Question) {
+    private fun displayQuestion(question: Question) {
         binding.questionTextView.text = question.question
     }
 
-    private fun displayOptions(binding: FragmentQuizBinding, options: List<String>) {
+    private fun displayOptions(options: List<String>) {
         binding.optionsRadioGroup.removeAllViews()
         for (option in options) {
             val radioButton = RadioButton(requireContext())
@@ -115,176 +110,11 @@ class QuizFragment : Fragment() {
         }
     }
 
-    private fun getSelectedOption(binding: FragmentQuizBinding): String? {
+    private fun getSelectedOption(): String? {
         val checkedRadioButtonId = binding.optionsRadioGroup.checkedRadioButtonId
         val radioButton = binding.optionsRadioGroup.findViewById<RadioButton>(checkedRadioButtonId)
         return radioButton?.text?.toString()
     }
-
-    private fun showQuizResult(resultMessage: String) {
-        binding.resultTextView.text = resultMessage
-
-    }
-
-//    private fun showQuizResult() {
-//        val userAnswers = viewModel.getAllUserAnswers()
-//        val totalQuestions = userAnswers.size
-//        val score = viewModel.getScore()
-//
-//        val incorrectAnswers = userAnswers.filter { (question, userAnswer) ->
-//            userAnswer != question.answer
-//        }
-//
-//        val resultMessage = StringBuilder()
-//        resultMessage.append("Quiz completed!\n")
-//        resultMessage.append("Total Questions: $totalQuestions\n")
-//        resultMessage.append(score)
-//
-//        for ((question, userAnswer) in incorrectAnswers) {
-//            resultMessage.append("\nQuestion: ${question.question}")
-//            resultMessage.append("\nYour Answer: $userAnswer")
-//            resultMessage.append("\nCorrect Answer: ${question.answer}\n")
-//        }
-//        binding.optionsRadioGroup.visibility = View.GONE
-//        binding.nextButton.visibility = View.GONE
-//        binding.questionTextView.visibility = View.GONE
-//
-//        binding.resultTextView.text = resultMessage.toString()
-//
-//
-////        Toast.makeText(requireContext(), resultMessage.toString(), Toast.LENGTH_LONG).show()
-//    }
-
-
-//    private fun showQuizResult() {
-//        val userAnswers = viewModel.getAllUserAnswers()
-//        val totalQuestions = userAnswers.size
-//        val score = viewModel.getScore()
-//
-//        val resultMessage = StringBuilder()
-//        resultMessage.append("Quiz completed!\n")
-//        resultMessage.append("Total Questions: $totalQuestions\n")
-//        resultMessage.append("Score: $score\n")
-//
-//        for ((question, userAnswer) in userAnswers) {
-//            val isCorrect = userAnswer == question.answer
-//
-//            resultMessage.append("\nQuestion: ${question.question}")
-//            resultMessage.append("\nYour Answer: $userAnswer")
-//            resultMessage.append("\nCorrect Answer: ${question.answer}")
-//            if (!isCorrect) {
-//                resultMessage.append(" (Incorrect)")
-//            }
-//            resultMessage.append("\n")
-//        }
-//
-//        binding.optionsRadioGroup.visibility = View.GONE
-//        binding.nextButton.visibility = View.GONE
-//        binding.questionTextView.visibility = View.GONE
-//        binding.resultTextView.text = resultMessage.toString()
-//    }
-
-//    private fun showQuizResult() {
-//        val userAnswers = viewModel.getAllUserAnswers()
-//        val categoryHeadersCount = userAnswers.keys.count { it.options.isEmpty() }
-//        val totalQuestions = userAnswers.size - categoryHeadersCount
-//        val score = viewModel.getScore()
-//
-//        val resultMessage = StringBuilder()
-//        resultMessage.append("Quiz completed!\n")
-//        resultMessage.append("Total Questions: $totalQuestions\n")
-//        resultMessage.append("Score: $score\n")
-//
-//        for ((question, userAnswer) in userAnswers) {
-//            if (question.options.isEmpty()) {
-//                continue  // Skip category headers
-//            }
-//
-//            val isCorrect = userAnswer == question.answer
-//
-//            resultMessage.append("\nQuestion: ${question.question}")
-//            resultMessage.append("\nYour Answer: $userAnswer")
-//            resultMessage.append("\nCorrect Answer: ${question.answer}")
-//            if (!isCorrect) {
-//                resultMessage.append(" (Incorrect)")
-//            }
-//            resultMessage.append("\n")
-//        }
-//
-//        binding.optionsRadioGroup.visibility = View.GONE
-//        binding.nextButton.visibility = View.GONE
-//        binding.questionTextView.visibility = View.GONE
-//        binding.resultTextView.text = resultMessage.toString()
-//    }
-
-
-//    private fun showQuizResult() {
-//        val userAnswers = viewModel.getAllUserAnswers()
-//        val score = viewModel.getScore()
-//
-//        val categoryHeadersMap: MutableMap<String, MutableList<Question>> = mutableMapOf()
-//        val answeredQuestionsMap: MutableMap<String, MutableList<Pair<Question, String>>> = mutableMapOf()
-//
-//        for ((question, userAnswer) in userAnswers) {
-//            if (question.options.isEmpty()) {
-//                // Category header
-//                val category = question.category
-//                if (!categoryHeadersMap.containsKey(category)) {
-//                    categoryHeadersMap[category] = mutableListOf()
-//                }
-//                categoryHeadersMap[category]?.add(question)
-//            } else {
-//                // Answered question
-//                val category = question.category
-//                if (!answeredQuestionsMap.containsKey(category)) {
-//                    answeredQuestionsMap[category] = mutableListOf()
-//                }
-//                answeredQuestionsMap[category]?.add(question to userAnswer)
-//            }
-//        }
-//
-//        val resultMessage = StringBuilder()
-//        resultMessage.append("Test completed!\n")
-//
-//        // Exclude the category headers from the question count
-//        val totalQuestions = userAnswers.size - categoryHeadersMap.values.flatten().size
-//        resultMessage.append("Total Questions: $totalQuestions\n")
-//        resultMessage.append("Score: $score\n")
-//
-//        for ((category, headers) in categoryHeadersMap) {
-//            resultMessage.append("\nCategory: $category\n\n")
-//            for (header in headers) {
-//
-//                resultMessage.append("Question: ${header.question}\n")
-//                resultMessage.append("Your Answer: \n")
-//                resultMessage.append("Correct Answer: ${header.answer}\n\n")
-//            }
-//
-//            val answeredQuestions = answeredQuestionsMap[category] ?: continue
-//
-//            for ((question, userAnswer) in answeredQuestions) {
-//                if (question.options.isEmpty()) {
-//                    continue  // Skip category headers
-//                }
-//                val isCorrect = userAnswer == question.answer
-//                resultMessage.append("Question: ${question.question}\n")
-//                resultMessage.append("Your Answer: $userAnswer\n")
-//                resultMessage.append("Correct Answer: ${question.answer}")
-//                if (!isCorrect) {
-//                    resultMessage.append(" (Incorrect)")
-//                }
-//                resultMessage.append("\n\n")
-//            }
-//        }
-//
-//
-//
-//        binding.optionsRadioGroup.visibility = View.GONE
-//        binding.nextButton.visibility = View.GONE
-//        binding.questionTextView.visibility = View.GONE
-//        binding.resultTextView.text = resultMessage.toString()
-//    }
-
 
     private fun showQuizResult() {
         val userAnswers = viewModel.getAllUserAnswers()
@@ -327,8 +157,8 @@ class QuizFragment : Fragment() {
                 val isCorrect = userAnswer == question.answer
 
                 resultMessage.append("Question: ${question.question}\n")
-                resultMessage.append("Your Answer: $userAnswer\n")
-                resultMessage.append("Correct Answer: ${question.answer}")
+                resultMessage.append("Correct Answer: ${question.answer}\n")
+                resultMessage.append("Your Answer: $userAnswer ")
                 if (!isCorrect) {
                     resultMessage.append(" (Incorrect)")
                 }
@@ -346,4 +176,12 @@ class QuizFragment : Fragment() {
 
 
 
+
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
+    }
 }
+
+
