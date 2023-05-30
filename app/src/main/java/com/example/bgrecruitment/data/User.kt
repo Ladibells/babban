@@ -39,10 +39,14 @@ data class Recruitment(
     @ColumnInfo(name = "gov_id") val GovID: String,
     @ColumnInfo(name = "id_type") val IdType: Editable,
     @ColumnInfo(name = "id_image") var IdImage: String,
-    @ColumnInfo(name = "testSchedule")var isScheduled: Boolean = false,
-    @ColumnInfo(name = "switchToggle") var isEditable: Boolean
+    @ColumnInfo(name = "testSchedule")var scheduledForTest: Boolean = false,
+    @ColumnInfo(name = "switchToggle") var isScheduled: Boolean = false
     //@ColumnInfo(name = "user_id") val userId: Int = 0
 ) : Parcelable {
+
+    // Custom property to hold the string representation of the id
+    val idAsString: String
+        get() = id.toString()
     constructor(parcel: Parcel) : this(
         parcel.readInt(),
         parcel.readString() ?: "",
@@ -75,8 +79,8 @@ data class Recruitment(
         parcel.writeString(GovID)
         parcel.writeString(IdType.toString()) // Convert Editable to String
         parcel.writeString(IdImage)
+        parcel.writeByte(if (scheduledForTest) 1 else 0)
         parcel.writeByte(if (isScheduled) 1 else 0)
-        parcel.writeByte(if (isEditable) 1 else 0)
     }
 
     override fun describeContents(): Int {

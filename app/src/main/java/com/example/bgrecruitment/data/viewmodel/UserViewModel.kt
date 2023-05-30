@@ -206,23 +206,46 @@ class QuizViewModel(
         return userAnswersMap
     }
 
+//    fun saveUserResponses() {
+//        val userResponses = mutableListOf<UserResponse>()
+//
+//        for ((index, question) in questionList?.withIndex() ?: emptyList<Question>().withIndex()) {
+//            val userAnswer = userAnswers[index] ?: ""
+//            val isCorrect = userAnswer == question.answer
+//
+//            val userResponse = UserResponse(
+//                questionId = question.id,
+//                response = userAnswer
+//            )
+//
+//            userResponses.add(userResponse)
+//        }
+//
+//        userResponseDao.saveUserResponses(userResponses)
+//    }
+
     fun saveUserResponses() {
-        val userResponses = mutableListOf<UserResponse>()
+        viewModelScope.launch {
+            withContext(Dispatchers.IO) {
+                val userResponses = mutableListOf<UserResponse>()
 
-        for ((index, question) in questionList?.withIndex() ?: emptyList<Question>().withIndex()) {
-            val userAnswer = userAnswers[index] ?: ""
-            val isCorrect = userAnswer == question.answer
+                for ((index, question) in questionList?.withIndex() ?: emptyList<Question>().withIndex()) {
+                    val userAnswer = userAnswers[index] ?: ""
+                    val isCorrect = userAnswer == question.answer
 
-            val userResponse = UserResponse(
-                questionId = question.id,
-                response = userAnswer
-            )
+                    val userResponse = UserResponse(
+                        questionId = question.id,
+                        response = userAnswer
+                    )
 
-            userResponses.add(userResponse)
+                    userResponses.add(userResponse)
+                }
+
+                userResponseDao.saveUserResponses(userResponses)
+            }
         }
-
-        userResponseDao.saveUserResponses(userResponses)
     }
+
 
 }
 

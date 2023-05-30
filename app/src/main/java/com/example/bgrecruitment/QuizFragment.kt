@@ -23,9 +23,13 @@ class QuizFragment : Fragment() {
     private var _binding: FragmentQuizBinding? = null
     private val binding get() = _binding!!
     private lateinit var viewModel: QuizViewModel
+    private lateinit var recruitmentId: String
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        arguments?.let {
+            recruitmentId = it.getString("recruitmentId") ?: ""
+        }
 
     }
 

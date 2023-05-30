@@ -4,7 +4,10 @@ import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
 import android.widget.RadioButton
+import android.widget.Switch
+import androidx.navigation.NavController
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
@@ -16,6 +19,8 @@ import com.example.bgrecruitment.databinding.ListItemLayoutBinding
 import com.example.bgrecruitment.databinding.RvRecruitmentLayoutBinding
 import com.example.bgrecruitment.databinding.ScheduledRecruitItemBinding
 import com.example.bgrecruitment.databinding.UserDetailsListBinding
+import com.example.bgrecruitment.helpers.PreferenceHelper
+import com.google.android.material.card.MaterialCardView
 import java.lang.String
 import java.util.*
 import kotlin.Boolean
@@ -374,7 +379,7 @@ class RecruitmentAdapter(
                 phoneNumber.text = recruitment.PhoneNumber.toString()
 
                 switchSchedule.isChecked = recruitment.isScheduled
-                switchSchedule.isEnabled = isEditable && recruitment.isEditable
+//                switchSchedule.isEnabled = isEditable && recruitment.isEditable
             }
         }
     }
@@ -479,12 +484,290 @@ class RecruitmentAdapter(
 
 
 
+//
+//class RecruitmentLeaderAdapter(
+//    private val itemClickListener: OnItemClickListener,
+//    private val preferenceHelper: PreferenceHelper,
+//    private val navController: NavController
+//) : RecyclerView.Adapter<RecruitmentLeaderAdapter.ViewHolder>() {
+//    private val recruitmentList = mutableListOf<Recruitment>()
+//    private var dataset: List<Recruitment> = emptyList()
+//
+//    fun setData(recruitment: List<Recruitment>) {
+//        recruitmentList.clear()
+//        recruitmentList.addAll(recruitment)
+//        notifyDataSetChanged()
+//    }
+//
+//    fun setDataset(recruitment: List<Recruitment>) {
+//        dataset = recruitment
+//        notifyDataSetChanged()
+//    }
+//
+//    interface OnItemClickListener {
+//        fun onItemClick(recruitment: Recruitment)
+//    }
+//
+//    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
+//        val binding =
+//            ListItemLayoutBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+//        return ViewHolder(binding).apply {
+//            binding.takeTestButton.setOnClickListener {
+//                val position = adapterPosition
+//                if (position != RecyclerView.NO_POSITION) {
+//                    val recruitment = recruitmentList[position]
+//                    // Handle "Take Test" button click here
+//                    itemClickListener.onItemClick(recruitment)
+//                    // ...
+//                }
+//            }
+//        }
+//    }
+//
+//    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
+//        val recruitment = recruitmentList[position]
+//        holder.bind(recruitment)
+//
+//        holder.itemView.setOnClickListener {
+//            itemClickListener.onItemClick(recruitment)
+//        }
+//        // Set the switch state based on the saved preference
+//        val switchState = preferenceHelper.getSwitchState(recruitment.id.toString())
+//        holder.toggleSwitch.isChecked = switchState
+//
+//        holder.takeTestButton.visibility = if (recruitment.scheduledForTest) View.VISIBLE else View.GONE // Uncomment this line
+//
+//    }
+//
+//    override fun getItemCount(): Int {
+//        return recruitmentList.size
+//    }
+//
+//    inner class ViewHolder(private val binding: ListItemLayoutBinding) :
+//        RecyclerView.ViewHolder(binding.root) {
+//        private val cardView: MaterialCardView = binding.detailsItemLayoutParent
+//        val takeTestButton: Button = binding.takeTestButton
+//        //        private val toggleSwitch: Switch = binding.toggle
+//        val toggleSwitch: Switch = binding.toggle // Make toggleSwitch accessible within ViewHolder
+//        init {
+//            toggleSwitch.setOnCheckedChangeListener { _, isChecked ->
+//                val position = adapterPosition
+//                if (position != RecyclerView.NO_POSITION) {
+//                    val recruitment = recruitmentList[position]
+//                    recruitment.scheduledForTest = isChecked
+//                    toggleItemEnabled(isChecked)
+//
+//                    // Save the switch state in the preference
+//                    preferenceHelper.saveSwitchState(recruitment.id.toString(), isChecked)
+//                }
+//            }
+//
+//            binding.root.setOnClickListener {
+//                val position = adapterPosition
+//                if (position != RecyclerView.NO_POSITION) {
+//                    val recruitment = recruitmentList[position]
+//                    itemClickListener.onItemClick(recruitment)
+//                }
+//            }
+//
+//            itemView.setOnClickListener {
+//                val position = adapterPosition
+//                if (position != RecyclerView.NO_POSITION) {
+//                    val recruitment = recruitmentList[position]
+//                    itemClickListener.onItemClick(recruitment)
+//                }
+//            }
+//        }
+//
+//        fun bind(recruitment: Recruitment) {
+//            binding.fname.text = recruitment.Name
+//            binding.phoneNumber.text = recruitment.PhoneNumber
+//            binding.idNo.text = recruitment.id.toString()
+////            binding.DOB.text = recruitment.DOB.toString()
+////            binding.sex.text = recruitment.Sex.toString()
+////            binding.bvn.text = recruitment.BVN.toString()
+////            binding.nin.text = recruitment.NIN.toString()
+////            binding.state.text = recruitment.State.toString()
+////            binding.lga.text = recruitment.LGA.toString()
+////            binding.hub.text = recruitment.Hub.toString()
+////            binding.govId.text = recruitment.GovID.toString()
+////            binding.govIdType.text = recruitment.IdType.toString()
+//
+//            // Load and set the image using Glide or Picasso
+////            Glide.with(binding.root)
+////                .load(recruitment.IdImage) // Assuming IdImage is the image URL or path
+////                .into(binding.idImage)
+//
+//            toggleSwitch.isChecked = recruitment.scheduledForTest
+//            toggleItemEnabled(recruitment.scheduledForTest)
+//
+//            takeTestButton.visibility = if (recruitment.scheduledForTest) View.VISIBLE else View.GONE
+//
+//            // Save the entire Recruitment object as a tag on the root view
+//            binding.root.tag = recruitment
+//        }
+//        private fun toggleItemEnabled(enabled: Boolean) {
+//            cardView.isEnabled = !enabled
+//            cardView.isClickable = !enabled
+//            takeTestButton.isEnabled = enabled
+//            takeTestButton.isClickable = enabled
+////            if (enabled) {
+////                cardView.alpha = 0.5f // Apply grayed-out effect
+////            } else {
+////                cardView.alpha = 1.0f // Restore original alpha
+////            }
+//            cardView.alpha = if (enabled) 0.5f else 1.0f
+//        }
+//    }
+//}
+
+
+
+
+//
+//
+//class RecruitmentLeaderAdapter(
+//    private val itemClickListener: OnItemClickListener,
+//    private val preferenceHelper: PreferenceHelper,
+//    private val navController: NavController
+//) : RecyclerView.Adapter<RecruitmentLeaderAdapter.ViewHolder>() {
+//    private val recruitmentList = mutableListOf<Recruitment>()
+//    private var dataset: List<Recruitment> = emptyList()
+//
+//    fun setData(recruitment: List<Recruitment>) {
+//        recruitmentList.clear()
+//        recruitmentList.addAll(recruitment)
+//        notifyDataSetChanged()
+//    }
+//
+//    fun setDataset(recruitment: List<Recruitment>) {
+//        dataset = recruitment
+//        notifyDataSetChanged()
+//    }
+//
+//    interface OnItemClickListener {
+//        fun onItemClick(recruitment: Recruitment)
+//        fun onTakeTestClick(recruitment: Recruitment)
+//    }
+//
+//    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
+//        val binding = ListItemLayoutBinding.inflate(
+//            LayoutInflater.from(parent.context),
+//            parent,
+//            false
+//        )
+//        return ViewHolder(binding)
+//    }
+//
+//    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
+//        val recruitment = recruitmentList[position]
+//        holder.bind(recruitment)
+//
+//        // Set the switch state based on the saved preference
+//        val switchState = preferenceHelper.getSwitchState(recruitment.id.toString())
+//        holder.toggleSwitch.isChecked = switchState
+//
+//        holder.takeTestButton.visibility = if (recruitment.scheduledForTest) View.VISIBLE else View.GONE
+//    }
+//
+//    override fun getItemCount(): Int {
+//        return recruitmentList.size
+//    }
+//
+//    inner class ViewHolder(private val binding: ListItemLayoutBinding) :
+//        RecyclerView.ViewHolder(binding.root) {
+//
+//        private val cardView: MaterialCardView = binding.detailsItemLayoutParent
+//        val takeTestButton: Button = binding.takeTestButton
+//        val toggleSwitch: Switch = binding.toggle
+//
+//
+//        init {
+//            binding.root.setOnClickListener {
+//                val position = adapterPosition
+//                if (position != RecyclerView.NO_POSITION) {
+//                    val recruitment = recruitmentList[position]
+//                    if (!recruitment.scheduledForTest) {
+//                        itemClickListener.onItemClick(recruitment)
+//                    }
+//                }
+//            }
+//
+////            toggleSwitch.setOnCheckedChangeListener(null)
+//            toggleSwitch.setOnCheckedChangeListener { _, isChecked ->
+//                val position = adapterPosition
+//                if (position != RecyclerView.NO_POSITION) {
+//                    val recruitment = recruitmentList[position]
+//                    recruitment.scheduledForTest = isChecked
+//                    toggleItemEnabled(isChecked)
+//
+//                    // Save the switch state in the preference
+//                    preferenceHelper.saveSwitchState(recruitment.id.toString(), isChecked)
+//                }
+//            }
+//
+//            takeTestButton.setOnClickListener {
+//                val position = adapterPosition
+//                if (position != RecyclerView.NO_POSITION) {
+//                    val recruitment = recruitmentList[position]
+//                    if (recruitment.scheduledForTest) {
+//                        itemClickListener.onItemClick(recruitment)
+//                    }
+//                    // ...
+//                }
+//            }
+//        }
+//
+//        fun bind(recruitment: Recruitment) {
+//            binding.fname.text = recruitment.Name
+//            binding.phoneNumber.text = recruitment.PhoneNumber
+//            binding.idNo.text = recruitment.id.toString()
+//
+//            toggleSwitch.isChecked = recruitment.scheduledForTest
+//            toggleItemEnabled(recruitment.scheduledForTest)
+//
+//            takeTestButton.visibility =
+//                if (recruitment.scheduledForTest) View.VISIBLE else View.GONE
+//
+//            binding.root.tag = recruitment
+//
+//            // Set the visibility of the 'take test' button based on the recruitment's scheduledForTest value
+//            takeTestButton.visibility =
+//                if (recruitment.scheduledForTest) View.VISIBLE else View.INVISIBLE
+//
+//            // Set the item view state based on the recruitment's scheduledForTest value
+//            if (recruitment.scheduledForTest) {
+//                // Item should be grayed out and not clickable
+//                cardView.isEnabled = false
+//                cardView.isClickable = false
+//                cardView.alpha = 0.5f
+//            } else {
+//                // Item should not be grayed out and clickable
+//                cardView.isEnabled = true
+//                cardView.isClickable = true
+//                cardView.alpha = 1.0f
+//            }
+//        }
+//
+//        private fun toggleItemEnabled(enabled: Boolean) {
+//            cardView.isEnabled = !enabled
+//            cardView.isClickable = !enabled
+//            takeTestButton.isEnabled = enabled
+//            takeTestButton.isClickable = enabled
+//            cardView.alpha = if (enabled) 1.0f else 0.5f
+//        }
+//    }
+//}
+
+
+
 
 class RecruitmentLeaderAdapter(
-    private val itemClickListener: OnItemClickListener
+    private val itemClickListener: OnItemClickListener,
+    private val preferenceHelper: PreferenceHelper,
+    private val navController: NavController
 ) : RecyclerView.Adapter<RecruitmentLeaderAdapter.ViewHolder>() {
     private val recruitmentList = mutableListOf<Recruitment>()
-    private var dataset: List<Recruitment> = emptyList()
 
     fun setData(recruitment: List<Recruitment>) {
         recruitmentList.clear()
@@ -492,13 +775,9 @@ class RecruitmentLeaderAdapter(
         notifyDataSetChanged()
     }
 
-    fun setDataset(recruitment: List<Recruitment>) {
-        dataset = recruitment
-        notifyDataSetChanged()
-    }
-
     interface OnItemClickListener {
         fun onItemClick(recruitment: Recruitment)
+        fun onTakeTestClick(recruitment: Recruitment)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -512,8 +791,32 @@ class RecruitmentLeaderAdapter(
         holder.bind(recruitment)
 
         holder.itemView.setOnClickListener {
-            itemClickListener.onItemClick(recruitment)
+            if (!recruitment.scheduledForTest) {
+                itemClickListener.onItemClick(recruitment)
+            }
         }
+
+        holder.toggleSwitch.setOnCheckedChangeListener(null)
+        holder.toggleSwitch.isChecked = preferenceHelper.getSwitchState(recruitment.id.toString())
+        holder.toggleSwitch.setOnCheckedChangeListener { _, isChecked ->
+            recruitment.scheduledForTest = isChecked
+            holder.toggleItemEnabled(isChecked)
+
+            // Save the switch state in the preference
+            preferenceHelper.saveSwitchState(recruitment.id.toString(), isChecked)
+
+            // Update the visibility of the "Take Test" button
+            holder.updateTakeTestButtonVisibility() // Change 1: Update button visibility
+        }
+
+        holder.takeTestButton.setOnClickListener {
+            if (recruitment.scheduledForTest) {
+                itemClickListener.onTakeTestClick(recruitment)
+            }
+        }
+
+        // Update the visibility of the "Take Test" button
+//        holder.updateTakeTestButtonVisibility()
     }
 
     override fun getItemCount(): Int {
@@ -522,46 +825,47 @@ class RecruitmentLeaderAdapter(
 
     inner class ViewHolder(private val binding: ListItemLayoutBinding) :
         RecyclerView.ViewHolder(binding.root) {
-        init {
-            binding.root.setOnClickListener {
-                val position = adapterPosition
-                if (position != RecyclerView.NO_POSITION) {
-                    val recruitment = recruitmentList[position]
-                    itemClickListener.onItemClick(recruitment)
-                }
-            }
-
-            itemView.setOnClickListener {
-                val position = adapterPosition
-                if (position != RecyclerView.NO_POSITION) {
-                    val recruitment = recruitmentList[position]
-                    itemClickListener.onItemClick(recruitment)
-                }
-            }
-        }
+        private val cardView: MaterialCardView = binding.detailsItemLayoutParent
+        val takeTestButton: Button = binding.takeTestButton
+        val toggleSwitch: Switch = binding.toggle
 
         fun bind(recruitment: Recruitment) {
             binding.fname.text = recruitment.Name
             binding.phoneNumber.text = recruitment.PhoneNumber
             binding.idNo.text = recruitment.id.toString()
-//            binding.DOB.text = recruitment.DOB.toString()
-//            binding.sex.text = recruitment.Sex.toString()
-//            binding.bvn.text = recruitment.BVN.toString()
-//            binding.nin.text = recruitment.NIN.toString()
-//            binding.state.text = recruitment.State.toString()
-//            binding.lga.text = recruitment.LGA.toString()
-//            binding.hub.text = recruitment.Hub.toString()
-//            binding.govId.text = recruitment.GovID.toString()
-//            binding.govIdType.text = recruitment.IdType.toString()
 
-            // Load and set the image using Glide or Picasso
-//            Glide.with(binding.root)
-//                .load(recruitment.IdImage) // Assuming IdImage is the image URL or path
-//                .into(binding.idImage)
+            toggleItemEnabled(recruitment.scheduledForTest)
 
-            // Save the entire Recruitment object as a tag on the root view
+            toggleSwitch.isChecked = recruitment.scheduledForTest
+
             binding.root.tag = recruitment
+
+            // Set the item view state based on the recruitment's scheduledForTest value
+            if (recruitment.scheduledForTest) {
+                // Item should be grayed out and not clickable
+                cardView.isEnabled = false
+                cardView.isClickable = false
+                cardView.alpha = 0.5f
+            } else {
+                // Item should not be grayed out and clickable
+                cardView.isEnabled = true
+                cardView.isClickable = true
+                cardView.alpha = 1.0f
+            }
+
+        }
+
+        fun toggleItemEnabled(enabled: Boolean) {
+            cardView.isEnabled = !enabled
+            cardView.isClickable = !enabled
+            takeTestButton.isEnabled = enabled
+            takeTestButton.isClickable = enabled
+            cardView.alpha = if (enabled) 1.0f else 0.5f
+        }
+
+        fun updateTakeTestButtonVisibility() {
+            val recruitment = recruitmentList[adapterPosition]
+            takeTestButton.visibility = if (recruitment.scheduledForTest) View.VISIBLE else View.INVISIBLE
         }
     }
 }
-

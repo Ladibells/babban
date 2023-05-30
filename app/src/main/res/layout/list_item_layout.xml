@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+<com.google.android.material.card.MaterialCardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/detailsItemLayoutParent"
@@ -17,6 +18,12 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:padding="5dp">
+
+        <Switch
+            android:id="@+id/toggle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true" />
 
         <com.google.android.material.textview.MaterialTextView
             android:id="@+id/fname"
@@ -230,6 +237,18 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/phoneNumber"
             android:orientation="horizontal">
+
+
+            <Button
+                android:id="@+id/takeTestButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:visibility="gone"
+                android:text="Take Test"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
             <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/idNo"

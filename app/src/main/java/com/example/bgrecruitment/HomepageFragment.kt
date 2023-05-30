@@ -55,7 +55,7 @@ class HomepageFragment : Fragment(R.layout.fragment_homepage) {
             findNavController().navigate(R.id.action_homepageFragment_to_quizFragment)
         }
         binding.button2.setOnClickListener {
-            findNavController().navigate(R.id.action_homepageFragment_to_editLeaderFragment)
+//            findNavController().navigate(R.id.action_homepageFragment_to_editLeaderFragment)
         }
 
     }

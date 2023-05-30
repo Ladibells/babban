@@ -52,7 +52,7 @@ class RvRecruitment : Fragment(R.layout.fragment_rv_recruitment) {
                 val isEditable = false// Determine the editability based on your logic
 
                 // Update the recruitment object with the isEditable flag
-                recruitment.isEditable = isEditable
+                recruitment.scheduledForTest = isEditable
 
                 // Notify the adapter that the item has changed
                 adapter.notifyItemChanged(position)
@@ -69,7 +69,7 @@ class RvRecruitment : Fragment(R.layout.fragment_rv_recruitment) {
             override fun onScheduleToggle(position: Int, isScheduled: Boolean) {
                 val recruitment = adapter.getItem(position)
                 // Handle toggle schedule event
-                if (recruitment.isEditable) {
+                if (recruitment.scheduledForTest) {
                     // Update the isScheduled flag in the model
                     recruitment.isScheduled = isScheduled
                     // Call the ViewModel method to update the recruitment in the database
