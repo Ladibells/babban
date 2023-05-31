@@ -91,6 +91,9 @@ interface RecruitmentDao {
         @Insert
         fun insertQuestion(question: Question): Long
 
+        @Insert(onConflict = OnConflictStrategy.REPLACE)
+        suspend fun insertQuestions(questions: List<Question>)
+
         @Update
         fun updateQuestion(question: Question)
 

@@ -40,7 +40,8 @@ data class Recruitment(
     @ColumnInfo(name = "id_type") val IdType: Editable,
     @ColumnInfo(name = "id_image") var IdImage: String,
     @ColumnInfo(name = "testSchedule")var scheduledForTest: Boolean = false,
-    @ColumnInfo(name = "switchToggle") var isScheduled: Boolean = false
+    @ColumnInfo(name = "switchToggle") var isScheduled: Boolean = false,
+    @ColumnInfo(name = "currentDate") val date: String,
     //@ColumnInfo(name = "user_id") val userId: Int = 0
 ) : Parcelable {
 
@@ -62,7 +63,8 @@ data class Recruitment(
         Editable.Factory.getInstance().newEditable(parcel.readString() ?: ""),
         parcel.readString() ?: "",
         parcel.readByte() != 0.toByte(),
-        parcel.readByte() != 0.toByte()
+        parcel.readByte() != 0.toByte(),
+        parcel.readString() ?: ""
     )
 
     override fun writeToParcel(parcel: Parcel, flags: Int) {
@@ -81,6 +83,7 @@ data class Recruitment(
         parcel.writeString(IdImage)
         parcel.writeByte(if (scheduledForTest) 1 else 0)
         parcel.writeByte(if (isScheduled) 1 else 0)
+        parcel.writeString(date)
     }
 
     override fun describeContents(): Int {

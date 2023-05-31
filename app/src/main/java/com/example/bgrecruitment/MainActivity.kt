@@ -22,4 +22,13 @@ class MainActivity : AppCompatActivity() {
     override fun onSupportNavigateUp(): Boolean {
         return navController.navigateUp() || super.onSupportNavigateUp()
     }
+
+    override fun onBackPressed() {
+        if (navController.currentDestination?.id == R.id.homepageFragment) {
+            // Close the application if the current destination is the homepageFragment
+            finish()
+        } else {
+            super.onBackPressed()
+        }
+    }
 }

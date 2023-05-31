@@ -833,6 +833,7 @@ class RecruitmentLeaderAdapter(
             binding.fname.text = recruitment.Name
             binding.phoneNumber.text = recruitment.PhoneNumber
             binding.idNo.text = recruitment.id.toString()
+            binding.date.text = recruitment.date
 
             toggleItemEnabled(recruitment.scheduledForTest)
 

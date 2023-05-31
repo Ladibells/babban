@@ -6,6 +6,7 @@ import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.text.Editable
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -27,8 +28,10 @@ import com.example.bgrecruitment.data.viewmodel.UserViewModel
 import com.example.bgrecruitment.data.viewmodel.UserViewModelFactory
 import com.example.bgrecruitment.db.UserDatabase
 import com.google.android.material.snackbar.Snackbar
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -43,6 +46,9 @@ class EditLeaderFragment : Fragment() {
     private lateinit var navController: NavController
     private var selectedState = ""
     private var selectedRowId: Long = -1L
+    private val job = CoroutineScope(Dispatchers.Main)
+    private val currentDate = SimpleDateFormat.getDateInstance().format(Date())
+
 
     companion object {
         private const val PICK_IMAGE_REQUEST = 1
@@ -76,13 +82,28 @@ class EditLeaderFragment : Fragment() {
         viewModel = ViewModelProvider(this, factory).get(RecruitmentViewModel::class.java)
 
 
-        val sex = listOf("Male", "female")
-        val adapterSex = ArrayAdapter(requireContext(), R.layout.list_item, sex)
-        binding.dropDownSex.setAdapter(adapterSex)
+        val recruitment: Recruitment? = arguments?.getParcelable("recruitment")
+        Log.d("edit recruitment", "recruitment id from parcelable: ${recruitment?.id}")
 
-        val idType = resources.getStringArray(R.array.idType)
-        val adapterIDType = ArrayAdapter(requireContext(), android.R.layout.simple_list_item_1, idType)
-        binding.dropDownIDType.setAdapter(adapterIDType)
+        // Prepopulate EditText fields with leader details
+        binding.apply {
+            etName.setText(recruitment?.Name)
+            etNo.setText(recruitment?.PhoneNumber)
+            dropDownSex.setText(recruitment?.Sex)
+            etDOB.setText(recruitment?.DOB)
+            etBVN.setText(recruitment?.BVN)
+            etNIN.setText(recruitment?.NIN)
+            dropDownState.setText(recruitment?.State)
+            etLGA.setText(recruitment?.LGA)
+            etHub.setText(recruitment?.Hub)
+            etID.setText(recruitment?.GovID)
+            dropDownIDType.setText(recruitment?.IdType)
+
+            Glide.with(requireContext())
+                .load(recruitment?.IdImage) // Assuming IdImage is the image URL or path
+                .into(binding.etImage)
+        }
+
 
         binding.etDOB.setOnClickListener {
             openDatePicker()
@@ -93,8 +114,17 @@ class EditLeaderFragment : Fragment() {
         }
 
         binding.btnRegister.setOnClickListener {
-            updateRecruitmentData()
+            updateRecruitmentData(recruitment)
         }
+
+
+        val sex = listOf("Male", "female")
+        val adapterSex = ArrayAdapter(requireContext(), R.layout.list_item, sex)
+        binding.dropDownSex.setAdapter(adapterSex)
+
+        val idType = resources.getStringArray(R.array.idType)
+        val adapterIDType = ArrayAdapter(requireContext(), android.R.layout.simple_list_item_1, idType)
+        binding.dropDownIDType.setAdapter(adapterIDType)
 
         lifecycleScope.launch {
             val adapterState = ArrayAdapter(requireContext(), android.R.layout.simple_list_item_1, resources.getStringArray(R.array.State))
@@ -129,26 +159,8 @@ class EditLeaderFragment : Fragment() {
         }
 
 
-        val recruitment: Recruitment? = arguments?.getParcelable("recruitment")
+        binding.lastEdited.text = getString(R.string.edited_on, SimpleDateFormat.getDateInstance().format(Date()))
 
-        // Prepopulate EditText fields with leader details
-        binding.apply {
-            etName.setText(recruitment?.Name)
-            etNo.setText(recruitment?.PhoneNumber)
-            dropDownSex.setText(recruitment?.Sex)
-            etDOB.setText(recruitment?.DOB)
-            etBVN.setText(recruitment?.BVN)
-            etNIN.setText(recruitment?.NIN)
-            dropDownState.setText(recruitment?.State)
-            etLGA.setText(recruitment?.LGA)
-            etHub.setText(recruitment?.Hub)
-            etID.setText(recruitment?.GovID)
-            dropDownIDType.setText(recruitment?.IdType)
-
-            Glide.with(requireContext())
-                .load(recruitment?.IdImage) // Assuming IdImage is the image URL or path
-                .into(binding.etImage)
-        }
 
 
     }
@@ -304,7 +316,9 @@ class EditLeaderFragment : Fragment() {
 
 
 
-    private fun updateRecruitmentData() {
+    private fun updateRecruitmentData(recruitment: Recruitment?) {
+        lifecycleScope.launch() {
+        Log.d("edit recruitment", "recruitment id before update: ${recruitment?.id}")
         val name = binding.etName.text.toString().trim()
         val phoneNumber = binding.etNo.text.toString().trim()
         val sex = binding.dropDownSex.text
@@ -321,19 +335,49 @@ class EditLeaderFragment : Fragment() {
         val errorMessage = validateInputFields(name, phoneNumber, sex, dob, bvn, nin, state, lga, hub, idNo, idType, image)
         if (errorMessage != null) {
             showSnackbar(errorMessage)
-            return
+            return@launch
         }
 
-        val recruitment = Recruitment(0, name, phoneNumber, sex, dob, bvn, nin, state, lga, hub, idNo, idType, image, false, false)
-        selectedFileUri?.let {
-            lifecycleScope.launch(Dispatchers.IO) {
-                userViewModel.updateRecWithImage(recruitment, requireContext(), it)
+        if (recruitment == null) {
+            return@launch
+        }
+
+            val recruitmentUpdate = recruitment.copy(
+                Name = name,
+                PhoneNumber = phoneNumber,
+                Sex = sex,
+                DOB = dob,
+                BVN = bvn,
+                NIN = nin,
+                State = state,
+                LGA = lga,
+                Hub = hub,
+                GovID = idNo,
+                IdType = idType,
+                IdImage = image
+
+            )
+            Log.d("edit recruitment", "recruitment id after update: ${recruitmentUpdate.id}")
+            Log.d("edit recruitment", "recruitment name after update: ${recruitmentUpdate.Name}")
+            selectedFileUri?.let {
+
+                Log.d("edit recruitment", "recruitment id before save: ${recruitment?.id}")
+                Log.d("edit recruitment", "recruitment name before save: ${recruitment?.Name}")
+                withContext(Dispatchers.IO){
+                    userViewModel.updateRecWithImage(
+                        recruitmentUpdate, requireContext(), it
+                    )
+                }
+
+                Log.d("edit recruitment", "recruitment id after save: ${recruitment?.id}")
+                Log.d("edit recruitment", "recruitment name after save: ${recruitment?.Name}")
             }
-        }
 
-        showSnackbar("Successfully Updated")
-        clearInput()
-        findNavController().navigate(R.id.action_editLeaderFragment_to_recruitedLeadersFragment)
+
+            showSnackbar("Successfully Updated")
+            clearInput()
+            findNavController().navigate(R.id.action_editLeaderFragment_to_recruitedLeadersFragment)
+        }
     }
 
     private fun validateInputFields(

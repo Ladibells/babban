@@ -26,6 +26,10 @@ class UserRepository(private val userDao: UserDao, private val recDao: RecDao) {
 class QuizRepository( private val questionDao: QuestionDao,
                       private val userResponseDao: UserResponseDao
 ) {
+    suspend fun insertQuestions(questions: List<Question>) {
+        questionDao.insertQuestions(questions)
+    }
+
     fun getQuestions(): List<Question> {
         // Implement your logic to fetch the questions from a data source
         // and return the list of questions

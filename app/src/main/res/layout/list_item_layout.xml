@@ -251,6 +251,23 @@
                 app:layout_constraintTop_toTopOf="parent" />
 
             <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/date"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:drawableTint="@color/black"
+                android:ellipsize="end"
+                android:fontFamily="@font/google_sans_bold"
+                android:padding="5dp"
+                android:text="1"
+                android:textColor="@color/black"
+                android:textSize="15sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+            </com.google.android.material.textview.MaterialTextView>
+
+            <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/idNo"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -258,6 +275,7 @@
                 android:ellipsize="end"
                 android:fontFamily="@font/google_sans_bold"
                 android:padding="5dp"
+                android:visibility="gone"
                 android:text="1"
                 android:textColor="@color/black"
                 android:textSize="15sp"

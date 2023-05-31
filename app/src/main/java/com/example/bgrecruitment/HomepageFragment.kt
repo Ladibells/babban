@@ -9,16 +9,7 @@ import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
 import com.example.bgrecruitment.databinding.FragmentHomepageBinding
 
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
 
-/**
- * A simple [Fragment] subclass.
- * Use the [HomepageFragment.newInstance] factory method to
- * create an instance of this fragment.
- */
 class HomepageFragment : Fragment(R.layout.fragment_homepage) {
 
     private lateinit var binding: FragmentHomepageBinding
@@ -41,22 +32,22 @@ class HomepageFragment : Fragment(R.layout.fragment_homepage) {
         }
 
         binding.btnTest.setOnClickListener {
-            findNavController().navigate(R.id.action_homepageFragment_to_testFragment)
+            findNavController().navigate(R.id.action_homepageFragment_to_quizFragment)
         }
 
         binding.btnDetails.setOnClickListener {
             findNavController().navigate(R.id.action_homepageFragment_to_recruitedLeadersFragment)
         }
 
-        binding.btnRec.setOnClickListener {
-            findNavController().navigate(R.id.action_homepageFragment_to_rvRecruitment)
-        }
-        binding.btnFTest.setOnClickListener {
-            findNavController().navigate(R.id.action_homepageFragment_to_quizFragment)
-        }
-        binding.button2.setOnClickListener {
-//            findNavController().navigate(R.id.action_homepageFragment_to_editLeaderFragment)
-        }
+//        binding.btnRec.setOnClickListener {
+//            findNavController().navigate(R.id.action_homepageFragment_to_rvRecruitment)
+//        }
+//        binding.btnFTest.setOnClickListener {
+//            findNavController().navigate(R.id.action_homepageFragment_to_quizFragment)
+//        }
+//        binding.button2.setOnClickListener {
+////            findNavController().navigate(R.id.action_homepageFragment_to_editLeaderFragment)
+//        }
 
     }
 }

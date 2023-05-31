@@ -133,39 +133,151 @@ class QuizViewModel(
 //    private var questionCategories: List<QuestionCategory>? = null
 
 
+//    fun getQuestions(): LiveData<List<Question>> {
+//        if (questionList == null) {
+//            val allQuestions = repository.getQuestions()
+//            val shuffledQuestions = allQuestions.shuffled()
+//            questionList = mutableListOf()
+//
+//            val categoryQuestions: MutableMap<String, MutableList<Question>> = mutableMapOf()
+//
+//            // Categorize the questions by category
+//            shuffledQuestions.forEach { question ->
+//                if (!categoryQuestions.containsKey(question.category)) {
+//                    categoryQuestions[question.category] = mutableListOf()
+//                }
+//                categoryQuestions[question.category]?.add(question)
+//            }
+//
+//            // Retrieve 5 random questions from each category and add the category header
+//            categoryQuestions.forEach { (category, questions) ->
+//                questionList!!.add(
+//                    Question(
+//                        category = category,
+//                        question = "CATEGORY: $category",
+//                        answer = "",
+//                        options = emptyList()
+//                    )
+//                ) // Pass an empty list for options
+//                questionList!!.addAll(questions.take(5))
+//            }
+//
+//        }
+//        return MutableLiveData(questionList)
+//
+//    }
+
+
+//    fun getQuestions(): LiveData<List<Question>> {
+//        if (questionList == null) {
+//            val allQuestions = repository.getQuestions()
+//
+//            // Filter questions by categories
+//            val categoryAQuestions = allQuestions.filter { it.category == "A" }
+//            val categoryBQuestions = allQuestions.filter { it.category == "B" }
+//            val categoryCQuestions = allQuestions.filter { it.category == "C" }
+//
+//            // Randomize questions within each category
+//            val randomizedCategoryAQuestions = categoryAQuestions.shuffled()
+//            val randomizedCategoryBQuestions = categoryBQuestions.shuffled()
+//            val randomizedCategoryCQuestions = categoryCQuestions.shuffled()
+//
+//            questionList = mutableListOf()
+//
+//            // Add category header and questions in order
+//            questionList!!.add(
+//                Question(
+//                    category = "A",
+//                    question = "CATEGORY: A",
+//                    answer = "",
+//                    options = emptyList()
+//                )
+//            )
+//            questionList!!.addAll(randomizedCategoryAQuestions)
+//
+//            questionList!!.add(
+//                Question(
+//                    category = "B",
+//                    question = "CATEGORY: B",
+//                    answer = "",
+//                    options = emptyList()
+//                )
+//            )
+//            questionList!!.addAll(randomizedCategoryBQuestions)
+//
+//            questionList!!.add(
+//                Question(
+//                    category = "C",
+//                    question = "CATEGORY: C",
+//                    answer = "",
+//                    options = emptyList()
+//                )
+//            )
+//            questionList!!.addAll(randomizedCategoryCQuestions)
+//
+//            // Insert the generated questions into the database
+//            viewModelScope.launch {
+//                withContext(Dispatchers.IO) {
+//                    repository.insertQuestions(questionList!!)
+//                }
+//            }
+//        }
+//        return MutableLiveData(questionList)
+//    }
+
+
     fun getQuestions(): LiveData<List<Question>> {
         if (questionList == null) {
             val allQuestions = repository.getQuestions()
-            val shuffledQuestions = allQuestions.shuffled()
+
+            // Filter questions by categories
+            val categoryAQuestions = allQuestions.filter { it.category == "A" }.shuffled().take(5)
+            val categoryBQuestions = allQuestions.filter { it.category == "B" }.shuffled().take(5)
+            val categoryCQuestions = allQuestions.filter { it.category == "C" }.shuffled().take(5)
+
             questionList = mutableListOf()
 
-            val categoryQuestions: MutableMap<String, MutableList<Question>> = mutableMapOf()
+            // Add category header and questions in order
+            questionList!!.add(
+                Question(
+                    category = "A",
+                    question = "CATEGORY A",
+                    answer = "",
+                    options = emptyList()
+                )
+            )
+            questionList!!.addAll(categoryAQuestions)
 
-            // Categorize the questions by category
-            shuffledQuestions.forEach { question ->
-                if (!categoryQuestions.containsKey(question.category)) {
-                    categoryQuestions[question.category] = mutableListOf()
+            questionList!!.add(
+                Question(
+                    category = "B",
+                    question = "CATEGORY B",
+                    answer = "",
+                    options = emptyList()
+                )
+            )
+            questionList!!.addAll(categoryBQuestions)
+
+            questionList!!.add(
+                Question(
+                    category = "C",
+                    question = "CATEGORY C",
+                    answer = "",
+                    options = emptyList()
+                )
+            )
+            questionList!!.addAll(categoryCQuestions)
+
+            // Insert the generated questions into the database
+            viewModelScope.launch {
+                withContext(Dispatchers.IO) {
+                    repository.insertQuestions(questionList!!)
                 }
-                categoryQuestions[question.category]?.add(question)
             }
-
-            // Retrieve 5 random questions from each category and add the category header
-            categoryQuestions.forEach { (category, questions) ->
-                questionList!!.add(
-                    Question(
-                        category = category,
-                        question = "CATEGORY: $category",
-                        answer = "",
-                        options = emptyList()
-                    )
-                ) // Pass an empty list for options
-                questionList!!.addAll(questions.take(5))
-            }
-
         }
         return MutableLiveData(questionList)
-
     }
+
 
 
     fun getCurrentQuestion(): Question? {
@@ -205,24 +317,6 @@ class QuizViewModel(
         }
         return userAnswersMap
     }
-
-//    fun saveUserResponses() {
-//        val userResponses = mutableListOf<UserResponse>()
-//
-//        for ((index, question) in questionList?.withIndex() ?: emptyList<Question>().withIndex()) {
-//            val userAnswer = userAnswers[index] ?: ""
-//            val isCorrect = userAnswer == question.answer
-//
-//            val userResponse = UserResponse(
-//                questionId = question.id,
-//                response = userAnswer
-//            )
-//
-//            userResponses.add(userResponse)
-//        }
-//
-//        userResponseDao.saveUserResponses(userResponses)
-//    }
 
     fun saveUserResponses() {
         viewModelScope.launch {
@@ -282,7 +376,7 @@ class RecruitmentViewModel(
     }
 
     fun getAllRecruitments(): LiveData<List<Recruitment>> {
-        return recruitments
+        return recruitmentDao.getAllRecruitments()
     }
 }
 

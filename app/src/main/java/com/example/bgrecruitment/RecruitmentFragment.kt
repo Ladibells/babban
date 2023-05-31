@@ -11,11 +11,13 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.NavController
+import androidx.navigation.Navigation
 import com.example.bgrecruitment.data.Recruitment
 import com.example.bgrecruitment.data.viewmodel.UserViewModel
 import com.example.bgrecruitment.data.viewmodel.UserViewModelFactory
 import com.example.bgrecruitment.databinding.FragmentRecruitmentBinding
 import com.example.bgrecruitment.db.UserDatabase
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import java.text.SimpleDateFormat
@@ -30,6 +32,8 @@ class RecruitmentFragment : Fragment(R.layout.fragment_recruitment) {
     private lateinit var navController: NavController
     private var selectedState = ""
     private var selectedRowId: Long = -1L
+    private val job = CoroutineScope(Dispatchers.Main)
+    private val currentDate = SimpleDateFormat.getDateInstance().format(Date())
 
     companion object {
         private const val PICK_IMAGE_REQUEST = 1
@@ -41,10 +45,20 @@ class RecruitmentFragment : Fragment(R.layout.fragment_recruitment) {
         binding = FragmentRecruitmentBinding.bind(view)
         //viewModel = ViewModelProvider(this).get(UserViewModel::class.java)
 
+        navController = Navigation.findNavController(view)
+        val activity = activity as MainActivity
+
         val typeface1 = binding.etNo.typeface
         binding.layoutNo.prefixTextView.apply {
             setTypeface(typeface1)
         }
+
+        binding.backBtn.setOnClickListener {
+//            requireView().hideKeyboard()
+            navController.popBackStack()
+        }
+
+        binding.lastEdited.text = getString(R.string.edited_on, SimpleDateFormat.getDateInstance().format(Date()))
 
 
 
@@ -313,7 +327,7 @@ class RecruitmentFragment : Fragment(R.layout.fragment_recruitment) {
                 idType.isEmpty() -> Toast.makeText(activity, "Please choose a type of ID", Toast.LENGTH_SHORT).show()
                 image == null -> Toast.makeText(activity, "You didn't select image", Toast.LENGTH_SHORT).show()
                 else -> {
-                    val recruitment = Recruitment(0, name, phoneNumber, sex, dob, bvn, nin, state, lga, hub, idNo, idType, image, false, false)
+                    val recruitment = Recruitment(0, name, phoneNumber, sex, dob, bvn, nin, state, lga, hub, idNo, idType, image, false, false, currentDate)
                     selectedFileUri?.let {
                         lifecycleScope.launch(Dispatchers.IO) {
                             viewModel.insertRec(

@@ -49,6 +49,8 @@ class RecruitedLeaderDetailsFragment : Fragment() {
         binding.hubTextView.text = recruitment.Hub
         binding.govIDTextView.text = recruitment.GovID
         binding.govIdTypeTextView.text = recruitment.IdType
+        binding.dateTextView.text = recruitment.date
+
 
         // Load and set the image using Glide or Picasso
         Glide.with(requireContext())

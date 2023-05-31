@@ -1,14 +1,18 @@
 package com.example.bgrecruitment
 
 import android.content.Intent
+import android.graphics.Color
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.WindowManager
 import android.widget.Toast
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.NavController
+import androidx.navigation.Navigation
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -20,7 +24,13 @@ import com.example.bgrecruitment.db.UserDatabase
 import com.example.bgrecruitment.data.Recruitment
 import com.example.bgrecruitment.data.viewmodel.UserViewModel
 import com.example.bgrecruitment.helpers.PreferenceHelper
+import com.example.bgrecruitment.utils.hidekeyboard
 import com.google.android.material.snackbar.Snackbar
+import com.google.android.material.transition.MaterialElevationScale
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 
 
 class RecruitedLeadersFragment : Fragment(), RecruitmentLeaderAdapter.OnItemClickListener {
@@ -31,6 +41,7 @@ class RecruitedLeadersFragment : Fragment(), RecruitmentLeaderAdapter.OnItemClic
     private lateinit var userViewModel: UserViewModel
     private lateinit var adapter: RecruitmentLeaderAdapter
     private lateinit var preferenceHelper: PreferenceHelper
+    private lateinit var navController: NavController
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -43,11 +54,30 @@ class RecruitedLeadersFragment : Fragment(), RecruitmentLeaderAdapter.OnItemClic
     ): View? {
         // Inflate the layout for this fragment
         _binding = FragmentRecruitedLeadersBinding.inflate(inflater, container, false)
+
+        exitTransition = MaterialElevationScale(false).apply {
+            duration = 350
+        }
+
+        enterTransition = MaterialElevationScale(true).apply {
+            duration = 350
+        }
+
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        val activity = activity as MainActivity
+        navController = Navigation.findNavController(view)
+        requireView().hidekeyboard()
+        CoroutineScope(Dispatchers.Main).launch {
+            delay(10)
+            activity.window.statusBarColor = Color.WHITE
+            activity.window.clearFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS)
+            activity.window.statusBarColor = Color.parseColor("#9E9D9D")
+        }
 
         val recyclerView: RecyclerView = binding.recyclerViewLeaders
         val dao = UserDatabase.getInstance(requireContext()).userDao()
@@ -73,28 +103,6 @@ class RecruitedLeadersFragment : Fragment(), RecruitmentLeaderAdapter.OnItemClic
             adapter.setData(recruitmentList)
         }
 
-//        adapter = RecruitmentLeaderAdapter(object : RecruitmentLeaderAdapter.OnItemClickListener{
-//            override fun onItemClick(recruitment: Recruitment) {
-//                if (recruitment.scheduledForTest) {
-//                    // Show a Snackbar indicating that the item is already scheduled for a test
-//                    Snackbar.make(requireView(), "Already scheduled for test", Snackbar.LENGTH_SHORT).show()
-//                } else {
-//                    // Handle the item click event
-////                    recruitment.scheduledForTest = !recruitment.scheduledForTest
-//                    recruitment.scheduledForTest = true
-//                    Toast.makeText(requireContext(), "Test Scheduled: ${recruitment.scheduledForTest}", Toast.LENGTH_SHORT).show()
-//
-//                    // Update the recruitment data in the Room database
-//                    userViewModel.updateRec(recruitment)
-//
-//                    // Update the adapter to reflect the changes
-//                    adapter.notifyDataSetChanged()
-//                }
-//
-//            }
-//
-//
-//        })
 
     }
 
@@ -104,16 +112,16 @@ class RecruitedLeadersFragment : Fragment(), RecruitmentLeaderAdapter.OnItemClic
             // Show a Snackbar indicating that the item is already scheduled for a test
             Snackbar.make(requireView(), "Already scheduled for test", Snackbar.LENGTH_SHORT).show()
         } else {
-            // Handle the item click event
-//            recruitment.scheduledForTest = false
-//            Toast.makeText(requireContext(), "Test Scheduled: ${recruitment.scheduledForTest}", Toast.LENGTH_SHORT).show()
 
 
             val updatedRecruitment = recruitment.copy(scheduledForTest = !recruitment.scheduledForTest)
-//            Toast.makeText(requireContext(), "Test Scheduled: ${updatedRecruitment.scheduledForTest}", Toast.LENGTH_SHORT).show()
 
             // Update the recruitment data in the Room database
             userViewModel.updateRec(recruitment)
+
+            // Save the updated switch state in the preference
+            preferenceHelper.saveSwitchState(updatedRecruitment.id.toString(), updatedRecruitment.scheduledForTest)
+
 
             // Update the adapter to reflect the changes
             adapter.notifyDataSetChanged()
@@ -124,22 +132,15 @@ class RecruitedLeadersFragment : Fragment(), RecruitmentLeaderAdapter.OnItemClic
         // Navigate to RecruitedLeaderDetailsFragment and pass the recruitment details
         val action = RecruitedLeadersFragmentDirections.actionRecruitedLeadersFragmentToRecruitedLeaderDetailsFragment(recruitment)
         findNavController().navigate(action)
-//        val bundle = bundleOf("recruitment" to recruitment)
-//        findNavController().navigate(R.id.action_recruitedLeaderDetailsFragment_to_editLeaderFragment, bundle)
 
 
-//        findNavController().navigate(R.id.action_recruitedLeadersFragment_to_recruitedLeaderDetailsFragment)
-    }
+   }
 
     override fun onTakeTestClick(recruitment: Recruitment) {
         // Navigate to the QuizFragment
         val action = RecruitedLeadersFragmentDirections.actionRecruitedLeadersFragmentToQuizFragment(recruitment.id.toString())
         findNavController().navigate(action)
     }
-
-//    override fun onItemClick(recruitment: Recruitment) {
-//        findNavController().navigate(R.id.action_recruitedLeadersFragment_to_recruitedLeaderDetailsFragment)
-//    }
 
 }
 
